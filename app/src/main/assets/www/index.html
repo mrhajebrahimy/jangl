@@ -1,0 +1,2661 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com data:; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="aria-extras.css">
+<title>آریا ادیت | مسیر استاد شدن در ادیت ویدیو</title>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#090c13">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='25' fill='%230d111a'/%3E%3Cpath d='M25 67 43 28h10l22 44H63l-5-11H40l-4 11z' fill='%239b6bff'/%3E%3Ccircle cx='77' cy='25' r='6' fill='%23ffc352'/%3E%3C/svg%3E">
+<meta name="format-detection" content="telephone=no">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #090c13;
+    --bg-2: #0d111a;
+    --panel: #131828;
+    --panel-2: #171d30;
+    --border: #242c44;
+    --border-soft: #1c2238;
+    --text: #e9edf7;
+    --text-muted: #8891ab;
+    --text-dim: #5c6685;
+    --violet: #9b6bff;
+    --violet-dim: #6a4bb8;
+    --cyan: #35d6e8;
+    --gold: #ffc352;
+    --green: #3ee6a0;
+    --red: #ff6b6b;
+    --font-fa: 'Vazirmatn', sans-serif;
+    --font-num: 'Space Grotesk', 'Vazirmatn', sans-serif;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  *{ box-sizing: border-box; }
+  html,body{ margin:0; padding:0; overscroll-behavior: none; }
+  html{ background: var(--bg); }
+  body{
+    background:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(155,107,255,0.14), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(53,214,232,0.10), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    font-family: var(--font-fa);
+    font-size: 15.5px;
+    line-height: 1.55;
+    min-height: 100vh;
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection{ background: var(--violet); color:#fff; }
+
+  button{ font-family: inherit; cursor:pointer; }
+  input, textarea{ font-family: inherit; }
+
+  .num{ font-family: var(--font-num); }
+
+  @keyframes neonPulseViolet{
+    0%,100%{ box-shadow: 0 0 10px rgba(155,107,255,.6), 0 0 22px rgba(53,214,232,.28); }
+    50%{ box-shadow: 0 0 20px rgba(155,107,255,.95), 0 0 38px rgba(53,214,232,.5); }
+  }
+  @keyframes neonPulseGold{
+    0%,100%{ box-shadow: 0 0 8px rgba(255,195,82,.55), 0 0 18px rgba(255,195,82,.2); }
+    50%{ box-shadow: 0 0 16px rgba(255,195,82,.9), 0 0 30px rgba(255,195,82,.4); }
+  }
+
+  /* ---------- Layout shell ---------- */
+  .shell{
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 22px 18px 90px;
+  }
+
+  /* ---------- Header ---------- */
+  .app-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 16px;
+    padding: 4px 2px 20px;
+    animation: dropIn .6s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes dropIn{
+    from{ opacity:0; transform: translateY(-10px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand-badge{
+    width:46px; height:46px; border-radius: 12px;
+    background: linear-gradient(155deg, var(--violet), var(--cyan));
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--font-num); font-weight:700; font-size:16px;
+    color:#0a0e17;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.08) inset, 0 8px 24px -8px rgba(155,107,255,.6);
+    animation: neonPulseViolet 3s ease-in-out infinite;
+    flex-shrink:0;
+  }
+  .brand-text h1{
+    margin:0; font-size: 22px; font-weight:800; letter-spacing:.2px;
+  }
+  .brand-text p{
+    margin:2px 0 0; font-size:13.5px; color: var(--text-muted);
+  }
+
+  .level-chip{
+    display:flex; align-items:center; gap:10px;
+    background: var(--panel);
+    border:1px solid var(--border);
+    padding: 8px 14px 8px 10px;
+    border-radius: 999px;
+    box-shadow: 0 0 0 1px rgba(255,195,82,.12) inset;
+  }
+  .level-chip .lv-badge{
+    width:32px; height:32px; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, var(--gold), #b9791f 85%);
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--font-num); font-weight:700; font-size:13.5px; color:#241300;
+    animation: neonPulseGold 3s ease-in-out infinite;
+    flex-shrink:0;
+  }
+  .level-chip .lv-info{ line-height:1.25; }
+  .level-chip .lv-info .lv-label{ font-size:11.5px; color:var(--text-muted); }
+  .level-chip .lv-info .lv-xp{ font-size:13.5px; font-family: var(--font-num); font-weight:600; }
+
+  /* XP bar under header */
+  .xp-track{
+    height:10px; border-radius: 999px; background: var(--panel-2);
+    border:1px solid var(--border-soft);
+    overflow:visible; margin: 0 2px 22px;
+    position:relative;
+  }
+  .xp-fill{
+    height:100%; border-radius:999px;
+    background: linear-gradient(90deg, var(--violet), var(--cyan));
+    transition: width .5s cubic-bezier(.2,.8,.2,1);
+    animation: neonPulseViolet 2.4s ease-in-out infinite;
+  }
+
+  /* ---------- Tabs ---------- */
+  .tabs{
+    display:flex; gap:6px;
+    background: var(--panel);
+    border:1px solid var(--border);
+    padding:5px;
+    border-radius: 14px;
+    margin-bottom: 22px;
+  }
+  .tab-btn{
+    flex:1;
+    border:none;
+    background: transparent;
+    color: var(--text-muted);
+    padding: 11px 8px;
+    border-radius: 10px;
+    font-size: 14.5px;
+    font-weight:600;
+    transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+  }
+  .tab-btn.active{
+    background: var(--panel-2);
+    color: var(--text);
+    box-shadow: 0 0 0 1px var(--violet) inset, 0 0 16px -2px rgba(155,107,255,.55);
+  }
+  .tab-btn:not(.active):hover{ color: var(--text); }
+
+  .view{ display:none; animation: fadeUp .35s ease; }
+  .view.active{ display:block; }
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- Cards ---------- */
+  .card{
+    background: var(--panel);
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+  }
+  .section-title{
+    font-size:14px; font-weight:700; color: var(--text-muted);
+    margin: 0 0 12px; display:flex; align-items:center; gap:8px;
+  }
+  .section-title .dot{ width:6px; height:6px; border-radius:50%; background: var(--violet); box-shadow: 0 0 8px var(--violet); }
+
+  /* ---------- Daily summary ---------- */
+  .summary-row{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .summary-cell{
+    background: var(--panel);
+    border:1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+  }
+  .summary-cell .s-label{ font-size:12px; color:var(--text-muted); margin-bottom:4px;}
+  .summary-cell .s-value{ font-family: var(--font-num); font-size:21px; font-weight:700; }
+  .summary-cell.gold .s-value{ color: var(--gold); }
+  .summary-cell.violet .s-value{ color: var(--violet); }
+  .summary-cell.cyan .s-value{ color: var(--cyan); }
+
+  /* ---------- Timer cards ---------- */
+  .timer-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  @media (max-width: 720px){
+    .timer-grid{ grid-template-columns: 1fr; }
+    .summary-row{ grid-template-columns: 1fr; }
+  }
+  .timer-card{
+    background: var(--panel);
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    position:relative;
+    overflow:hidden;
+    transition: border-color .25s ease, box-shadow .25s ease;
+  }
+  .timer-card[data-running="true"]{
+    border-color: var(--accent-color, var(--violet));
+    animation: cardGlow 2.4s ease-in-out infinite;
+  }
+  @keyframes cardGlow{
+    0%,100%{ box-shadow: 0 0 0 1px var(--accent-color, var(--violet)) inset, 0 0 24px -6px var(--accent-color, var(--violet)); }
+    50%{ box-shadow: 0 0 0 1px var(--accent-color, var(--violet)) inset, 0 0 40px -4px var(--accent-color, var(--violet)); }
+  }
+  .timer-card .t-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom: 14px;
+  }
+  .timer-card .t-name{ font-weight:700; font-size:16px; }
+  .timer-card .t-target{ font-size:12px; color:var(--text-muted); }
+
+  .ring-wrap{
+    position:relative;
+    width: 118px; height:118px;
+    margin: 4px auto 14px;
+  }
+  .ring-wrap svg{ transform: rotate(-90deg); width:100%; height:100%; filter: drop-shadow(0 0 6px var(--accent-color, var(--violet))); }
+  .ring-bg{ fill:none; stroke: var(--panel-2); stroke-width: 8; }
+  .ring-fg{ fill:none; stroke: var(--accent-color, var(--violet)); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset .4s ease; }
+  .ring-center{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .ring-center .rt-time{ font-family: var(--font-num); font-size:20px; font-weight:700; letter-spacing:.3px; }
+  .ring-center .rt-pct{ font-size:11.5px; color: var(--text-muted); margin-top:2px; }
+
+  .t-btn{
+    width:100%;
+    border:1px solid var(--border);
+    background: var(--panel-2);
+    color: var(--text);
+    padding: 11px;
+    border-radius: 10px;
+    font-size:14.5px;
+    font-weight:700;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    transition: transform .15s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .t-btn:hover{ transform: translateY(-1px); box-shadow: 0 0 14px -2px var(--accent-color, var(--violet)); }
+  .t-btn.running{
+    background: linear-gradient(90deg, var(--accent-color, var(--violet)), color-mix(in srgb, var(--accent-color, var(--violet)) 60%, black));
+    border-color: transparent;
+    color:#0a0e17;
+    box-shadow: 0 0 18px -2px var(--accent-color, var(--violet)), 0 4px 14px -4px rgba(0,0,0,.4);
+  }
+  .t-btn svg{ width:14px; height:14px; }
+
+  .day-actions{
+    display:flex; gap:10px; margin-top:4px;
+  }
+  .ghost-btn{
+    flex:1;
+    background: transparent;
+    border:1px solid var(--border);
+    color: var(--text-muted);
+    padding: 12px;
+    border-radius: 12px;
+    font-size:14.5px;
+    font-weight:600;
+    transition: all .2s ease;
+  }
+  .ghost-btn:hover{ border-color: var(--violet); color: var(--text); box-shadow: 0 0 14px -3px var(--violet); }
+  .ghost-btn.primary{
+    background: linear-gradient(90deg, var(--violet), var(--cyan));
+    color:#0a0e17; border-color: transparent; font-weight:700;
+    box-shadow: 0 0 18px -4px var(--violet), 0 0 0 1px rgba(255,255,255,.08) inset;
+  }
+  .ghost-btn.primary:hover{ box-shadow: 0 0 26px -3px var(--cyan), 0 0 0 1px rgba(255,255,255,.08) inset; }
+
+  .history-strip{
+    display:flex; gap:8px; overflow-x:auto; padding: 4px 2px 6px; margin-top: 14px;
+  }
+  .history-day{
+    flex-shrink:0;
+    min-width: 64px;
+    background: var(--panel-2);
+    border:1px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 8px 6px;
+    text-align:center;
+  }
+  .history-day .h-date{ font-size:11px; color: var(--text-muted); margin-bottom:4px; }
+  .history-day .h-xp{ font-family: var(--font-num); font-size:14px; font-weight:700; color: var(--gold); }
+  .history-empty{ font-size:13.5px; color: var(--text-muted); padding: 6px 2px; }
+
+  /* ---------- Skill tree ---------- */
+  .year-block{ margin-bottom: 22px; }
+  .year-heading{
+    font-size:13px; font-weight:700; color: var(--cyan);
+    text-transform: none; letter-spacing:.2px;
+    margin: 0 0 4px;
+  }
+  .chapter-heading{
+    font-size: 19px; font-weight:800; margin: 0 0 16px;
+  }
+
+  .month-card{
+    border:1px solid var(--border);
+    background: var(--panel);
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+    overflow:hidden;
+  }
+  .month-head{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:12px;
+    padding: 15px 16px;
+    background: var(--panel-2);
+  }
+  .month-head-left{ display:flex; align-items:center; gap:12px; min-width:0; }
+  .month-dot{
+    width:36px; height:36px; border-radius:10px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--font-num); font-weight:700; font-size:14px;
+    border:1px solid var(--border);
+    color: var(--text-muted);
+    transition: all .3s ease;
+  }
+  .month-dot.done{
+    background: linear-gradient(155deg, var(--green), #1c9f6c);
+    color:#04150d; border-color:transparent;
+    box-shadow: 0 0 14px -2px var(--green);
+  }
+  .month-dot.progress{
+    background: linear-gradient(155deg, var(--gold), #c98d1f);
+    color:#241300; border-color:transparent;
+    box-shadow: 0 0 14px -2px var(--gold);
+  }
+  .month-titles{ min-width:0; }
+  .month-titles .m-title{ font-size:15.5px; font-weight:700; }
+  .month-titles .m-goal{ font-size:12.5px; color: var(--text-muted); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .month-pct{ font-family: var(--font-num); font-size:13px; color: var(--text-muted); flex-shrink:0; }
+  .month-toggle{
+    background:none; border:none; color: var(--text-muted);
+    width:26px; height:26px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    transition: transform .3s ease;
+  }
+  .month-toggle svg{ width:16px; height:16px; }
+  .month-card.open .month-toggle{ transform: rotate(180deg); }
+
+  .month-body{
+    max-height:0; overflow:hidden; transition: max-height .35s ease;
+  }
+  .month-body-inner{ padding: 6px 16px 16px; position:relative; }
+
+  .week-line{
+    position:relative;
+    padding-inline-start: 26px;
+  }
+  .week-line::before{
+    content:"";
+    position:absolute; top:6px; bottom:6px; right:9px;
+    width:2px;
+    background: var(--border);
+  }
+  .week-node{ position:relative; padding: 12px 0 16px; }
+  .week-node::before{
+    content:"";
+    position:absolute; right:0; top:14px; transform: translateX(50%);
+    width:12px; height:12px; border-radius:50%;
+    background: var(--bg-2); border:2px solid var(--border);
+    z-index:1; transition: all .3s ease;
+  }
+  .week-node.wn-progress::before{ border-color: var(--gold); box-shadow: 0 0 10px rgba(255,195,82,.6); }
+  .week-node.wn-done::before{ background: var(--green); border-color: var(--green); box-shadow: 0 0 10px rgba(62,230,160,.6); }
+
+  .week-title{ font-size:15px; font-weight:700; margin-bottom:8px; }
+  .day-divider{display:flex;align-items:center;gap:8px;margin:14px 0 8px;padding:7px 10px;border:1px solid rgba(53,214,232,.12);border-radius:10px;background:rgba(255,255,255,.025);color:var(--text);font-size:12px;font-weight:800;}
+  .day-divider:first-of-type{margin-top:4px;}
+  .day-divider .day-number{font-family:var(--font-num);color:var(--cyan);}
+
+
+  .task-row{
+    display:flex; align-items:flex-start; gap:10px;
+    padding: 9px 10px;
+    border-radius: 10px;
+    margin-bottom:6px;
+    background: var(--panel-2);
+    border:1px solid var(--border-soft);
+  }
+  .task-check{
+    flex-shrink:0; width:20px; height:20px; border-radius:6px;
+    border: 1.5px solid var(--border);
+    margin-top:1px;
+    display:flex; align-items:center; justify-content:center;
+    transition: all .2s ease;
+    background: transparent;
+  }
+  .task-check.checked{
+    background: linear-gradient(155deg, var(--violet), var(--cyan));
+    border-color: transparent;
+    box-shadow: 0 0 10px -1px var(--violet);
+  }
+  .task-check svg{ width:12px; height:12px; opacity:0; transition: opacity .15s ease; }
+  .task-check.checked svg{ opacity:1; }
+  .task-text{ font-size:13.5px; line-height:1.7; }
+  .task-text b{ color: var(--text); font-size:13px; }
+  .task-text .t-type{ color: var(--cyan); font-weight:700; }
+  .task-text .t-hours{ color: var(--text-muted); font-family: var(--font-num); }
+
+  /* ---------- Journal ---------- */
+  .journal-form{
+    display:grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    margin-bottom: 18px;
+  }
+  .journal-form .full{ grid-column: 1 / -1; }
+  @media (max-width:600px){ .journal-form{ grid-template-columns: 1fr; } }
+  .field label{ display:block; font-size:12.5px; color:var(--text-muted); margin-bottom:6px; }
+  .field input, .field textarea{
+    width:100%;
+    background: var(--panel-2);
+    border:1px solid var(--border);
+    color: var(--text);
+    padding: 11px 12px;
+    border-radius: 10px;
+    font-size:14.5px;
+    outline:none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .field input:focus, .field textarea:focus{ border-color: var(--violet); box-shadow: 0 0 0 3px rgba(155,107,255,.18); }
+  .field textarea{ resize: vertical; min-height:64px; }
+
+  .project-list{ display:flex; flex-direction:column; gap:12px; }
+  .project-card{
+    position:relative;
+    background: linear-gradient(160deg, rgba(155,107,255,.12), rgba(53,214,232,.05) 60%, rgba(19,24,40,.5));
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+    border:1px solid rgba(255,255,255,.09);
+    border-radius: var(--radius);
+    padding: 16px;
+    box-shadow: 0 8px 28px -12px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.03) inset;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .project-card:hover{ transform: translateY(-2px); box-shadow: 0 14px 34px -12px rgba(0,0,0,.6), 0 0 24px -8px var(--violet); }
+  .project-card .p-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+  .project-card .p-title{ font-weight:700; font-size:16px; }
+  .project-card .p-date{ font-size:12px; color:var(--text-muted); font-family: var(--font-num); flex-shrink:0; }
+  .project-card a.p-link{ font-size:13px; color: var(--cyan); text-decoration:none; word-break: break-all; }
+  .project-card a.p-link:hover{ text-decoration:underline; }
+  .project-card .p-feedback{ font-size:13.5px; color: var(--text-muted); margin-top:8px; line-height:1.75; white-space: pre-wrap; }
+  .project-card .p-del{
+    background:none; border:none; color: var(--text-dim); flex-shrink:0;
+    width:26px; height:26px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    transition: all .2s ease;
+  }
+  .project-card .p-del:hover{ background: rgba(255,107,107,.12); color: var(--red); }
+  .project-card .p-del svg{ width:15px; height:15px; }
+
+  .empty-state{
+    text-align:center; padding: 34px 16px; color: var(--text-muted); font-size:14px;
+  }
+
+  .toast{
+    position:fixed; bottom:22px; left:50%; transform: translateX(-50%) translateY(20px);
+    background: var(--panel-2); border:1px solid var(--border);
+    padding: 12px 18px; border-radius:12px; font-size:14px; font-weight:600;
+    box-shadow: 0 12px 30px -10px rgba(0,0,0,.6);
+    opacity:0; pointer-events:none; transition: all .3s cubic-bezier(.2,.8,.2,1);
+    z-index: 50;
+    display:flex; align-items:center; gap:8px;
+  }
+  .toast.show{ opacity:1; transform: translateX(-50%) translateY(0); }
+  .toast .t-dot{ width:8px; height:8px; border-radius:50%; background: var(--gold); box-shadow: 0 0 8px var(--gold); flex-shrink:0; }
+
+  .celebrate-toast{
+    box-shadow: 0 12px 34px -8px rgba(0,0,0,.6), 0 0 24px -4px var(--gold);
+    border-color: var(--gold);
+  }
+
+  #confettiCanvas{ position:fixed; inset:0; pointer-events:none; z-index:60; }
+
+  /* ===== Pro UX / Glass + Micro-interactions layer ===== */
+  :root{--glass:rgba(19,24,40,.58);--glass-border:rgba(255,255,255,.10);--ease-spring:cubic-bezier(.2,1.35,.35,1)}
+  body{position:relative;overflow-x:hidden;background:radial-gradient(ellipse 850px 520px at 12% -8%,rgba(155,107,255,.16),transparent 62%),radial-gradient(ellipse 760px 520px at 100% 8%,rgba(53,214,232,.11),transparent 58%),radial-gradient(ellipse 700px 500px at 55% 110%,rgba(62,230,160,.045),transparent 65%),var(--bg)}
+  body::before{content:"";position:fixed;inset:-20%;pointer-events:none;z-index:-2;background:conic-gradient(from 180deg at 50% 50%,rgba(155,107,255,.06),transparent 24%,rgba(53,214,232,.05),transparent 48%,rgba(255,195,82,.035),transparent 72%,rgba(155,107,255,.06));filter:blur(60px);animation:ambientDrift 22s ease-in-out infinite alternate}
+  @keyframes ambientDrift{from{transform:translate3d(-2%,-1%,0) rotate(0deg) scale(1)}to{transform:translate3d(2%,1%,0) rotate(7deg) scale(1.06)}}
+  #bgParticles{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1;opacity:.55}
+  .shell{position:relative;z-index:1}
+  .card,.timer-card,.month-card,.summary-cell,.tabs,.level-chip,.project-card{background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),var(--glass);-webkit-backdrop-filter:blur(18px) saturate(135%);backdrop-filter:blur(18px) saturate(135%);border-color:var(--glass-border);box-shadow:0 14px 42px -24px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.025) inset}
+  .card,.timer-card,.month-card,.summary-cell,.project-card{transition:transform .28s var(--ease-spring),border-color .25s ease,box-shadow .3s ease,background .3s ease}
+  .card:hover,.timer-card:hover,.month-card:hover,.summary-cell:hover,.project-card:hover{border-color:rgba(155,107,255,.22);box-shadow:0 18px 48px -25px rgba(0,0,0,.9),0 0 28px -14px rgba(155,107,255,.55),0 0 0 1px rgba(255,255,255,.025) inset}
+  .summary-cell:hover,.project-card:hover{transform:translateY(-2px)}
+  .brand-badge{box-shadow:0 0 0 1px rgba(255,255,255,.10) inset,0 10px 30px -8px rgba(155,107,255,.72),0 0 28px -10px var(--cyan)}
+  .xp-track{box-shadow:0 0 0 1px rgba(155,107,255,.18),0 0 24px -12px var(--violet),0 0 42px -22px var(--cyan)}
+  .xp-fill{position:relative;box-shadow:0 0 14px -2px var(--violet),0 0 28px -10px var(--cyan)}
+  .xp-fill::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg,transparent,rgba(255,255,255,.38),transparent);transform:translateX(-120%);animation:xpShine 3.6s ease-in-out infinite}
+  @keyframes xpShine{0%,35%{transform:translateX(-120%)}65%,100%{transform:translateX(120%)}}
+  .tab-btn,.t-btn,.ghost-btn,.task-check,.month-toggle,.p-del{-webkit-tap-highlight-color:transparent}
+  .tab-btn:active,.t-btn:active,.ghost-btn:active,.task-check:active,.month-toggle:active,.p-del:active{transform:scale(.965)}
+  .ux-pop{animation:uxPop .34s var(--ease-spring)}
+  @keyframes uxPop{0%{transform:scale(1)}35%{transform:scale(.94)}70%{transform:scale(1.035)}100%{transform:scale(1)}}
+  .t-btn,.ghost-btn{transition:transform .16s var(--ease-spring),background .2s ease,border-color .2s ease,box-shadow .25s ease}
+  .t-btn:active,.ghost-btn:active{transform:scale(.965) translateY(1px)}
+  .t-btn.running{animation:runningButton 2.2s ease-in-out infinite}
+  @keyframes runningButton{0%,100%{filter:saturate(1);transform:scale(1)}50%{filter:saturate(1.16);transform:scale(1.008)}}
+  .timer-card[data-running="true"] .ring-wrap{animation:ringBreath 2.1s ease-in-out infinite}
+  @keyframes ringBreath{0%,100%{transform:scale(1);filter:drop-shadow(0 0 6px var(--accent-color,var(--violet)))}50%{transform:scale(1.025);filter:drop-shadow(0 0 13px var(--accent-color,var(--violet)))}}
+  .task-check.checked{animation:checkPop .34s var(--ease-spring)}
+  @keyframes checkPop{0%{transform:scale(.7) rotate(-8deg)}65%{transform:scale(1.16) rotate(2deg)}100%{transform:scale(1) rotate(0)}}
+  .month-dot.done,.month-dot.progress,.week-node.wn-done::before,.week-node.wn-progress::before{animation:nodeGlow 2.8s ease-in-out infinite}
+  @keyframes nodeGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.16)}}
+  .view{opacity:0;transform:translateY(10px) scale(.992)}
+  .view.active{display:block;animation:viewEnter .42s var(--ease-spring) both}
+  @keyframes viewEnter{from{opacity:0;transform:translateY(12px) scale(.988);filter:blur(3px)}to{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+  .tabs{box-shadow:0 12px 34px -24px rgba(0,0,0,.9),0 0 24px -18px var(--violet)}
+  .tab-btn.active{box-shadow:0 0 0 1px var(--violet) inset,0 0 18px -3px rgba(155,107,255,.65),0 5px 18px -12px var(--cyan)}
+  .field input,.field textarea{background:rgba(23,29,48,.55);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+  .task-row{transition:transform .2s var(--ease-spring),border-color .2s ease,background .2s ease,box-shadow .2s ease}.task-row:hover{transform:translateX(-2px);border-color:rgba(53,214,232,.18);box-shadow:0 7px 20px -16px rgba(53,214,232,.7)}
+  .history-day{transition:transform .2s var(--ease-spring),border-color .2s ease,box-shadow .2s ease}.history-day:hover{transform:translateY(-2px);border-color:rgba(255,195,82,.3);box-shadow:0 0 18px -10px var(--gold)}
+  @media(max-width:720px){body::before{animation-duration:28s}#bgParticles{opacity:.38}.card:hover,.timer-card:hover,.month-card:hover,.summary-cell:hover,.project-card:hover,.task-row:hover{transform:none}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}}
+
+
+  /* ===== Stats / Achievements / Profile ===== */
+  .streak-badge{display:flex;align-items:center;gap:9px;padding:8px 11px;border:1px solid rgba(255,195,82,.18);border-radius:13px;background:rgba(255,195,82,.06);box-shadow:0 0 22px -12px var(--gold);margin-inline-start:auto}
+  .streak-fire{font-size:21px;filter:drop-shadow(0 0 8px rgba(255,112,67,.7));animation:fireFloat 1.8s ease-in-out infinite}
+  .streak-number{font-family:var(--font-num);font-weight:800;color:var(--gold);font-size:15px}
+  .streak-label{font-size:10px;color:var(--text-muted);display:block}
+  @keyframes fireFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2px) scale(1.06)}}
+  .stats-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:14px;margin-bottom:18px}
+  .stats-card{min-width:0}
+  .chart-wrap{position:relative;height:270px;margin-top:10px}
+  .bar-chart{height:220px;display:flex;align-items:flex-end;gap:8px;padding:20px 4px 0;border-bottom:1px solid var(--border);position:relative}
+  .bar-chart::before,.bar-chart::after{content:"";position:absolute;left:0;right:0;border-top:1px dashed rgba(255,255,255,.07);pointer-events:none}
+  .bar-chart::before{top:73px}.bar-chart::after{top:146px}
+  .bar-col{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:7px;position:relative;z-index:1}
+  .bar-value{font-family:var(--font-num);font-size:10px;color:var(--text-muted);height:15px}
+  .bar{width:min(34px,72%);min-height:4px;border-radius:9px 9px 3px 3px;background:linear-gradient(180deg,var(--cyan),var(--violet));box-shadow:0 0 18px -5px var(--cyan);transition:height .55s var(--ease-spring),filter .2s ease}
+  .bar-col:hover .bar{filter:brightness(1.22)}
+  .bar-label{font-size:10px;color:var(--text-dim);white-space:nowrap}
+  .radar-wrap{height:270px;display:flex;align-items:center;justify-content:center}
+  .radar-svg{width:min(100%,280px);height:250px;overflow:visible}
+  .radar-grid{fill:none;stroke:rgba(255,255,255,.10);stroke-width:1}
+  .radar-axis{stroke:rgba(255,255,255,.08);stroke-width:1}
+  .radar-area{fill:rgba(155,107,255,.18);stroke:var(--violet);stroke-width:2;filter:drop-shadow(0 0 8px rgba(155,107,255,.5))}
+  .radar-point{fill:var(--cyan);filter:drop-shadow(0 0 5px var(--cyan))}
+  .radar-label{font-size:11px;fill:var(--text-muted);font-family:Vazirmatn, sans-serif}
+  .stats-mini{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
+  .stat-mini{padding:10px;border:1px solid var(--border-soft);border-radius:11px;background:rgba(255,255,255,.025)}
+  .stat-mini .sm-label{font-size:10px;color:var(--text-muted)}
+  .stat-mini .sm-value{font-size:17px;font-weight:800;margin-top:3px}
+  .achievement-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .achievement{position:relative;padding:14px;border-radius:14px;border:1px solid var(--border);background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.012));overflow:hidden;transition:transform .25s var(--ease-spring),border-color .25s ease,box-shadow .25s ease}
+  .achievement.unlocked{border-color:rgba(255,195,82,.35);box-shadow:0 0 25px -12px var(--gold)}
+  .achievement.unlocked::after{content:"";position:absolute;inset:-50%;background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.18) 50%,transparent 60%);transform:translateX(-45%) rotate(8deg);animation:badgeShine 4.5s ease-in-out infinite}
+  @keyframes badgeShine{0%,55%{transform:translateX(-60%) rotate(8deg)}75%,100%{transform:translateX(60%) rotate(8deg)}}
+  .achievement.locked{opacity:.58;filter:saturate(.45)}
+  .ach-icon{font-size:27px;line-height:1;margin-bottom:9px;filter:drop-shadow(0 0 7px rgba(255,195,82,.35))}
+  .ach-title{font-weight:800;font-size:13px}.ach-desc{font-size:11px;color:var(--text-muted);line-height:1.7;margin-top:4px}.ach-state{font-size:10px;color:var(--gold);margin-top:8px;font-weight:700}
+  .profile-grid{display:grid;grid-template-columns:180px 1fr;gap:18px;align-items:start}
+  .avatar-panel{text-align:center;padding:14px;border:1px solid var(--border);border-radius:16px;background:rgba(255,255,255,.025)}
+  .avatar{width:108px;height:108px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:900;color:var(--text);background:radial-gradient(circle at 35% 25%,rgba(53,214,232,.35),rgba(155,107,255,.25) 45%,rgba(15,19,32,.95) 72%);border:2px solid rgba(155,107,255,.45);box-shadow:0 0 0 5px rgba(155,107,255,.05),0 0 30px -8px var(--violet);overflow:hidden}
+  .avatar img{width:100%;height:100%;object-fit:cover}
+  .profile-fields{display:grid;grid-template-columns:1fr 1fr;gap:11px}.profile-fields .full{grid-column:1/-1}
+  .skill-settings{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+  .skill-setting{padding:9px 10px;border:1px solid var(--border-soft);border-radius:11px;background:rgba(255,255,255,.02)}
+  .skill-setting-head{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--text-muted);margin-bottom:6px}.skill-setting input{width:100%;accent-color:var(--violet)}
+  .profile-save{margin-top:12px;width:100%}
+  @media(max-width:820px){.stats-grid{grid-template-columns:1fr}.achievement-grid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:600px){.profile-grid{grid-template-columns:1fr}.profile-fields,.skill-settings{grid-template-columns:1fr}.profile-fields .full{grid-column:auto}.achievement-grid{grid-template-columns:1fr 1fr}.streak-badge{padding:7px 9px}.chart-wrap,.radar-wrap{height:250px}}
+  @media(max-width:420px){.achievement-grid{grid-template-columns:1fr}}
+
+
+
+  /* ===== AAA VISUAL UPGRADE — CSS ONLY ===== */
+  :root{
+    --aaa-purple:#9b6bff;
+    --aaa-blue:#35d6e8;
+    --aaa-pink:#ff5fd2;
+    --aaa-deep:#070a14;
+    --aaa-shadow: 0 24px 70px -34px rgba(0,0,0,.95), 0 10px 30px -18px rgba(0,0,0,.75);
+    --aaa-glass: linear-gradient(135deg,rgba(255,255,255,.075),rgba(255,255,255,.018));
+  }
+
+  html{scroll-behavior:smooth}
+  body{
+    background:
+      radial-gradient(900px 560px at 8% -12%,rgba(155,107,255,.22),transparent 62%),
+      radial-gradient(760px 540px at 105% 4%,rgba(53,214,232,.15),transparent 60%),
+      radial-gradient(700px 520px at 52% 108%,rgba(255,95,210,.10),transparent 64%),
+      linear-gradient(145deg,#070a14 0%,#0b1020 48%,#080b16 100%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:-3;opacity:.34;
+    background:
+      radial-gradient(circle at 20% 30%,rgba(255,255,255,.8) 0 1px,transparent 1.5px),
+      radial-gradient(circle at 70% 65%,rgba(255,255,255,.55) 0 1px,transparent 1.5px),
+      radial-gradient(circle at 42% 82%,rgba(53,214,232,.65) 0 1px,transparent 1.5px),
+      radial-gradient(circle at 88% 22%,rgba(255,95,210,.55) 0 1px,transparent 1.5px);
+    background-size:170px 190px,230px 250px,280px 310px,210px 230px;
+    animation:spaceDust 32s linear infinite;
+  }
+  @keyframes spaceDust{from{background-position:0 0,0 0,0 0,0 0}to{background-position:-90px 70px,110px -80px,-70px 100px,80px -60px}}
+
+  .app-header{padding-block:24px 18px}
+  .brand h1,.section-title,.m-title,.p-title{letter-spacing:-.025em}
+  .brand h1{font-weight:900;text-shadow:0 0 24px rgba(155,107,255,.22)}
+  .brand p{letter-spacing:.015em}
+
+  .card,.timer-card,.month-card,.summary-cell,.tabs,.level-chip,.project-card,.achievement,.avatar-panel{
+    background:var(--aaa-glass),linear-gradient(145deg,rgba(11,16,31,.78),rgba(8,11,22,.62));
+    -webkit-backdrop-filter:blur(24px) saturate(155%);
+    backdrop-filter:blur(24px) saturate(155%);
+    border-color:rgba(255,255,255,.105);
+    box-shadow:var(--aaa-shadow),0 0 0 1px rgba(255,255,255,.028) inset;
+  }
+  .card,.timer-card,.month-card,.project-card{padding:22px}
+  .summary-cell{padding:16px 18px}
+  .timer-grid,.summary-row,.stats-grid{gap:16px}
+  .section-title{font-size:15px;font-weight:800;margin-bottom:15px}
+
+  .card:hover,.timer-card:hover,.month-card:hover,.summary-cell:hover,.project-card:hover,.achievement:hover{
+    border-color:rgba(155,107,255,.30);
+    box-shadow:0 28px 72px -38px rgba(0,0,0,1),0 0 34px -15px rgba(155,107,255,.48),0 0 0 1px rgba(255,255,255,.035) inset;
+  }
+
+  .xp-track{
+    height:12px;margin:0 3px 26px;border-radius:999px;
+    background:rgba(7,10,20,.78);
+    border:1px solid rgba(255,255,255,.09);
+    box-shadow:0 0 0 1px rgba(155,107,255,.12),0 10px 30px -18px #000,0 0 32px -12px rgba(155,107,255,.48);
+    overflow:hidden;
+  }
+  .xp-fill{
+    overflow:hidden;
+    background:linear-gradient(90deg,var(--aaa-pink) 0%,var(--aaa-purple) 42%,var(--aaa-blue) 100%);
+    box-shadow:0 0 12px rgba(255,95,210,.72),0 0 26px rgba(155,107,255,.62),0 0 40px rgba(53,214,232,.30);
+  }
+  .xp-fill::before{
+    content:"";position:absolute;inset:0;border-radius:inherit;
+    background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,.18) 38%,rgba(255,255,255,.72) 50%,rgba(255,255,255,.18) 62%,transparent 100%);
+    transform:translateX(120%);animation:aaaShimmer 2.8s linear infinite;
+  }
+  @keyframes aaaShimmer{to{transform:translateX(-120%)}}
+
+  .tabs{padding:7px;border-radius:17px;gap:7px;margin-bottom:28px}
+  .tab-btn{
+    position:relative;padding:13px 10px;font-weight:750;letter-spacing:.005em;border-radius:12px;
+    transition:transform .22s var(--ease-spring),color .22s ease,background .22s ease,box-shadow .22s ease;
+  }
+  .tab-btn::after{
+    content:"";position:absolute;left:18%;right:18%;bottom:4px;height:2px;border-radius:999px;
+    background:linear-gradient(90deg,var(--aaa-pink),var(--aaa-purple),var(--aaa-blue));
+    box-shadow:0 0 12px var(--aaa-purple),0 0 20px rgba(53,214,232,.45);
+    transform:scaleX(0);transform-origin:center;transition:transform .28s var(--ease-spring);
+  }
+  .tab-btn.active::after{transform:scaleX(1)}
+  .tab-btn.active{background:linear-gradient(135deg,rgba(155,107,255,.15),rgba(53,214,232,.055));box-shadow:0 0 24px -10px rgba(155,107,255,.85),0 0 0 1px rgba(155,107,255,.20) inset}
+  .tab-btn:hover{transform:translateY(-2px);color:#fff}
+  .tab-btn.active:hover{transform:translateY(-2px) scale(1.015)}
+
+  .t-btn,.ghost-btn,.month-toggle,.p-del,.task-check{
+    transition:transform .20s var(--ease-spring),box-shadow .25s ease,filter .25s ease,border-color .25s ease,background .25s ease;
+  }
+  .t-btn:hover,.ghost-btn:hover,.month-toggle:hover,.p-del:hover,.task-check:hover{
+    transform:translateY(-2px) scale(1.025);filter:saturate(1.12);box-shadow:0 12px 28px -18px rgba(155,107,255,.9),0 0 20px -10px var(--aaa-blue);
+  }
+  .t-btn:active,.ghost-btn:active,.month-toggle:active,.p-del:active,.task-check:active,.tab-btn:active{transform:scale(.94) translateY(1px)}
+  .t-btn{background:linear-gradient(110deg,rgba(255,95,210,.10),rgba(155,107,255,.12),rgba(53,214,232,.08));border-color:rgba(255,255,255,.12)}
+  .t-btn.running{background:linear-gradient(100deg,var(--aaa-pink),var(--aaa-purple) 48%,var(--aaa-blue));box-shadow:0 0 28px -5px rgba(155,107,255,.9),0 10px 28px -16px #000}
+
+  .timer-card{overflow:hidden}
+  .timer-card::before,.card::before,.month-card::before,.project-card::before{
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+    background:linear-gradient(120deg,rgba(255,255,255,.07),transparent 25%,transparent 70%,rgba(53,214,232,.025));opacity:.75;
+  }
+  .timer-card{position:relative}
+  .timer-card .t-head,.timer-card .ring-wrap,.timer-card .t-btn{position:relative;z-index:1}
+  .ring-center .rt-time{
+    font-size:28px;font-weight:900;letter-spacing:.02em;
+    text-shadow:0 0 18px rgba(155,107,255,.45);
+    animation:timerPulse .92s ease-in-out infinite;
+  }
+  @keyframes timerPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.018);opacity:.94}}
+  .ring-fg{filter:drop-shadow(0 0 7px var(--accent-color,var(--violet))) drop-shadow(0 0 14px var(--accent-color,var(--violet)))}
+
+  .month-head{padding:5px 2px}
+  .month-card{margin-bottom:18px}
+  .month-dot{box-shadow:0 0 0 4px rgba(155,107,255,.06),0 0 22px -4px var(--aaa-purple)}
+  .week-node{box-shadow:0 12px 28px -24px #000,0 0 18px -14px rgba(53,214,232,.25)}
+
+  .achievement-grid{gap:14px}
+  .achievement{padding:17px;border-radius:16px}
+  .ach-title{font-size:14px;font-weight:850;letter-spacing:-.01em}
+  .ach-icon{font-size:30px}
+
+  .profile-grid{gap:22px}
+  .avatar{box-shadow:0 0 0 6px rgba(155,107,255,.055),0 0 42px -7px var(--aaa-purple),0 0 22px -10px var(--aaa-blue)}
+  .field input,.field textarea{border-color:rgba(255,255,255,.09);box-shadow:0 8px 22px -18px #000 inset}
+  .field input:focus,.field textarea:focus{border-color:rgba(155,107,255,.58);box-shadow:0 0 0 3px rgba(155,107,255,.09),0 0 24px -14px var(--aaa-purple)}
+
+  .streak-badge{box-shadow:0 0 28px -10px var(--gold),0 12px 30px -24px #000}
+  .level-chip{box-shadow:0 12px 32px -22px #000,0 0 24px -12px rgba(155,107,255,.65)}
+
+  @media(max-width:720px){
+    .card,.timer-card,.month-card,.project-card{padding:18px}
+    .tabs{gap:4px;padding:5px}
+    .tab-btn{padding:11px 6px;font-size:13px}
+    .xp-track{margin-bottom:20px}
+  }
+  @media(prefers-reduced-motion:reduce){body::after,.xp-fill::before,.ring-center .rt-time{animation:none!important}}
+
+
+  /* =========================================================
+     ARIA EDIT — CSS 3D VISUAL UPGRADE / STAGE 1
+     Visual-only layer: no application logic or JS behavior changed.
+     ========================================================= */
+  :root{
+    --depth-shadow: 0 30px 80px -42px rgba(0,0,0,.95), 0 12px 28px -18px rgba(80,55,180,.42), 0 0 0 1px rgba(255,255,255,.035) inset;
+    --depth-shadow-hover: 0 42px 90px -40px rgba(0,0,0,1), 0 18px 42px -20px rgba(91,63,210,.52), 0 0 34px -18px rgba(53,214,232,.32), 0 0 0 1px rgba(255,255,255,.055) inset;
+    --sphere-hi: rgba(255,255,255,.92);
+  }
+
+  /* 1 — Global perspective */
+  .shell{
+    perspective:1200px;
+    perspective-origin:50% 22%;
+    transform-style:preserve-3d;
+  }
+
+  /* 3 — Layered depth / floating planes */
+  .app-header{transform:translateZ(24px);transform-style:preserve-3d}
+  .xp-track{transform:translateZ(30px);transform-style:preserve-3d}
+  .tabs{transform:translateZ(34px);transform-style:preserve-3d}
+  .summary-row{transform:translateZ(18px);transform-style:preserve-3d}
+  .card,.timer-card,.month-card,.project-card,.achievement,.avatar-panel,.stats-card{
+    transform-style:preserve-3d;
+    backface-visibility:hidden;
+    will-change:transform,box-shadow;
+    box-shadow:var(--depth-shadow),0 0 0 1px rgba(255,255,255,.025) inset;
+  }
+  .timer-card:nth-child(1),.summary-cell:nth-child(1){transform:translateZ(24px)}
+  .timer-card:nth-child(2),.summary-cell:nth-child(2){transform:translateZ(38px)}
+  .timer-card:nth-child(3),.summary-cell:nth-child(3){transform:translateZ(28px)}
+  .month-card:nth-child(odd){transform:translateZ(18px)}
+  .month-card:nth-child(even){transform:translateZ(30px)}
+  .project-card:nth-child(odd),.achievement:nth-child(odd){transform:translateZ(14px)}
+  .project-card:nth-child(even),.achievement:nth-child(even){transform:translateZ(22px)}
+
+  /* 2 + 4 — Gaming-card tilt feel + directional shadow */
+  .timer-card:hover,.month-card:hover,.card:hover,.project-card:hover,.achievement:hover,.avatar-panel:hover,.stats-card:hover{
+    transform:translateZ(46px) rotateX(1.2deg) rotateY(-1.5deg);
+    box-shadow:var(--depth-shadow-hover);
+  }
+  .timer-card:nth-child(2):hover,.summary-cell:nth-child(2):hover{transform:translateZ(52px) rotateX(1.1deg) rotateY(1.6deg)}
+  .timer-card:nth-child(3):hover,.summary-cell:nth-child(3):hover{transform:translateZ(44px) rotateX(-1deg) rotateY(1.2deg)}
+  .month-card:nth-child(even):hover{transform:translateZ(50px) rotateX(1deg) rotateY(1.5deg)}
+  .month-card:nth-child(3n):hover{transform:translateZ(50px) rotateX(-1deg) rotateY(-1.5deg)}
+  .timer-card:active,.month-card:active,.card:active,.project-card:active{
+    transform:translateZ(20px) rotateX(1.8deg) rotateY(0deg) scale(.992);
+    box-shadow:0 14px 32px -22px rgba(0,0,0,1),0 0 24px -16px rgba(155,107,255,.5),0 0 0 1px rgba(255,255,255,.04) inset;
+  }
+
+  /* Lift inner content to make the card read as a physical 3D object */
+  .timer-card .t-head,.timer-card .ring-wrap,.timer-card .t-btn,
+  .month-card .month-head,.month-card .month-body-inner,
+  .card > *,.project-card > *,.achievement > *,.avatar-panel > *{
+    transform:translateZ(16px);
+  }
+  .timer-card .ring-wrap{transform:translateZ(28px)}
+  .timer-card .t-btn,.month-card .month-toggle{transform:translateZ(22px)}
+  .month-dot{transform:translateZ(34px)}
+
+  /* 5 — Roadmap nodes become tiny illuminated 3D spheres */
+  .month-dot,.week-node::before{
+    border-radius:50%!important;
+    background:
+      radial-gradient(circle at 31% 24%,var(--sphere-hi) 0 7%,rgba(255,255,255,.55) 8%,transparent 19%),
+      radial-gradient(circle at 35% 30%,rgba(190,165,255,.98) 0%,rgba(111,72,220,.95) 38%,rgba(39,25,105,.98) 73%,rgba(5,7,18,1) 100%)!important;
+    border:1px solid rgba(255,255,255,.24)!important;
+    box-shadow:
+      inset -7px -8px 13px rgba(0,0,0,.62),
+      inset 4px 3px 7px rgba(255,255,255,.22),
+      0 0 0 3px rgba(155,107,255,.055),
+      0 8px 20px -7px rgba(0,0,0,.95),
+      0 0 18px -5px rgba(155,107,255,.8)!important;
+  }
+  .month-dot{width:34px;height:34px;display:grid;place-items:center;color:#fff;text-shadow:0 1px 4px #000;font-weight:900}
+  .week-node::before{width:12px!important;height:12px!important;left:-1px!important;top:12px!important;box-sizing:border-box}
+  .month-dot.done,.week-node.wn-done::before{
+    background:
+      radial-gradient(circle at 30% 23%,#fff 0 7%,rgba(255,255,255,.58) 8%,transparent 20%),
+      radial-gradient(circle at 36% 32%,rgba(117,255,201,1),rgba(26,158,112,.95) 42%,rgba(6,54,42,1) 76%,#030d0b 100%)!important;
+    box-shadow:inset -7px -8px 13px rgba(0,0,0,.58),inset 4px 3px 7px rgba(255,255,255,.24),0 0 20px -3px rgba(62,230,160,.95)!important;
+  }
+  .month-dot.progress,.week-node.wn-progress::before{
+    background:
+      radial-gradient(circle at 30% 23%,#fff 0 7%,rgba(255,255,255,.56) 8%,transparent 20%),
+      radial-gradient(circle at 36% 32%,#ffe8a0,#e39a28 42%,#6a3d0b 75%,#120a02 100%)!important;
+    box-shadow:inset -7px -8px 13px rgba(0,0,0,.58),inset 4px 3px 7px rgba(255,255,255,.24),0 0 20px -3px rgba(255,195,82,.92)!important;
+  }
+
+  /* 6 — Multi-layer parallax atmosphere. CSS scroll timeline when supported;
+     fallback keeps the ambient layers gently alive. */
+  body::before{z-index:-4;will-change:transform;background:
+    radial-gradient(ellipse 780px 500px at 10% 12%,rgba(155,107,255,.15),transparent 64%),
+    radial-gradient(ellipse 680px 460px at 92% 22%,rgba(53,214,232,.10),transparent 62%),
+    radial-gradient(ellipse 620px 500px at 50% 92%,rgba(255,95,210,.075),transparent 68%);}
+  body::after{
+    content:"";position:fixed;inset:-12%;pointer-events:none;z-index:-3;
+    background:
+      radial-gradient(circle at 20% 35%,rgba(155,107,255,.12) 0 1px,transparent 2px),
+      radial-gradient(circle at 72% 22%,rgba(53,214,232,.10) 0 1px,transparent 2px),
+      radial-gradient(circle at 58% 76%,rgba(255,95,210,.08) 0 1px,transparent 2px),
+      radial-gradient(circle at 87% 68%,rgba(255,255,255,.06) 0 1px,transparent 2px);
+    background-size:180px 180px,240px 240px,210px 210px,300px 300px;
+    opacity:.62;
+    animation:parallaxDust 38s linear infinite;
+    transform:translate3d(0,0,0) scale(1.05);
+    will-change:transform;
+  }
+  @keyframes parallaxDust{to{transform:translate3d(-36px,22px,0) scale(1.05)}}
+  @supports (animation-timeline:scroll()){
+    body::before{animation:parallaxFar linear both;animation-timeline:scroll(root);animation-range:0 100%}
+    body::after{animation:parallaxNear linear both;animation-timeline:scroll(root);animation-range:0 100%}
+    @keyframes parallaxFar{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(0,-8vh,0) scale(1.06)}}
+    @keyframes parallaxNear{from{transform:translate3d(0,0,0) scale(1.05)}to{transform:translate3d(0,-22vh,0) scale(1.08)}}
+  }
+
+  /* 7 — Physical 3D buttons */
+  .t-btn,.ghost-btn,.month-toggle,.p-del,.task-check,.tab-btn{
+    transform-style:preserve-3d;
+    box-shadow:
+      0 2px 0 rgba(255,255,255,.07) inset,
+      0 -3px 0 rgba(0,0,0,.28) inset,
+      0 7px 0 rgba(7,8,18,.72),
+      0 12px 24px -13px rgba(0,0,0,.95),
+      0 0 20px -12px rgba(155,107,255,.8);
+  }
+  .t-btn:hover,.ghost-btn:hover,.month-toggle:hover,.p-del:hover,.task-check:hover,.tab-btn:hover{
+    transform:translateY(-2px) translateZ(8px) scale(1.025);
+    box-shadow:
+      0 2px 0 rgba(255,255,255,.12) inset,
+      0 -3px 0 rgba(0,0,0,.25) inset,
+      0 8px 0 rgba(7,8,18,.78),
+      0 18px 30px -16px rgba(0,0,0,1),
+      0 0 26px -9px rgba(155,107,255,.95);
+  }
+  .t-btn:active,.ghost-btn:active,.month-toggle:active,.p-del:active,.task-check:active,.tab-btn:active{
+    transform:translateY(3px) translateZ(1px) scale(.965)!important;
+    box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 -1px 0 rgba(0,0,0,.3) inset,0 2px 0 rgba(7,8,18,.75),0 5px 12px -8px #000!important;
+  }
+
+  /* Stronger 3D rings / HUD */
+  .ring-wrap{transform-style:preserve-3d;filter:drop-shadow(0 20px 24px rgba(0,0,0,.32))}
+  .ring-center{transform:translateZ(36px)}
+  .rt-time{font-weight:950;letter-spacing:-.045em;text-shadow:0 0 18px rgba(255,255,255,.12),0 4px 16px rgba(0,0,0,.7)}
+  .timer-card[data-running="true"] .rt-time{animation:timeDepthPulse 1s ease-in-out infinite}
+  @keyframes timeDepthPulse{0%,100%{transform:translateZ(36px) scale(1)}50%{transform:translateZ(42px) scale(1.012)}}
+
+  /* Keep 3D comfortable on touch devices and reduced-motion users. */
+  @media(max-width:720px){
+    .shell{perspective:900px}
+    .timer-card:hover,.month-card:hover,.card:hover,.project-card:hover,.achievement:hover,.avatar-panel:hover,.stats-card:hover{transform:translateZ(22px)}
+    .timer-card:nth-child(2):hover,.summary-cell:nth-child(2):hover,.timer-card:nth-child(3):hover,.summary-cell:nth-child(3):hover,.month-card:nth-child(even):hover,.month-card:nth-child(3n):hover{transform:translateZ(24px)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .shell,.card,.timer-card,.month-card,.project-card,.achievement,.avatar-panel,.stats-card{transform:none!important}
+    body::after{animation:none!important}
+  }
+
+  /* =========================================================
+     ARIA EDIT — THREE.JS 3D BACKGROUND / STAGE 2
+     Isolated visual subsystem. Existing app logic remains intact.
+     ========================================================= */
+  #threeScene{
+    position:fixed; inset:0; width:100%; height:100%;
+    display:block; pointer-events:none; z-index:0;
+    opacity:.96;
+    mix-blend-mode:screen;
+  }
+  .shell{position:relative;z-index:2;}
+  #confettiCanvas{z-index:60;}
+  .toast{z-index:70;}
+  .xp-track{position:relative;isolation:isolate;overflow:hidden;}
+  #xp3DCanvas{
+    position:absolute; inset:0; width:100%; height:100%;
+    pointer-events:none; z-index:2;
+    border-radius:inherit;
+  }
+  .xp-fill{z-index:1;opacity:.42;}
+  .xp-track::after{
+    content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
+    background:linear-gradient(90deg,rgba(255,255,255,.08),transparent 25%,transparent 75%,rgba(255,255,255,.05));
+    mix-blend-mode:screen;
+  }
+  @media(max-width:720px){
+    #threeScene{opacity:.72;}
+  }
+  @media(prefers-reduced-motion:reduce){
+    #threeScene{opacity:.45;}
+  }
+
+
+  /* =========================================================
+     ARIA EDIT — STAGE 3 IMMERSIVE 3D
+     Visual/experience layer. Existing app UI and timer logic stay intact.
+     ========================================================= */
+  :root{--neon-v:#9b6bff;--neon-c:#35d6e8;--neon-p:#ff5fd2;--space:#050611}
+  body{overflow-x:hidden;background:radial-gradient(circle at 50% 10%,#171039 0,#090c13 42%,#03040a 100%);}
+  #threeScene{z-index:0!important;opacity:1!important;filter:saturate(1.08) contrast(1.03);}
+  .shell{z-index:10!important;isolation:isolate;}
+  .app-header,.xp-track,.tabs,.view{position:relative;z-index:11;}
+  .tabs{backdrop-filter:blur(22px) saturate(160%);}
+  .view.active{animation:worldViewIn .7s cubic-bezier(.2,.75,.2,1) both;}
+  @keyframes worldViewIn{from{opacity:.45;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+  #worldHint{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:12;padding:8px 14px;border:1px solid rgba(155,107,255,.18);border-radius:999px;background:rgba(5,6,17,.35);backdrop-filter:blur(12px);font:600 9px/1 Space Grotesk,Vazirmatn,sans-serif;letter-spacing:2px;color:rgba(218,210,255,.45);pointer-events:none;opacity:.7;transition:opacity .5s}
+  #holoPanel{position:fixed;top:50%;right:24px;transform:translateY(-50%) translateX(28px);width:min(330px,calc(100vw - 48px));padding:24px;border:1px solid rgba(155,107,255,.42);border-radius:22px;background:linear-gradient(145deg,rgba(17,14,39,.86),rgba(5,12,28,.7));backdrop-filter:blur(24px) saturate(180%);box-shadow:0 0 0 1px rgba(53,214,232,.08) inset,0 20px 80px rgba(0,0,0,.45),0 0 45px rgba(155,107,255,.18);z-index:50;opacity:0;pointer-events:none;overflow:hidden;transition:opacity .35s ease,transform .45s cubic-bezier(.2,.8,.2,1)}
+  #holoPanel.show{opacity:1;transform:translateY(-50%) translateX(0);pointer-events:auto}
+  #holoPanel::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(53,214,232,.08),transparent);transform:translateX(-100%);animation:holoSweep 2.8s linear infinite}
+  @keyframes holoSweep{to{transform:translateX(100%)}}
+  .holo-scan{position:absolute;left:0;right:0;top:0;height:1px;background:linear-gradient(90deg,transparent,var(--neon-c),var(--neon-p),transparent);box-shadow:0 0 14px var(--neon-c);animation:holoScan 2s linear infinite;opacity:.8}
+  @keyframes holoScan{0%{transform:translateY(0)}100%{transform:translateY(210px)}}
+  #holoClose{position:absolute;top:9px;left:10px;width:30px;height:30px;border:0;border-radius:50%;background:rgba(255,255,255,.05);color:#fff;font-size:22px;cursor:pointer;z-index:2}
+  .holo-kicker{font:700 9px/1 Space Grotesk,Vazirmatn,sans-serif;letter-spacing:2px;color:var(--neon-c);margin-bottom:10px}
+  #holoTitle{font-size:22px;font-weight:900;letter-spacing:-.5px;background:linear-gradient(90deg,#fff,var(--neon-c),var(--neon-p));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:10px}
+  #holoGoal{font-size:13px;line-height:2;color:rgba(239,239,255,.76)}
+  .immersive-timer{filter:drop-shadow(0 0 18px rgba(155,107,255,.45))}
+  @media(max-width:720px){
+    #holoPanel{top:auto;bottom:78px;right:12px;left:12px;width:auto;transform:translateY(18px);}
+    #holoPanel.show{transform:translateY(0)}
+    #worldHint{bottom:64px;font-size:8px;letter-spacing:1.2px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    #holoPanel::before,.holo-scan{animation:none}
+    .view.active{animation:none}
+    #worldHint{opacity:.3}
+  }
+
+  /* ===== ARIA EDIT V2 — Season UI / Bottom Navigation / Skill Modes ===== */
+  :root{--season-a:#9b6bff;--season-b:#35d6e8;--season-c:#ffc352;--nav-h:78px}
+  body{padding-bottom:calc(env(safe-area-inset-bottom) + 92px)}
+  .shell{padding-bottom:120px}
+  .app-header{position:relative;align-items:center}
+  .brand-logo{width:52px;height:52px;border-radius:15px;display:grid;place-items:center;flex:0 0 auto;overflow:hidden;background:linear-gradient(145deg,rgba(155,107,255,.2),rgba(53,214,232,.12));border:1px solid rgba(255,255,255,.1);box-shadow:0 12px 30px -14px var(--violet),0 0 28px -16px var(--cyan)}
+  aria-logo{display:block;line-height:0}
+  aria-logo .aria-logo-img{width:100%;height:100%;display:block;object-fit:contain}
+  .level-card{display:flex;align-items:center;gap:13px;min-width:270px;padding:11px 13px;border-radius:18px;background:linear-gradient(145deg,rgba(23,29,48,.9),rgba(13,17,26,.88));border:1px solid rgba(155,107,255,.28);box-shadow:0 16px 45px -28px #000,0 0 30px -18px var(--violet);position:relative;overflow:hidden}
+  .level-card::after{content:"";position:absolute;inset:-40% -20%;background:linear-gradient(105deg,transparent 42%,rgba(255,255,255,.08) 50%,transparent 58%);transform:translateX(-80%);animation:levelShine 5s ease-in-out infinite}
+  @keyframes levelShine{0%,60%{transform:translateX(-80%)}85%,100%{transform:translateX(80%)}}
+  .level-ring{width:66px;height:66px;position:relative;flex:0 0 auto}
+  .level-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+  .level-ring-bg{fill:none;stroke:rgba(255,255,255,.07);stroke-width:7}
+  .level-ring-fg{fill:none;stroke:url(#levelGrad);stroke-width:7;stroke-linecap:round;transition:stroke-dashoffset .55s cubic-bezier(.2,.8,.2,1)}
+  .level-ring-center{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--font-num);font-weight:900;font-size:17px;color:#fff}
+  .level-main{min-width:0;position:relative;z-index:1}.level-kicker{font-size:10px;color:var(--text-muted);font-weight:700}.level-title{font-size:18px;font-weight:900;margin:1px 0 2px}.level-xp{font-family:var(--font-num);font-size:11px;color:var(--cyan)}
+  .level-progress{height:6px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:7px;width:190px;max-width:100%}.level-progress i{display:block;height:100%;width:0;border-radius:inherit;background:linear-gradient(90deg,var(--violet),var(--cyan));transition:width .5s ease}
+  .season-hero{position:relative;overflow:hidden;margin-bottom:18px;padding:18px;border:1px solid rgba(155,107,255,.24);border-radius:22px;background:radial-gradient(circle at 8% 0%,rgba(155,107,255,.18),transparent 36%),radial-gradient(circle at 100% 100%,rgba(53,214,232,.12),transparent 38%),linear-gradient(145deg,rgba(19,24,40,.94),rgba(13,17,26,.9));box-shadow:0 22px 60px -35px #000,0 0 42px -30px var(--violet)}
+  .season-hero::before{content:"";position:absolute;width:240px;height:240px;border-radius:50%;inset:auto -80px -120px auto;background:rgba(53,214,232,.09);filter:blur(8px)}
+  .season-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;position:relative;z-index:1}.season-kicker{font-size:11px;color:var(--cyan);font-weight:800;letter-spacing:.4px}.season-name{font-size:23px;font-weight:900;margin:3px 0 4px}.season-sub{font-size:12px;color:var(--text-muted)}
+  .season-badge{display:inline-flex;align-items:center;gap:7px;padding:8px 11px;border-radius:999px;background:rgba(255,195,82,.09);border:1px solid rgba(255,195,82,.24);color:var(--gold);font-size:11px;font-weight:800;white-space:nowrap}.season-badge .dot{width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 12px currentColor}
+  .season-progress{margin-top:16px;position:relative;z-index:1}.season-progress-head{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:var(--text-muted)}.season-progress-track{height:9px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.05);overflow:hidden;margin-top:7px}.season-progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--season-a),var(--season-b),var(--season-c));border-radius:inherit;transition:width .6s ease;box-shadow:0 0 18px -5px var(--cyan)}
+  .season-timeline{display:flex;align-items:center;gap:0;margin-top:16px;overflow:auto;padding:2px 1px 4px;position:relative;z-index:1}.season-step{min-width:88px;display:flex;align-items:center;gap:7px;color:var(--text-dim);font-size:10px;font-weight:700}.season-step::after{content:"";height:2px;width:35px;background:var(--border);margin-inline-start:2px}.season-step:last-child::after{display:none}.season-step .s-node{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--border);background:var(--bg-2);font-family:var(--font-num);font-size:10px;flex:0 0 auto}.season-step.active{color:var(--text)}.season-step.active .s-node{background:linear-gradient(145deg,var(--violet),var(--cyan));color:#081018;border-color:transparent;box-shadow:0 0 18px -5px var(--violet)}
+  .season-filter{display:flex;gap:7px;overflow:auto;margin-bottom:14px;padding-bottom:2px}.season-filter button{border:1px solid var(--border);background:rgba(19,24,40,.72);color:var(--text-muted);padding:8px 12px;border-radius:999px;font-size:11px;font-weight:700;white-space:nowrap}.season-filter button.active{background:linear-gradient(90deg,rgba(155,107,255,.2),rgba(53,214,232,.13));color:var(--text);border-color:rgba(155,107,255,.5);box-shadow:0 0 18px -12px var(--violet)}
+  .chapter-block{position:relative;margin-bottom:20px}.chapter-block::before{content:"";position:absolute;right:10px;top:54px;bottom:10px;width:1px;background:linear-gradient(var(--violet),transparent)}
+  .chapter-banner{position:relative;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;margin-bottom:11px;border:1px solid rgba(155,107,255,.25);border-radius:18px;background:linear-gradient(100deg,rgba(155,107,255,.12),rgba(53,214,232,.05));box-shadow:0 15px 40px -30px #000}.chapter-left{display:flex;align-items:center;gap:11px;min-width:0}.chapter-number{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(145deg,var(--violet),var(--cyan));color:#071019;font-family:var(--font-num);font-weight:900;box-shadow:0 0 22px -7px var(--violet);flex:0 0 auto}.chapter-title{font-size:16px;font-weight:900}.chapter-year{font-size:10px;color:var(--text-muted);margin-top:2px}.chapter-percent{font-family:var(--font-num);font-size:13px;color:var(--cyan);font-weight:800}
+  .skill-mode-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0 13px}.skill-mode-tab{border:1px solid var(--border);background:rgba(255,255,255,.025);color:var(--text-muted);border-radius:12px;padding:10px 8px;font-size:12px;font-weight:800}.skill-mode-tab.active{color:var(--text);border-color:rgba(155,107,255,.55);background:linear-gradient(145deg,rgba(155,107,255,.15),rgba(53,214,232,.07));box-shadow:0 0 22px -14px var(--violet)}
+  .skill-mode-panel{border:1px solid var(--border);border-radius:16px;background:rgba(255,255,255,.025);padding:13px}.mode-summary{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:11px}.mode-stat{padding:10px;border-radius:12px;background:rgba(0,0,0,.13);border:1px solid var(--border-soft)}.mode-stat b{display:block;font-size:17px}.mode-stat span{font-size:10px;color:var(--text-muted)}
+  .skill-bars{display:grid;gap:9px}.skill-bar-row{display:grid;grid-template-columns:90px 1fr 40px;align-items:center;gap:8px;font-size:11px}.skill-bar-track{height:7px;border-radius:999px;background:rgba(255,255,255,.06);overflow:hidden}.skill-bar-track i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--violet),var(--cyan));width:0}.skill-badge{display:inline-flex;padding:4px 7px;border-radius:999px;background:rgba(53,214,232,.08);border:1px solid rgba(53,214,232,.18);font-size:10px;color:var(--cyan);font-weight:800}
+  .manual-note,.ai-note{font-size:11px;color:var(--text-muted);line-height:1.8;margin-bottom:10px}.ai-actions{display:flex;gap:8px}.ai-actions button{flex:1}.ai-result{margin-top:12px;display:none}.ai-result.show{display:block;animation:fadeUp .35s ease}.ai-result-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ai-box{padding:10px;border:1px solid var(--border-soft);border-radius:12px;background:rgba(0,0,0,.12)}.ai-box h4{margin:0 0 6px;font-size:11px}.ai-box ul{margin:0;padding-inline-start:17px;color:var(--text-muted);font-size:11px;line-height:1.9}.ai-priority{display:inline-flex;padding:3px 6px;border-radius:6px;background:rgba(255,195,82,.09);color:var(--gold);font-size:9px;margin-inline-start:5px}
+  .bottom-nav{position:fixed;z-index:80;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);width:min(940px,calc(100% - 22px));display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:8px;border:1px solid rgba(255,255,255,.11);border-radius:21px;background:rgba(13,17,26,.88);-webkit-backdrop-filter:blur(22px) saturate(1.25);backdrop-filter:blur(22px);box-shadow:0 24px 60px -30px #000,0 0 38px -26px var(--violet)}.bottom-nav .tab-btn{position:relative;min-width:0;padding:9px 7px;border:1px solid transparent;border-radius:15px;background:transparent;color:var(--text-muted);font-size:11px;display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .2s ease,background .2s ease,border-color .2s ease,color .2s ease}.bottom-nav .tab-icon{width:28px;height:28px;display:grid;place-items:center;flex:0 0 28px;border-radius:10px;font-size:15px;line-height:1;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.06);transition:all .2s ease}.bottom-nav .tab-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:800}.bottom-nav .tab-btn.active{color:var(--text);background:linear-gradient(145deg,rgba(155,107,255,.15),rgba(53,214,232,.07));border-color:rgba(155,107,255,.22);box-shadow:inset 0 0 20px rgba(155,107,255,.05),0 8px 22px -18px var(--violet)}.bottom-nav .tab-btn.active .tab-icon{color:var(--cyan);background:linear-gradient(145deg,rgba(155,107,255,.22),rgba(53,214,232,.13));border-color:rgba(53,214,232,.25);box-shadow:0 0 16px -8px var(--cyan)}.bottom-nav .tab-btn:active{transform:scale(.96)}.bottom-nav .tab-btn.active::after{content:"";position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:22px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--violet),var(--cyan));box-shadow:0 0 10px var(--violet)}
+  .app-footer{display:flex;justify-content:center;align-items:center;gap:8px;color:var(--text-dim);font-size:10px;padding:18px 0 0}.app-footer aria-logo{width:24px;height:24px;opacity:.8}
+  .loading-screen{position:fixed;inset:0;z-index:120;display:grid;place-items:center;background:#090c13;transition:opacity .45s ease,visibility .45s ease}.loading-screen.hide{opacity:0;visibility:hidden;pointer-events:none}.loading-inner{text-align:center}.loading-inner aria-logo{width:72px;height:72px;margin:auto auto 12px}.loading-spinner{width:30px;height:30px;border:2px solid rgba(255,255,255,.08);border-top-color:var(--cyan);border-right-color:var(--violet);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px}@keyframes spin{to{transform:rotate(360deg)}}
+  .toast{display:flex;align-items:center;gap:9px}.toast-logo{width:24px;height:24px;border-radius:7px;overflow:hidden;flex:0 0 auto}.toast-logo aria-logo{width:100%;height:100%}
+  @media(max-width:820px){.app-header{flex-wrap:wrap}.level-card{order:3;width:100%;min-width:0}.level-progress{width:100%}}
+  @media(max-width:600px){.shell{padding-inline:12px}.season-top{flex-direction:column}.season-badge{align-self:flex-start}.season-name{font-size:20px}.skill-mode-tabs{grid-template-columns:1fr 1fr 1fr}.ai-result-grid{grid-template-columns:1fr}.mode-summary{grid-template-columns:1fr 1fr}.bottom-nav .tab-btn{padding:8px 5px;gap:5px}.bottom-nav{width:calc(100% - 12px);bottom:calc(6px + env(safe-area-inset-bottom));border-radius:18px}.bottom-nav .tab-icon{width:27px;height:27px;flex-basis:27px;font-size:14px}.bottom-nav .tab-label{font-size:10px}.brand-logo{width:46px;height:46px}.brand-text h1{font-size:19px}.streak-badge{margin-inline-start:0}}
+  @media(max-width:420px){.bottom-nav{gap:3px;padding:6px}.bottom-nav .tab-btn{padding:7px 2px;gap:4px}.bottom-nav .tab-icon{width:25px;height:25px;flex-basis:25px;font-size:13px}.bottom-nav .tab-label{font-size:9px}.skill-bar-row{grid-template-columns:76px 1fr 34px}}
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+</head>
+<body>
+<canvas id="bgParticles" aria-hidden="true"></canvas>
+<canvas id="threeScene" aria-hidden="true"></canvas>
+<div id="holoPanel" aria-live="polite">
+  <div class="holo-scan"></div>
+  <button id="holoClose" type="button" aria-label="بستن">×</button>
+  <div class="holo-kicker">HOLOGRAPHIC NODE</div>
+  <div id="holoTitle">آریا ادیت</div>
+  <div id="holoGoal">یک گره سه‌بعدی را انتخاب کن.</div>
+</div>
+<div id="worldHint" aria-hidden="true">DRAG • EXPLORE&nbsp;&nbsp; | &nbsp;&nbsp;SCROLL • FLY</div>
+
+<div class="shell">
+
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-logo"><aria-logo size="52"></aria-logo></div>
+      <div class="brand-text">
+        <h1>آریا ادیت</h1>
+        <p>مسیر ۴ ساله تا استاد شدن در ادیت ویدیو</p>
+      </div>
+    </div>
+    <div class="streak-badge" title="استریک تمرین">
+      <span class="streak-fire">🔥</span>
+      <span><span class="streak-number num" id="headerStreak">۰</span><span class="streak-label">روز استریک</span></span>
+    </div>
+    <div class="level-card" aria-label="سطح فعلی بازیکن">
+      <div class="level-ring">
+        <svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="levelGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9b6bff"/><stop offset="1" stop-color="#35d6e8"/></linearGradient></defs><circle class="level-ring-bg" cx="50" cy="50" r="41"></circle><circle class="level-ring-fg" id="levelRingFg" cx="50" cy="50" r="41" stroke-dasharray="257.61" stroke-dashoffset="257.61"></circle></svg>
+        <div class="level-ring-center num" id="lvBadge">۱</div>
+      </div>
+      <div class="level-main"><div class="level-kicker">پیشرفت بازیکن</div><div class="level-title">سطح فعلی</div><div class="level-xp num" id="lvXpText">۰ / ۱۰۰۰ XP</div><div class="level-progress"><i id="levelMiniFill"></i></div></div>
+    </div>
+  </header>
+
+  <div class="xp-track"><div class="xp-fill" id="xpFill" style="width:0%"></div><canvas id="xp3DCanvas" aria-hidden="true"></canvas></div>
+
+
+
+  <!-- ===================== DASHBOARD ===================== -->
+  <section class="view active" id="view-dashboard">
+
+    <div class="summary-row">
+      <div class="summary-cell violet">
+        <div class="s-label">مجموع امروز</div>
+        <div class="s-value num" id="sumToday">۰:۰۰</div>
+      </div>
+      <div class="summary-cell gold">
+        <div class="s-label">XP امروز</div>
+        <div class="s-value num" id="sumXpToday">۰</div>
+      </div>
+      <div class="summary-cell cyan">
+        <div class="s-label">روز پشت‌سرهم</div>
+        <div class="s-value num" id="sumStreak">۰ روز</div>
+      </div>
+    </div>
+
+    <div class="timer-grid" id="timerGrid"></div>
+
+    <div class="card">
+      <div class="section-title"><span class="dot"></span>تاریخچه اخیر</div>
+      <div class="history-strip" id="historyStrip"></div>
+      <div class="day-actions">
+        <button class="ghost-btn primary" id="btnFinishDay">ثبت و پایان روز</button>
+        <button class="ghost-btn" id="btnResetToday">ریست امروز</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===================== STATS ===================== -->
+  <section class="view" id="view-stats">
+    <div class="stats-grid">
+      <div class="card stats-card">
+        <div class="section-title"><span class="dot"></span>ساعت تمرین در ۷ روز گذشته</div>
+        <div class="chart-wrap"><div class="bar-chart" id="weeklyBarChart"></div></div>
+      </div>
+      <div class="card stats-card">
+        <div class="section-title"><span class="dot"></span>رادار مهارت‌ها</div>
+        <div class="radar-wrap" id="radarChart"></div>
+        <div class="stats-mini">
+          <div class="stat-mini"><div class="sm-label">کل ساعت ثبت‌شده</div><div class="sm-value num" id="statTotalHours">۰</div></div>
+          <div class="stat-mini"><div class="sm-label">کل پروژه‌ها</div><div class="sm-value num" id="statProjects">۰</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:18px;">
+      <div class="section-title"><span class="dot"></span>دستاوردها و مدال‌ها</div>
+      <div class="achievement-grid" id="achievementGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===================== PROFILE ===================== -->
+  <section class="view" id="view-profile">
+    <div class="card">
+      <div class="section-title"><span class="dot"></span>پروفایل بازیکن</div>
+      <div class="profile-grid">
+        <div class="avatar-panel">
+          <div class="avatar" id="avatarPreview">آ</div>
+          <label class="ghost-btn" style="display:block;cursor:pointer;margin-top:8px;">انتخاب آواتار<input id="avatarInput" type="file" accept="image/*" hidden></label>
+          <div style="font-size:10px;color:var(--text-dim);margin-top:7px;line-height:1.6;">تصویر روی همین دستگاه ذخیره می‌شود.</div>
+        </div>
+        <div>
+          <div class="profile-fields">
+            <div class="field"><label>اسم بازیکن</label><input id="profileName" type="text" maxlength="40" placeholder="مثلاً: آریا"></div>
+            <div class="field"><label>هدف نهایی</label><input id="profileGoal" type="text" maxlength="100" placeholder="مثلاً: تدوینگر حرفه‌ای ویدیو شدن"></div>
+          </div>
+          <div class="section-title" style="margin-top:18px;"><span class="dot"></span>سطح مهارت‌ها</div>
+          <div class="skill-mode-tabs" role="tablist">
+            <button class="skill-mode-tab active" data-skill-mode="system" type="button">⚙️ سیستم</button>
+            <button class="skill-mode-tab" data-skill-mode="manual" type="button">✋ دستی</button>
+            <button class="skill-mode-tab" data-skill-mode="ai" type="button">🤖 هوش مصنوعی</button>
+          </div>
+          <div class="skill-mode-panel" id="skillModePanel"></div>
+          <button class="ghost-btn primary profile-save" id="btnSaveProfile">ذخیره پروفایل</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SKILL TREE ===================== -->
+  <section class="view" id="view-skilltree">
+    <div class="season-hero" id="seasonHero">
+      <div class="season-top">
+        <div><div class="season-kicker">ROADMAP • SEASONAL PROGRESSION</div><div class="season-name" id="seasonHeroName">فصل ۱</div><div class="season-sub" id="seasonHeroSub">مسیر آموزشی فصل انتخاب‌شده</div></div>
+        <div class="season-badge"><span class="dot"></span><span id="seasonHeroBadge">فصل فعال</span></div>
+      </div>
+      <div class="season-progress"><div class="season-progress-head"><span>پیشرفت فصل</span><b class="num" id="seasonHeroPct">۰٪</b></div><div class="season-progress-track"><div class="season-progress-fill" id="seasonHeroFill"></div></div></div>
+      <div class="season-timeline" id="seasonTimeline"></div>
+    </div>
+    <div class="season-filter" id="seasonFilter"></div>
+    <div id="skillTreeRoot"></div>
+  </section>
+
+  <!-- ===================== RESOURCES ===================== -->
+  <section class="view" id="view-resources">
+    <div class="section-title"><span class="dot"></span>منابع آموزشی</div>
+    <div id="resourcesRoot"></div>
+  </section>
+
+  <!-- ===================== JOURNAL ===================== -->
+  <section class="view" id="view-journal">
+    <div class="card" style="margin-bottom:18px;">
+      <div class="section-title"><span class="dot"></span>ثبت پروژه جدید</div>
+      <div class="journal-form">
+        <div class="field">
+          <label>عنوان پروژه</label>
+          <input type="text" id="pjTitle" placeholder="مثلاً: تدوین ولاگ سفر شمال">
+        </div>
+        <div class="field">
+          <label>تاریخ</label>
+          <input type="date" id="pjDate">
+        </div>
+        <div class="field full">
+          <label>لینک پروژه</label>
+          <input type="text" id="pjLink" placeholder="لینک درایو، یوتیوب یا هر جای دیگه">
+        </div>
+        <div class="field full">
+          <label>بازخورد / یادداشت</label>
+          <textarea id="pjFeedback" placeholder="چی خوب پیش رفت؟ چی رو باید بهتر کنی؟"></textarea>
+        </div>
+      </div>
+      <button class="ghost-btn primary" id="btnAddProject" style="width:100%;">افزودن به ژورنال</button>
+    </div>
+
+    <div class="section-title"><span class="dot"></span>پروژه‌های ثبت‌شده</div>
+    <div class="project-list" id="projectList"></div>
+  </section>
+
+</div>
+
+<canvas id="confettiCanvas"></canvas>
+<div class="toast" id="toast"><span class="toast-logo"><aria-logo size="24"></aria-logo></span><span class="t-dot"></span><span id="toastText"></span></div>
+<nav class="bottom-nav" aria-label="ناوبری اصلی">
+  <button class="tab-btn active" data-view="dashboard" type="button"><span class="tab-icon">◉</span><span class="tab-label">داشبورد</span></button>
+  <button class="tab-btn" data-view="stats" type="button"><span class="tab-icon">▥</span><span class="tab-label">آمار</span></button>
+  <button class="tab-btn" data-view="skilltree" type="button"><span class="tab-icon">✦</span><span class="tab-label">نقشه راه</span></button>
+  <button class="tab-btn" data-view="journal" type="button"><span class="tab-icon">▤</span><span class="tab-label">ژورنال</span></button>
+  <button class="tab-btn" data-view="resources" type="button"><span class="tab-icon">▣</span><span class="tab-label">منابع</span></button>
+  <button class="tab-btn" data-view="profile" type="button"><span class="tab-icon">◎</span><span class="tab-label">پروفایل</span></button>
+</nav>
+<footer class="app-footer"><aria-logo size="24"></aria-logo><span>آریا ادیت • مسیر رشد یک ادیتور</span></footer>
+<div class="loading-screen" id="loadingScreen"><div class="loading-inner"><aria-logo size="72"></aria-logo><div class="loading-spinner"></div><div style="font-size:11px;color:var(--text-muted)">در حال آماده‌سازی مسیر...</div></div></div>
+
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script>
+/* =========================================================
+   EDITQUEST — data model for the 4-year roadmap.
+   Add future chapters by pushing more objects into this array
+   using the exact same shape as Year 1 / Chapter 1 below:
+   { year, yearLabel, chapterTitle, months: [
+       { title, goal, weeks: [
+           { title, tasks: [ {type, hours, text}, ... ] }
+       ]}
+   ]}
+   ========================================================= */
+const makeMonth = (title, goal, weekTitles, days) => ({
+  title,
+  goal,
+  weeks: weekTitles.map((weekTitle, wi) => ({
+    title: weekTitle,
+    tasks: days.slice(wi * 7, wi * 7 + 7).flatMap((day, di) => [
+      {day: wi * 7 + di + 1, type:"آموزش", hours:3, text:day[0]},
+      {day: wi * 7 + di + 1, type:"تمرین", hours:2, text:day[1]},
+      {day: wi * 7 + di + 1, type:"تحلیل", hours:1, text:day[2]}
+    ])
+  }))
+});
+
+const MONTH_1_DAYS = [
+  ["آموزش: نصب پریمیر و آشنایی کلی با محیط. پنجره‌های Project, Timeline, Program Monitor رو بشناس. یه ویدیو آموزشی \"Premiere Pro for beginners\" ببین.","تمرین: یه پروژه جدید بساز. یه ویدیو ۱ دقیقه‌ای import کن. فقط باهاش ور برو، جابجاش کن تو تایم‌لاین.","تحلیل: یه ویدیو از یوتیوبر مورد علاقه‌ت ببین. فقط توجه کن که چند تا کات داره."],
+  ["آموزش: یادگیری پنجره Source Monitor و نحوه In/Out زدن (کلید I و O). چطور یه تیکه از ویدیو رو انتخاب کنی.","تمرین: یه ویدیو ۵ دقیقه‌ای import کن. ۱۰ تا تیکه مختلف ازش انتخاب کن و بنداز تو تایم‌لاین.","تحلیل: یه تیزر تبلیغاتی ۳۰ ثانیه‌ای ببین. بشمار چند تا کات داره."],
+  ["آموزش: یادگیری ابزارهای Selection (V) و Razor (C). نحوه برش زدن و جابجا کردن کلیپ‌ها.","تمرین: یه ویدیو ۳ دقیقه‌ای رو ۲۰ تیکه کن و دوباره بچینشون.","تحلیل: یه ولاگ یوتیوبی ببین. ببین ادیتور چطور بین حرف‌ها کات می‌زنه."],
+  ["آموزش: یادگیری Track‌ها (V1, V2, A1, A2). چطور ویدیو و صدا رو از هم جدا کنی (Unlink).","تمرین: یه ویدیو رو import کن، صداش رو جدا کن، تصویر رو پاک کن، فقط صدا بمونه.","تحلیل: یه پادکست ویدیویی ببین. ببین چطور صدا و تصویر جدا هستن."],
+  ["آموزش: یادگیری نحوه اضافه کردن موزیک به تایم‌لاین. تنظیم ولوم پایه.","تمرین: یه ویدیو ۱ دقیقه‌ای بردار، یه موزیک رایگان از YouTube Audio Library دانلود کن و بهش اضافه کن.","تحلیل: یه تیزر ۱ دقیقه‌ای ببین. چطور موزیک حس ویدیو رو عوض می‌کنه؟"],
+  ["آموزش: یادگیری Zoom in/out تو تایم‌لاین (+ و -). نحوه انتخاب دقیق فریم‌ها.","تمرین: یه ویدیو بردار، دقیقاً روی یه حرکت خاص کات بزن. تا فریم دقیق تمرین کن.","تحلیل: یه ویدیوی اسلوموشن ببین. ببین ادیتور چطور از فریم‌ها استفاده می‌کنه."],
+  ["آموزش: مرور کل هفته. رفع اشکالات. تماشای یه دوره کامل مقدماتی پریمیر.","تمرین: یه ویدیو ۲ دقیقه‌ای رو از اول تا آخر با کات‌های ساده ادیت کن.","تحلیل: کار خودت رو با کار یه ادیتور حرفه‌ای مقایسه کن. کجاها ضعیف‌تری؟"],
+  ["آموزش: یادگیری ۱۰ تا shortcut ضروری: C, V, Space, I, O, A, Q, W, E, S","تمرین: فقط با کیبورد یه ویدیو ۱ دقیقه‌ای رو کات بزن. موس رو لمس نکن!","تحلیل: یه ویدیوی Behind the Scenes از یه ادیتور ببین. سرعت دستش رو نگاه کن."],
+  ["آموزش: یادگیری J, K, L برای پخش سریع و آهسته. یادگیری Shift+I و Shift+O.","تمرین: یه ویدیو ۵ دقیقه‌ای رو با JKL وارسی کن و بهترین تیکه‌هاش رو جدا کن.","تحلیل: یه پادکست حرفه‌ای ببین. سرعت ویرایش رو حس کن."],
+  ["آموزش: یادگیری Ripple Delete (Shift+Delete) و Delete. تفاوتشون چیه؟","تمرین: یه ویدیو ۳ دقیقه‌ای رو با Ripple Delete به ۲ دقیقه تبدیل کن.","تحلیل: یه ویدیوی آموزشی کوتاه ببین. چطور بدون پرش، بخش‌های اضافه رو حذف کرده؟"],
+  ["آموزش: یادگیری Rolling Edit (N) و Slip Edit (Y) و Slide Edit.","تمرین: ۱۰ بار تمرین کن که کات‌ها رو دقیق‌تر کنی بدون تغییر طول ویدیو.","تحلیل: یه تیزر سینمایی ببین. کات‌هاش چقدر دقیق روی حرکت هستن."],
+  ["آموزش: یادگیری Marker (M) و نحوه علامت‌گذاری تایم‌لاین.","تمرین: یه ویدیو ۱۰ دقیقه‌ای رو با مارکر به ۱۰ بخش تقسیم کن.","تحلیل: یه مستند ببین. چطور ادیتور بخش‌های مختلف رو سازماندهی کرده؟"],
+  ["آموزش: یادگیری Multicam Sequence. چطور چند دوربین رو سینک کنی.","تمرین: دو تا ویدیو مختلف رو همزمان تو تایم‌لاین بذار و بینشون سوییچ کن.","تحلیل: یه تاک‌شو یا مصاحبه چند دوربینه ببین. سوییچ‌ها رو تحلیل کن."],
+  ["آموزش: مرور کل هفته. تمرین سرعت. هدف: یه ویدیو ۲ دقیقه‌ای رو تو ۱۰ دقیقه ادیت بزنی.","تمرین: یه ویدیو ۲ دقیقه‌ای رو با تمام shortcutها ادیت کن.","تحلیل: کار خودت رو با کار ادیتورهای حرفه‌ای مقایسه کن."],
+  ["آموزش: یادگیری ساختار پوشه‌ها. ساخت ۴ فولدر: 01_Video, 02_Audio, 03_Graphics, 04_Export","تمرین: یه پروژه جدید بساز با این ساختار. تمام فایل‌هات رو مرتب بذار.","تحلیل: یه ویدیوی \"How Pro Editors Organize Projects\" ببین."],
+  ["آموزش: یادگیری نام‌گذاری اصولی. تاریخ + موضوع + نسخه (مثل 1403-09-01_vlog_v01)","تمرین: ۲۰ تا فایل رو طبق این قانون اسم‌گذاری کن.","تحلیل: ببین ادیتورهای حرفه‌ای چطور فایل‌هاشون رو نام‌گذاری می‌کنن."],
+  ["آموزش: یادگیری Label Colors. رنگی کردن کلیپ‌ها بر اساس نوع.","تمرین: یه پروژه ۱۰ دقیقه‌ای رو رنگی کن (صحنه ۱ آبی، صحنه ۲ قرمز، موزیک سبز).","تحلیل: یه پروژه حرفه‌ای رو ببین. چطور از رنگ‌ها برای سازماندهی استفاده می‌کنن؟"],
+  ["آموزش: یادگیری Proxy. چرا و چطور پروکسی بسازیم.","تمرین: یه ویدیو 4K دانلود کن. پروکسی بساز. تفاوت سرعت رو حس کن.","تحلیل: ببین چطور ادیتورهای حرفه‌ای با فوتیج 8K کار می‌کنن."],
+  ["آموزش: یادگیری Sequence Preset. ذخیره تنظیمات پروژه برای استفاده بعدی.","تمرین: ۳ تا پریست بساز: یوتیوب (1080p)، اینستاگرام (1080x1080)، تیک‌تاک (1080x1920)","تحلیل: ببین ادیتورهای حرفه‌ای چطور بین پلتفرم‌ها سوییچ می‌کنن."],
+  ["آموزش: یادگیری Auto Save و تنظیمات Preferences مهم.","تمرین: تنظیمات پریمیرت رو بهینه کن. Auto Save رو هر ۵ دقیقه بذار.","تحلیل: یه ویدیوی \"Premiere Pro Tips for Speed\" ببین."],
+  ["آموزش: مرور کل هفته. ساختن یه پروژه تمیز از صفر.","تمرین: یه ویدیو ۵ دقیقه‌ای رو با تمام اصول سازماندهی ادیت کن.","تحلیل: کار خودت رو با کار هفته قبل مقایسه کن. چقدر سریع‌تر شدی؟"],
+  ["آموزش: یادگیری تنظیمات Export. H.264, Bitrate, Resolution.","تمرین: یه ویدیو ۱ دقیقه‌ای رو با ۳ کیفیت مختلف خروجی بگیر و مقایسه کن.","تحلیل: یه ویدیو 4K ببین. چقدر کیفیتش با 1080p فرق داره؟"],
+  ["آموزش: یادگیری فرمت‌های مختلف خروجی برای پلتفرم‌ها (MP4, MOV, GIF).","تمرین: یه ویدیو رو برای یوتیوب و اینستاگرام و تیک‌تاک خروجی بگیر.","تحلیل: ویدیوهای حرفه‌ای رو تو هر پلتفرم از نظر کیفیت بررسی کن."],
+  ["آموزش: یادگیری Adobe Media Encoder. چطور چند ویدیو رو همزمان خروجی بگیری.","تمرین: ۳ تا ویدیو رو همزمان تو Media Encoder خروجی بگیر.","تحلیل: ببین ادیتورهای حرفه‌ای چطور زمان خروجی رو مدیریت می‌کنن."],
+  ["آموزش: یادگیری Bitrate. تفاوت CBR, VBR. چطور حجم رو کم کنی بدون افت کیفیت.","تمرین: یه ویدیو ۵ دقیقه‌ای رو در ۳ حجم مختلف خروجی بگیر (50MB, 100MB, 200MB).","تحلیل: مقایسه کن. کدوم حجم به کیفیت ارزش داره؟"],
+  ["آموزش: یادگیری خروجی برای یوتیوب با بهترین تنظیمات (4K, 60fps, 50Mbps).","تمرین: یه ویدیو رو با تنظیمات یوتیوب خروجی بگیر و تو یوتیوب آپلود کن (خصوصی).","تحلیل: ویدیوهای 4K یوتیوب رو ببین. تفاوتش رو حس کن."],
+  ["آموزش: یادگیری خروجی برای موبایل (کم حجم، کیفیت خوب).","تمرین: یه ویدیو رو با حجم زیر 20MB برای واتساپ خروجی بگیر.","تحلیل: ویدیوهای اینستاگرام رو از نظر حجم و کیفیت بررسی کن."],
+  ["آموزش: مرور کل ماه. ساختن یه پروژه ۱۰ دقیقه‌ای کامل.","تمرین: یه ویدیو ۱۰ دقیقه‌ای آموزشی رو از صفر ادیت کن و خروجی بگیر.","تحلیل: کار خودت رو با کار ادیتورهای حرفه‌ای مقایسه کن. چقدر پیشرفت کردی؟"],
+  ["آموزش: یادگیری یه سری تکنیک پیشرفته‌تر: Speed Ramping (تغییر سرعت نرم).","تمرین: یه ویدیو ۳۰ ثانیه‌ای با Speed Ramping بساز.","تحلیل: ویدیوهای اسلوموشن سینمایی رو ببین. Speed Ramping رو تحلیل کن."],
+  ["آموزش: مرور نهایی ماه ۱. آماده شدن برای ماه ۲ (برش و ریتم).","تمرین: یه پروژه نمونه ۵ دقیقه‌ای بساز که همه چیزایی که یاد گرفتی رو داشته باشه.","تحلیل: جشن بگیر! تو ماه ۱ رو تموم کردی. کارت رو با روز اول مقایسه کن."]
+];
+
+const MONTH_2_DAYS = [
+  ["آموزش: آشنایی با مفهوم سکوت و تپق. چرا حذفشون مهمه؟ تماشای ویدیوی \"How to Remove Silence in Premiere Pro\".","تمرین: یه ویدیو ۵ دقیقه‌ای از یه سخنرانی دانلود کن. فقط سکوت‌های بالای ۲ ثانیه رو حذف کن.","تحلیل: یه پادکست حرفه‌ای ببین. بشمار چند بار سکوت طولانی داره."],
+  ["آموزش: یادگیری ابزارهای خودکار حذف سکوت (Silence Detection). محدودیت‌هاشون چیه؟","تمرین: با ابزار خودکار، یه ویدیو ۱۰ دقیقه‌ای رو پاک‌سازی کن. بعد دستی اصلاحش کن.","تحلیل: ویدیوهای یوتیوبرهای معروف رو ببین. چقدر سکوت تو ویدیوهاشون هست؟"],
+  ["آموزش: یادگیری حذف تپق‌ها (اِ... اِ...، آ...، خوب...، یعنی...). تکنیک‌های تشخیص سریع.","تمرین: یه ویدیو ۵ دقیقه‌ای پادکست بردار. تمام تپق‌ها رو حذف کن.","تحلیل: یه پادکست حرفه‌ای ببین. چطور بدون تپق حرف می‌زنن؟"],
+  ["آموزش: یادگیری حذف نفس‌های بلند (Breath Removal). چرا حذف کاملشون اشتباهه؟","تمرین: یه ویدیو ۵ دقیقه‌ای بردار. نفس‌های بلند رو کم کن (نه حذف کامل).","تحلیل: یه گوینده حرفه‌ای ببین. چطور نفس‌هاش رو کنترل می‌کنه؟"],
+  ["آموزش: یادگیری تکنیک‌های ساده‌سازی کلمات تکراری. چطور \"من فکر می‌کنم که من فکر می‌کنم\" رو حذف کنی.","تمرین: یه مصاحبه ۱۰ دقیقه‌ای بردار. تمام کلمات تکراری رو حذف کن تا بشه ۷ دقیقه.","تحلیل: یه مستند مصاحبه‌ای ببین. چطور مصاحبه رو خلاصه کردن؟"],
+  ["آموزش: یادگیری Ripple Delete برای حذف سریع. تفاوتش با Delete معمولی.","تمرین: یه ویدیو ۲۰ دقیقه‌ای رو با Ripple Delete به ۱۵ دقیقه برسون.","تحلیل: یه پادکست ۱ ساعته رو ببین. ازش یه نسخه ۱۰ دقیقه‌ای تصور کن."],
+  ["آموزش: مرور کل هفته. رفع اشکالات. چک‌لیست سرعت.","تمرین: یه ویدیو ۱۰ دقیقه‌ای از صفر پاک‌سازی کن. هدف: زیر ۳۰ دقیقه انجامش بدی.","تحلیل: کار خودت رو با کار روز اول مقایسه کن. چقدر سریع‌تر شدی؟"],
+  ["آموزش: یادگیری J-Cut. یعنی چیه؟ چرا طبیعی‌تر می‌کنه؟ مثال‌های سینمایی.","تمرین: یه دیالوگ دو نفره بردار. ۵ بار J-Cut بزن.","تحلیل: یه فیلم سینمایی ببین. J-Cut‌ها رو پیدا کن."],
+  ["آموزش: یادگیری L-Cut. یعنی چیه؟ کجا استفاده میشه؟","تمرین: یه مصاحبه بردار. با L-Cut ادیت کن تا مکالمه طبیعی بشه.","تحلیل: یه تاک‌شو ببین. L-Cut‌ها رو تحلیل کن."],
+  ["آموزش: یادگیری ترکیب J-Cut و L-Cut. چطور با هم استفاده کنی؟","تمرین: یه دیالوگ ۳ دقیقه‌ای رو با ترکیب J و L-Cut ادیت کن.","تحلیل: یه فیلم کوتاه ببین. تمام J و L-Cut‌ها رو پیدا کن."],
+  ["آموزش: یادگیری Audio Transitions. چطور بین صداها انتقال نرم بسازی؟","تمرین: ۱۰ تا Audio Transition مختلف بزن و تست کن.","تحلیل: یه مستند ببین. Transitionهای صوتیش رو تحلیل کن."],
+  ["آموزش: یادگیری Cross Dissolve و Fade. کجا استفاده کنیم؟","تمرین: یه ویدیو بردار. بین صحنه‌ها Cross Dissolve و Fade بذار.","تحلیل: یه تیزر تبلیغاتی ببین. Transitionهای بصریش رو تحلیل کن."],
+  ["آموزش: یادگیری Cut on Action. کات زدن روی حرکت. چرا جادو می‌کنه؟","تمرین: یه ویدیو بردار. ۱۰ بار Cut on Action تمرین کن.","تحلیل: یه فیلم اکشن ببین. Cut on Action‌ها رو پیدا کن."],
+  ["آموزش: مرور کل هفته. ساختن یه صحنه دیالوگ کامل با تمام تکنیک‌ها.","تمرین: یه ویدیو دیالوگ ۵ دقیقه‌ای از صفر با J و L-Cut ادیت کن.","تحلیل: کار خودت رو با کار ادیتورهای حرفه‌ای مقایسه کن."],
+  ["آموزش: یادگیری B-Roll چیه. چرا استفاده میشه. تفاوتش با A-Roll.","تمرین: یه ویدیو آموزشی ۳ دقیقه‌ای بردار. برای هر جمله، یه B-Roll مرتبط پیدا کن.","تحلیل: یه مستند کوتاه ببین. B-Roll‌ها رو تحلیل کن."],
+  ["آموزش: یادگیری منابع B-Roll رایگان (Pexels, Pixabay, Storyblocks).","تمرین: ۲۰ تا B-Roll رایگان دانلود کن. تو یه پوشه سازماندهی کن.","تحلیل: ببین ادیتورهای حرفه‌ای از کجا B-Roll میارن؟"],
+  ["آموزش: یادگیری Rule of Thirds برای B-Roll. ترکیب‌بندی درست.","تمرین: ۱۰ تا B-Roll انتخاب کن که ترکیب‌بندی خوبی دارن. دلیلش رو بنویس.","تحلیل: یه ویدیوی سینمایی ببین. ترکیب‌بندی B-Roll‌ها رو تحلیل کن."],
+  ["آموزش: یادگیری Cutaway و Reaction Shot. تفاوتشون با B-Roll.","تمرین: یه مصاحبه بردار. با Cutaway و Reaction Shot جذابش کن.","تحلیل: یه مستند مصاحبه‌ای ببین. Cutawayها رو تحلیل کن."],
+  ["آموزش: یادگیری Insert Shot و Detail Shot. نمایش جزئیات.","تمرین: یه ویدیو محصول بردار. با Insert Shot و Detail Shot جذابش کن.","تحلیل: تیزرهای تبلیغاتی محصولات رو ببین. Insert Shotها رو تحلیل کن."],
+  ["آموزش: یادگیری استفاده از B-Roll برای کنترل احساسات. کجا B-Roll آروم، کجا پرانرژی؟","تمرین: یه ویدیو ۵ دقیقه‌ای بردار. با B-Roll حس ویدیو رو از غمگین به شاد عوض کن.","تحلیل: یه ویدیوی احساسی ببین. B-Roll‌ها چطور حس رو منتقل می‌کنن؟"],
+  ["آموزش: مرور کل هفته. ترکیب تمام تکنیک‌های B-Roll.","تمرین: یه ویدیو ۵ دقیقه‌ای آموزشی رو کامل با B-Roll ادیت کن.","تحلیل: کار خودت رو با کار مستندسازهای حرفه‌ای مقایسه کن."],
+  ["آموزش: یادگیری مفهوم Pacing. چرا بعضی ویدیوها خسته‌کننده‌ست؟","تمرین: یه ویدیو ۵ دقیقه‌ای رو ۲ بار ادیت کن. بار اول آروم، بار دوم تند.","تحلیل: یه ویدیوی MrBeast ببین. چرا اینقدر جذابه؟ سرعت کات‌ها رو بشمار."],
+  ["آموزش: یادگیری Cut to Beat. هماهنگ کردن کات با ضرب موزیک.","تمرین: یه موزیک تند بردار. یه ویدیو ۱ دقیقه‌ای رو دقیقاً روی بیت‌ها ادیت کن.","تحلیل: یه تیزر تبلیغاتی ببین. Cut to Beat‌ها رو پیدا کن."],
+  ["آموزش: یادگیری Audio Ducking. کم کردن صدای موزیک وقتی گوینده حرف می‌زنه.","تمرین: یه ویدیو ۱۰ دقیقه‌ای بردار. با Audio Ducking میکس کن.","تحلیل: یه پادکست ویدیویی ببین. Audio Ducking رو تحلیل کن."],
+  ["آموزش: یادگیری Speed Ramping. تغییر سرعت نرم و سینمایی.","تمرین: ۵ تا Speed Ramp مختلف بساز. از حالت آروم به تند و برعکس.","تحلیل: یه ویدیوی ورزشی ببین. Speed Rampها رو تحلیل کن."],
+  ["آموزش: یادگیری Freeze Frame و Frame Hold. کجا استفاده کنیم؟","تمرین: یه ویدیو بردار. با Freeze Frame یه لحظه رو متوقف کن و بهش معنی بده.","تحلیل: یه ویدیوی درام ببین. Freeze Frameها رو تحلیل کن."],
+  ["آموزش: یادگیری Jump Cut. کجا استفاده کنیم و چطور طبیعی کنیم؟","تمرین: یه ولاگ بردار. با Jump Cut جذابش کن.","تحلیل: یه ولاگ حرفه‌ای ببین. Jump Cutها رو تحلیل کن."],
+  ["آموزش: یادگیری Murch Rule of Six. شش قانون والتر مورچ برای کات‌های حرفه‌ای.","تمرین: یه ویدیو ۳ دقیقه‌ای رو با این قوانین ادیت کن.","تحلیل: یه فیلم که ادیتش معروفه (مثل Mad Max) ببین. قوانین رو پیدا کن."],
+  ["آموزش: یادگیری Insert B-Roll بر اساس ریتم موزیک.","تمرین: یه ویدیو ۲ دقیقه‌ای رو با B-Roll و موزیک هماهنگ ادیت کن.","تحلیل: یه موزیک ویدیو ببین. B-Rollها رو تحلیل کن."],
+  ["آموزش: مرور نهایی ماه ۲. آماده شدن برای ماه ۳ (صدا و رنگ).","تمرین: یه پروژه ۵ دقیقه‌ای بساز که همه تکنیک‌های ماه ۲ رو داشته باشه.","تحلیل: کارت رو با کار روز اول ماه مقایسه کن. جشن بگیر!"]
+];
+
+const MONTH_3_DAYS = [
+  ["آموزش: آشنایی با پنل Audio در پریمیر. Track‌های صدا، Essential Sound Panel. تفاوت صداهای Mono و Stereo.","تمرین: یه ویدیو ۵ دقیقه‌ای بردار. صداش رو جدا کن، Track‌ها رو بشناس، ولوم‌ها رو تنظیم کن.","تحلیل: یه ویدیوی حرفه‌ای ببین. فقط به کیفیت صداش دقت کن."],
+  ["آموزش: یادگیری DeNoise و DeReverb. چطور نویز پس‌زمینه و پژواک رو کم کنیم.","تمرین: یه ویدیو با صدای نویزدار پیدا کن. DeNoise و DeReverb رو روش تست کن.","تحلیل: صدای ویدیوهای حرفه‌ای رو با ویدیوهای آماتور مقایسه کن."],
+  ["آموزش: یادگیری DeHum (حذف صدای زمزمه) و DeEss (کم کردن صدای «س» و «ش»).","تمرین: ۵ تا ویدیو با صدای زمزمه یا سوت پیدا کن و پاک‌سازی کن.","تحلیل: به صدای گوینده‌های حرفه‌ای دقت کن. چقدر تمیزه."],
+  ["آموزش: یادگیری روش دستی حذف نویز با EQ Notch. حذف فرکانس‌های مزاحم.","تمرین: یه ویدیو بردار، با EQ دستی نویزهای خاص رو حذف کن.","تحلیل: یه پادکست حرفه‌ای گوش بده. فرکانس‌هاش رو تحلیل کن."],
+  ["آموزش: یادگیری Audio Gain و Normalize. یکسان کردن سطح صدا.","تمرین: ۳ تا ویدیو با صدای ناهموار رو با Gain و Normalize یکدست کن.","تحلیل: تریلرهای سینمایی رو ببین. چطور صداها یکدست هستن؟"],
+  ["آموزش: یادگیری High-Pass Filter و Low-Pass Filter. حذف فرکانس‌های اضافه.","تمرین: یه ویدیو بردار. High-Pass و Low-Pass رو تنظیم کن تا صدا شفاف بشه.","تحلیل: صدای گوینده‌های رادیو رو تحلیل کن."],
+  ["آموزش: مرور کل هفته. چک‌لیست پاک‌سازی صدا.","تمرین: ۳ تا ویدیو ۵ دقیقه‌ای رو کامل پاک‌سازی کن. قبل و بعدش رو مقایسه کن.","تحلیل: کار خودت رو با کار روز اول مقایسه کن."],
+  ["آموزش: یادگیری فرکانس‌ها (Bass, Mid, Treble). آشنایی با EQ سه‌باندی.","تمرین: یه ویدیو بردار. Bass, Mid, Treble رو تغییر بده و تأثیرش رو بشنو.","تحلیل: یه آهنگ ببین. چطور از EQ برای شفافیت استفاده شده؟"],
+  ["آموزش: یادگیری EQ گرافیکی. چطور فرکانس‌های مزاحم رو پیدا و حذف کنیم.","تمرین: صدای یه گوینده رو با EQ گرافیکی شفاف کن.","تحلیل: صدای گوینده‌های حرفه‌ای رو با گوینده‌های آماتور مقایسه کن."],
+  ["آموزش: یادگیری EQ برای صدای انسان. تقویت Presence، کم کردن Mud.","تمرین: ۵ تا ویدیو بردار. صدای گوینده رو با EQ طبیعی و شفاف کن.","تحلیل: یه مستند ببین. صدای راوی رو تحلیل کن."],
+  ["آموزش: یادگیری Compression. چرا لازمه؟ چطور صدا رو یکدست می‌کنه؟","تمرین: یه ویدیو با صدای بلند و کوتاه رو با Compressor یکدست کن.","تحلیل: تریلرهای سینمایی رو ببین. چطور صداها همیشه یکدست هستن؟"],
+  ["آموزش: یادگیری Limiter. چطور جلوگیری کنیم صدا بترکه (Clip).","تمرین: یه ویدیو رو با Limiter تنظیم کن. ولوم رو بالا ببر بدون اینکه صدا خراب بشه.","تحلیل: آهنگ‌های مستر شده رو گوش بده. چطور صدا بلنده ولی تمیز؟"],
+  ["آموزش: یادگیری Audio Ducking. کم کردن خودکار موزیک وقتی گوینده حرف می‌زنه.","تمرین: یه ویدیو ۵ دقیقه‌ای بردار. Audio Ducking رو کامل پیاده کن.","تحلیل: یه پادکست ویدیویی ببین. Audio Ducking رو تحلیل کن."],
+  ["آموزش: مرور کل هفته. میکس کامل صدا.","تمرین: یه ویدیو ۵ دقیقه‌ای رو از صفر میکس کن: EQ + Compression + Limiter + Ducking.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+  ["آموزش: آشنایی با پنل Lumetri Color. بخش‌های Basic Correction, Creative, Curves.","تمرین: یه ویدیو بردار. با پنل Lumetri با بخش‌های مختلفش ور برو.","تحلیل: یه فیلم سینمایی ببین. رنگ‌بندی صحنه‌ها رو تحلیل کن."],
+  ["آموزش: یادگیری White Balance. چطور رنگ زرد یا آبی رو درست کنیم.","تمرین: ۵ تا ویدیو با رنگ غلط رو با White Balance درست کن.","تحلیل: عکس‌های حرفه‌ای رو ببین. رنگ‌هاشون چقدر طبیعیه؟"],
+  ["آموزش: یادگیری Exposure و Contrast. تنظیم نور و کنتراست.","تمرین: ۵ تا ویدیو با نور کم یا زیاد رو تنظیم کن.","تحلیل: فیلم‌های تاریک و روشن رو ببین. کنتراستشون رو تحلیل کن."],
+  ["آموزش: یادگیری Highlights, Shadows, Whites, Blacks.","تمرین: یه ویدیو بردار. جزئیات سایه‌ها و نورها رو با این ابزارها بهتر کن.","تحلیل: عکس‌های HDR رو ببین. جزئیات رو تحلیل کن."],
+  ["آموزش: یادگیری Saturation و Vibrance. تفاوتشون چیه؟","تمرین: ۵ تا ویدیو رو با Saturation و Vibrance متعادل کن.","تحلیل: فیلم‌های رنگی و سیاه‌وسفید رو مقایسه کن."],
+  ["آموزش: یادگیری RGB Curves. کنترل دقیق رنگ‌ها.","تمرین: یه ویدیو بردار. با RGB Curves رنگ‌ها رو دقیق تنظیم کن.","تحلیل: یه فیلم با رنگ‌بندی خاص (مثل Blade Runner 2049) ببین."],
+  ["آموزش: مرور کل هفته. تصحیح رنگ کامل.","تمرین: ۵ تا ویدیو رو از صفر تصحیح رنگ کن.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+  ["آموزش: یادگیری تئوری رنگ. چرخه رنگ، رنگ‌های مکمل، حس رنگ‌ها.","تمرین: ۵ تا عکس رو با تغییر رنگ، حسشون رو عوض کن.","تحلیل: فیلم‌های وس اندرسون رو ببین. رنگ‌ها رو تحلیل کن."],
+  ["آموزش: یادگیری LUTها. چطور ازشون استفاده کنیم؟","تمرین: ۱۰ تا LUT مختلف رو روی یه ویدیو تست کن.","تحلیل: یوتیوبرهای معروف رو ببین. LUTهای مورد علاقه‌شون رو پیدا کن."],
+  ["آموزش: یادگیری رنگ‌بندی سینمایی. چطور حس سرد، گرم یا غمگین بسازیم؟","تمرین: یه ویدیو رو با ۳ حس رنگی مختلف رنگ‌بندی کن.","تحلیل: تریلرهای فیلم‌های ترسناک و کمدی رو ببین. رنگ‌هاشون رو تحلیل کن."],
+  ["آموزش: یادگیری افکت‌های صوتی (SFX). چرا لازمه؟ از کجا بیاریم؟","تمرین: ۲۰ تا SFX رایگان دانلود کن. تو یه پوشه سازماندهی کن.","تحلیل: انیمیشن‌های پیکسار رو ببین. SFXها رو تحلیل کن."],
+  ["آموزش: یادگیری اضافه کردن Whoosh, Click, Ambience.","تمرین: یه ویدیو ۳ دقیقه‌ای بردار. براش ۲۰ تا SFX مختلف بذار.","تحلیل: تیزرهای تبلیغاتی رو ببین. SFXها رو تحلیل کن."],
+  ["آموزش: یادگیری Sound Design برای متن‌ها و ترنزیشن‌ها.","تمرین: یه ویدیو با متن‌های متحرک بردار. براش صداهای مناسب بذار.","تحلیل: موشن گرافیک‌های حرفه‌ای رو ببین. صداها رو تحلیل کن."],
+  ["آموزش: مرور کل ماه. ترکیب صدا و رنگ.","تمرین: یه ویدیو ۳ دقیقه‌ای رو از صفر با صدا و رنگ کامل بساز.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+  ["آموزش: یادگیری خروجی نهایی با تنظیمات صدا و رنگ.","تمرین: پروژه ۳ دقیقه‌ای رو خروجی بگیر. تو گوشی و هدفون تست کن.","تحلیل: بازخورد بگیر. ببین کجاها می‌تونی بهتر کنی."],
+  ["آموزش: مرور نهایی ماه ۳. آماده شدن برای ماه ۴ (میکس و مسترینگ صدا).","تمرین: یه پروژه ۵ دقیقه‌ای بساز که همه چیزایی که یاد گرفتی رو داشته باشه.","تحلیل: جشن بگیر! ماه ۳ رو تموم کردی"]
+];
+
+
+const MONTH_4_DAYS = [
+["آموزش: مرور عمیق فرکانس‌ها. محدوده شنوایی انسان (20Hz تا 20kHz). Bass, Mid, Treble دقیقاً چیه.","تمرین: یه ویدیو بردار. با EQ هر باند رو جدا تغییر بده و تفاوت رو بشنو.","تحلیل: یه آهنگ حرفه‌ای گوش بده. فرکانس‌های مختلفش رو تشخیص بده."],
+["آموزش: یادگیری فرکانس‌های مزاحم. 60Hz (زمزمه), 200Hz (Mud), 2kHz (خستگی گوش), 6kHz (سوت).","تمرین: ۵ تا ویدیو با این مشکلات پیدا کن و با EQ اصلاحشون کن.","تحلیل: پادکست‌های آماتور رو با حرفه‌ای مقایسه کن."],
+["آموزش: یادگیری Frequency Sweep. چطور فرکانس مزاحم رو پیدا کنیم.","تمرین: با Boost شدید، یه فرکانس رو پیدا کن و با Cut حذفش کن.","تحلیل: صدای یه گوینده حرفه‌ای رو تحلیل فرکانسی کن."],
+["آموزش: یادگیری Parametric EQ. قله‌ها و دره‌ها.","تمرین: یه گوینده رو با Parametric EQ تنظیم کن.","تحلیل: ببین مهندس صداهای حرفه‌ای چطور کار می‌کنن."],
+["آموزش: یادگیری High-Pass Filter در 80-100Hz (حذف بم‌های اضافه).","تمرین: ۱۰ تا ویدیو رو با High-Pass شفاف کن.","تحلیل: صدای گوینده‌های رادیو رو تحلیل کن."],
+["آموزش: یادگیری Low-Pass Filter در 12-15kHz (حذف سوت‌های اضافه).","تمرین: یه ویدیو با صدای سوت‌دار رو با Low-Pass اصلاح کن.","تحلیل: تفاوت صدای ضبط موبایل و ضبط حرفه‌ای رو بشنو."],
+["آموزش: مرور کل هفته. چک‌لیست EQ حرفه‌ای.","تمرین: ۳ تا ویدیو رو از صفر EQ کن. قبل و بعدش رو مقایسه کن.","تحلیل: کار خودت رو با روز اول مقایسه کن."],
+["آموزش: آشنایی با Compression. چرا لازمه؟ چطور کار می‌کنه؟","تمرین: یه ویدیو بردار. با Compressor صدای بلند و کوتاه رو یکدست کن.","تحلیل: تریلرهای سینمایی رو گوش بده. یکدستی صدا رو حس کن."],
+["آموزش: یادگیری پارامترهای Compressor: Threshold, Ratio, Attack, Release.","تمرین: هر پارامتر رو جدا تغییر بده و تأثیرش رو بشنو.","تحلیل: ببین یه مهندس صدا چطور Compressor رو تنظیم می‌کنه."],
+["آموزش: یادگیری Soft Knee vs Hard Knee. تفاوتشون چیه؟","تمرین: یه ویدیو بردار. با هر دو حالت تنظیم کن و مقایسه کن.","تحلیل: آهنگ‌های نرم و سخت رو مقایسه کن."],
+["آموزش: یادگیری Multi-Band Compression. چطور هر فرکانس رو جدا فشرده کنیم؟","تمرین: یه ویدیو موزیکال بردار. Multi-Band روش اعمال کن.","تحلیل: آهنگ‌های مستر شده رو تحلیل کن."],
+["آموزش: یادگیری Limiter. تفاوتش با Compressor چیه؟","تمرین: یه ویدیو رو با Limiter ولوم بالا ببر بدون ترکیدن صدا.","تحلیل: آهنگ‌های بلند رو تحلیل کن. چرا صدا ترکیده نمیشه؟"],
+["آموزش: یادگیری True Peak و LUFS. استانداردهای صدا.","تمرین: یه ویدیو رو با هدف -14 LUFS (استاندارد یوتیوب) تنظیم کن.","تحلیل: آهنگ‌های یوتیوب رو با اسپاتیفای مقایسه کن."],
+["آموزش: مرور کل هفته. میکس حرفه‌ای با EQ + Comp + Limiter.","تمرین: یه ویدیو ۵ دقیقه‌ای رو کامل با این زنجیره میکس کن.","تحلیل: کار خودت رو با روز اول هفته مقایسه کن."],
+["آموزش: آشنایی با Sound Design. چرا لازمه؟ از کجا شروع کنیم؟","تمرین: یه ویدیو آموزشی ۳ دقیقه‌ای بردار. برای هر جمله، SFX مرتبط بذار.","تحلیل: انیمیشن‌های پیکسار رو فقط صداها رو تحلیل کن."],
+["آموزش: یادگیری Whoosh, Swish, Swoosh. تفاوتشون چیه؟","تمرین: ۲۰ تا Whoosh مختلف روی متن‌ها بذار.","تحلیل: موشن گرافیک‌های حرفه‌ای رو تحلیل کن."],
+["آموزش: یادگیری Click, Tick, Beep. کجا استفاده کنیم؟","تمرین: یه ویدیو با نمودار متحرک بردار. صدای تیک‌تیک بذار.","تحلیل: ویدیوهای اینفوگرافیک رو تحلیل کن."],
+["آموزش: یادگیری Ambience (صدای محیط). چطور فضا بسازیم؟","تمرین: یه ویدیو از یه مکان خالی بردار. Ambience مناسب بذار.","تحلیل: فیلم‌های ترسناک رو ببین. Ambience رو تحلیل کن."],
+["آموزش: یادگیری Impact و Riser. برای صحنه‌های مهم.","تمرین: یه تریلر ۳۰ ثانیه‌ای بساز. با Impact و Riser.","تحلیل: تریلرهای فیلم‌های اکشن رو تحلیل کن."],
+["آموزش: یادگیری Footsteps, Cloth, Breath. صداهای طبیعی.","تمرین: یه صحنه بدون صدا بردار. صدای قدم و حرکت بذار.","تحلیل: صحنه‌های سکوت فیلم‌ها رو ببین. چطور صدا می‌سازن؟"],
+["آموزش: مرور کل هفته. Sound Design کامل.","تمرین: یه ویدیو ۳ دقیقه‌ای رو فقط با SFX جذاب کن.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: یادگیری Audio Ducking حرفه‌ای. تنظیم دقیق ولوم موزیک.","تمرین: یه ویدیو ۱۰ دقیقه‌ای رو با Audio Ducking کامل میکس کن.","تحلیل: یه مستند ببین. Ducking رو تحلیل کن."],
+["آموزش: یادگیری Submix و Track Routing. سازماندهی صداها.","تمرین: یه پروژه با ۱۰ ترک صدا رو سازماندهی کن. Submix برای گروه‌ها بساز.","تحلیل: ببین ادیتورهای حرفه‌ای چطور صدا رو مدیریت می‌کنن."],
+["آموزش: یادگیری Automation در پریمیر. تغییرات خودکار صدا.","تمرین: یه ویدیو ۱۰ دقیقه‌ای بردار. با Automation ولوم رو دقیق تنظیم کن.","تحلیل: آهنگ‌های پیچیده رو ببین. Automation رو تحلیل کن."],
+["آموزش: یادگیری Master Track و Final Mix. مرحله آخر.","تمرین: یه ویدیو ۵ دقیقه‌ای رو به Master برسون.","تحلیل: آهنگ‌های مستر شده رو با خام مقایسه کن."],
+["آموزش: یادگیری Reference Mix. چطور صدای خودت رو با حرفه‌ای مقایسه کنی؟","تمرین: صدای ویدیوت رو با یه ویدیوی حرفه‌ای مقایسه کن. تنظیم کن.","تحلیل: مهندس‌های صدا چطور Reference می‌گیرن."],
+["آموزش: یادگیری Export صدا با کیفیت حرفه‌ای. WAV 48kHz.","تمرین: صدای یه ویدیو رو جدا با کیفیت بالا خروجی بگیر.","تحلیل: تفاوت فرمت‌های صوتی رو بشنو."],
+["آموزش: مرور کل ماه. میکس کامل.","تمرین: یه ویدیو ۵ دقیقه‌ای رو از صفر تا صد میکس کن.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: یادگیری نکات Final Mix. چند تا ترفند حرفه‌ای.","تمرین: پروژه ۱۰ دقیقه‌ای رو نهایی کن. تو گوشی، هدفون و اسپیکر تست کن.","تحلیل: بازخورد بگیر. کجاها می‌تونی بهتر کنی؟"],
+["آموزش: مرور ماه ۴. آماده برای ماه ۵ (رنگ‌بندی حرفه‌ای).","تمرین: یه پروژه ۵ دقیقه‌ای بساز که همه چیز صدا رو داشته باشه.","تحلیل: جشن بگیر! ماه ۴ تموم شد."]
+];
+
+const MONTH_5_DAYS = [
+["آموزش: آشنایی با چرخه رنگ. رنگ‌های اصلی، ثانویه، مکمل.","تمرین: چرخه رنگ رو ترسیم کن. ۱۰ ترکیب رنگی زیبا پیدا کن.","تحلیل: پوسترهای فیلم‌های معروف رو از نظر رنگ تحلیل کن."],
+["آموزش: یادگیری رنگ‌های گرم و سرد. تأثیرشون بر احساس.","تمرین: ۵ تا عکس رو با تغییر رنگ از گرم به سرد (و برعکس) تبدیل کن.","تحلیل: فیلم‌های سرد (Blade Runner) و گرم (Life of Pi) رو مقایسه کن."],
+["آموزش: یادگیری روانشناسی رنگ. آبی = آرامش، قرمز = هیجان، سبز = طبیعت.","تمرین: برای ۱۰ احساس مختلف، یه ترکیب رنگی طراحی کن.","تحلیل: تبلیغات تلویزیونی رو از نظر رنگ تحلیل کن."],
+["آموزش: یادگیری Complementary Colors. چطور رنگ‌های مکمل حس تعادل میدن.","تمرین: ۵ تا ویدیو رو با رنگ‌های مکمل رنگ‌بندی کن.","تحلیل: پوسترهای سینمایی رو تحلیل کن."],
+["آموزش: یادگیری Analogous Colors. رنگ‌های همسایه. حس هارمونی.","تمرین: ۵ تا ویدیو رو با رنگ‌های همسایه رنگ‌بندی کن.","تحلیل: فیلم‌های وس اندرسون رو ببین."],
+["آموزش: یادگیری Triadic و Split-Complementary. ترکیب‌های پیچیده‌تر.","تمرین: ۵ تا ویدیو رو با این ترکیب‌ها رنگ‌بندی کن.","تحلیل: فیلم‌های علمی-تخیلی رو تحلیل کن."],
+["آموزش: مرور کل هفته. چک‌لیست تئوری رنگ.","تمرین: یه ویدیو ۵ دقیقه‌ای رو با تئوری رنگ کامل رنگ‌بندی کن.","تحلیل: کار خودت رو با روز اول مقایسه کن."],
+["آموزش: LUT چیه؟ چطور کار می‌کنه؟ انواع LUT (Technical, Creative).","تمرین: ۵ تا LUT رایگان دانلود کن و روی یه ویدیو تست کن.","تحلیل: یوتیوبرهای معروف از چه LUTهایی استفاده می‌کنن؟"],
+["آموزش: یادگیری اعمال LUT در پریمیر. Creative vs Basic Correction.","تمرین: ۱۰ تا LUT مختلف روی یه ویدیو اعمال کن. بهترین رو انتخاب کن.","تحلیل: رنگ‌بندی فیلم‌های سینمایی رو با LUTهای موجود مقایسه کن."],
+["آموزش: یادگیری Intensity Adjustment. چطور شدت LUT رو کم کنیم؟","تمرین: یه ویدیو بردار. یه LUT رو با شدت‌های مختلف اعمال کن.","تحلیل: فیلم‌های با رنگ‌بندی ملایم و شدید رو مقایسه کن."],
+["آموزش: یادگیری ساخت LUT سفارشی. چطور LUT خودت رو بسازی؟","تمرین: یه رنگ‌بندی خاص بساز و به LUT تبدیل کن.","تحلیل: ببین ادیتورهای حرفه‌ای LUTهای شخصی‌شون رو چطور می‌سازن."],
+["آموزش: یادگیری Presetها. تفاوتشون با LUT چیه؟","تمرین: ۵ تا Preset بساز برای رنگ‌بندی‌های مختلف.","تحلیل: سایت‌های فروش Preset رو ببین."],
+["آموزش: یادگیری ترکیب LUT + Adjustment Layer.","تمرین: یه ویدیو ۵ دقیقه‌ای رو با لایه‌های تنظیم رنگ‌بندی کن.","تحلیل: فیلم‌های پیچیده رو از نظر لایه‌بندی رنگ تحلیل کن."],
+["آموزش: مرور کل هفته. LUT و Preset کامل.","تمرین: یه ویدیو ۵ دقیقه‌ای رو با LUT سفارشی رنگ‌بندی کن.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: چرا رنگ پوست مهم‌ترین چیز تو ویدیوئه؟ Skin Tone Line.","تمرین: ۵ تا ویدیو بردار. رنگ پوست رو بررسی و اصلاح کن.","تحلیل: فیلم‌های هالیوودی رو از نظر رنگ پوست تحلیل کن."],
+["آموزش: یادگیری Vector Scope. چطور رنگ پوست رو دقیق تنظیم کنیم؟","تمرین: ۱۰ تا ویدیو رو با Vector Scope تنظیم کن.","تحلیل: مصاحبه‌های حرفه‌ای رو از نظر رنگ پوست تحلیل کن."],
+["آموزش: یادگیری HSL Secondary. انتخاب دقیق رنگ پوست.","تمرین: یه ویدیو بردار. فقط رنگ پوست گوینده رو تنظیم کن.","تحلیل: فیلم‌های با پوست رنگی و متنوع رو ببین."],
+["آموزش: یادگیری رنگ پوست برای نژادهای مختلف. تنظیم دقیق.","تمرین: ۵ تا ویدیو با نژادهای مختلف رو تنظیم کن.","تحلیل: تبلیغات بین‌المللی رو از نظر رنگ پوست تحلیل کن."],
+["آموزش: یادگیری Natural Skin Tone vs Stylized.","تمرین: یه ویدیو بردار. یه بار طبیعی، یه بار استیلایز رنگ‌بندی کن.","تحلیل: فیلم‌های فانتزی رو ببین. چطور رنگ پوست رو تغییر میدن؟"],
+["آموزش: یادگیری رفع مشکلات رایج پوست (زردی، قرمزی، کبودی).","تمرین: ۵ تا ویدیو با این مشکلات پیدا کن و اصلاح کن.","تحلیل: ببین عکاس‌های پرتره چطور این مشکلات رو حل می‌کنن."],
+["آموزش: مرور کل هفته. رنگ‌بندی پوست حرفه‌ای.","تمرین: یه ویدیو مصاحبه رو کامل از نظر پوست رنگ‌بندی کن.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: Look چیه؟ چطور یه حس خاص بسازیم؟","تمرین: ۵ تا Look مختلف طراحی کن: غمگین، شاد، سینمایی، ترسناک، رمانتیک.","تحلیل: تریلر فیلم‌های مختلف رو از نظر Look تحلیل کن."],
+["آموزش: یادگیری Bleach Bypass Look. حس سرد و خشن.","تمرین: یه ویدیو رو با این Look رنگ‌بندی کن.","تحلیل: فیلم‌های جنگی و اکشن رو تحلیل کن."],
+["آموزش: یادگیری Teal & Orange Look. حس سینمایی مدرن.","تمرین: یه ویدیو رو با این Look رنگ‌بندی کن.","تحلیل: فیلم‌های هالیوودی مدرن رو ببین."],
+["آموزش: یادگیری Vintage Look. حس نوستالژیک.","تمرین: یه ویدیو رو با این Look رنگ‌بندی کن.","تحلیل: فیلم‌های قدیمی رو ببین."],
+["آموزش: یادگیری Cyberpunk Look. حس آینده‌نگرانه.","تمرین: یه ویدیو رو با این Look رنگ‌بندی کن.","تحلیل: فیلم‌های Blade Runner و Cyberpunk 2077 رو ببین."],
+["آموزش: یادگیری ساخت Look شخصی. ترکیب رنگ‌های خودت.","تمرین: یه Look منحصر به فرد خودت بساز و به ۳ ویدیو اعمال کن.","تحلیل: فیلم‌هایی که Look منحصر به فرد دارن رو ببین."],
+["آموزش: مرور کل ماه. رنگ‌بندی کامل.","تمرین: ۳ تا ویدیو رو از صفر رنگ‌بندی کن با ۳ Look مختلف.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: یادگیری Color Grading برای پلتفرم‌ها. یوتیوب vs اینستاگرام.","تمرین: یه ویدیو رو برای ۳ پلتفرم رنگ‌بندی کن.","تحلیل: ویدیوهای حرفه‌ای رو تو هر پلتفرم مقایسه کن."],
+["آموزش: مرور ماه ۵. آماده برای ماه ۶ (پروژه و After Effects).","تمرین: یه پروژه ۵ دقیقه‌ای بساز با رنگ‌بندی حرفه‌ای.","تحلیل: جشن بگیر! ماه ۵ تموم شد."]
+];
+
+const MONTH_6_DAYS = [
+["آموزش: مدیریت پروژه بزرگ. از کجا شروع کنیم؟ چطور سازماندهی کنیم؟","تمرین: یه پروژه جدید بساز با ساختار کامل. ۱۰ فایل رو import و سازماندهی کن.","تحلیل: مستندهای کوتاه رو از نظر ساختار تحلیل کن."],
+["آموزش: یادگیری Pre-Production. بریف، Storyboard، Shot List.","تمرین: برای یه پروژه فرضی، یه Storyboard ساده بکش.","تحلیل: Behind the Scenes فیلم‌ها رو ببین."],
+["آموزش: یادگیری Assembly Cut. اولین برش خام.","تمرین: یه ویدیو ۳۰ دقیقه‌ای رو به Assembly Cut برسون.","تحلیل: ببین ادیتورها چطور از Assembly شروع می‌کنن."],
+["آموزش: یادگیری Rough Cut. حذف صحنه‌های اضافه.","تمرین: Assembly رو به Rough Cut تبدیل کن (۳۰ دقیقه به ۱۵ دقیقه).","تحلیل: ببین فیلم‌ها چطور از ۳ ساعت به ۲ ساعت می‌رسن."],
+["آموزش: یادگیری Fine Cut. تنظیم دقیق.","تمرین: Rough Cut رو به Fine Cut تبدیل کن (۱۵ دقیقه به ۱۰ دقیقه).","تحلیل: کارگردان‌ها چطور Fine Cut می‌گیرن؟"],
+["آموزش: یادگیری Locked Cut. تثبیت نسخه نهایی.","تمرین: یه ویدیو ۱۰ دقیقه‌ای رو نهایی کن و Lock کن.","تحلیل: ببین چطور یه پروژه Lock میشه."],
+["آموزش: مرور کل هفته. ساختار پروژه بزرگ.","تمرین: یه پروژه ۱۰ دقیقه‌ای رو از صفر تا Locked Cut برسون.","تحلیل: کار خودت رو با روز اول مقایسه کن."],
+["آموزش: آشنایی با محیط After Effects. تفاوتش با پریمیر.","تمرین: یه پروژه جدید تو AE بساز. یه ویدیو import کن و ساده ادیت کن.","تحلیل: ببین AE کجا استفاده میشه (موشن گرافیک، VFX)."],
+["آموزش: یادگیری Composition در AE. چطور یه کمپ بسازیم؟","تمرین: ۳ تا Composition با سایزهای مختلف بساز (1080p، اینستاگرام، تیک‌تاک).","تحلیل: ببین پروژه‌های حرفه‌ای چطور کامپ می‌سازن."],
+["آموزش: یادگیری Layers در AE. تفاوتش با Track در پریمیر.","تمرین: یه پروژه با ۱۰ لایه مختلف بساز. ترتیب و تنظیمات رو تمرین کن.","تحلیل: موشن گرافیک‌های پیچیده رو تحلیل کن."],
+["آموزش: یادگیری Keyframes. مفهوم انیمیشن. Interpolation.","تمرین: یه مربع رو از چپ به راست ببر با Keyframe.","تحلیل: ببین انیمیشن‌های ساده چطور ساخته میشن."],
+["آموزش: یادگیری Easing و Graph Editor. انیمیشن طبیعی.","تمرین: یه توپ رو با Easing بنداز. حس واقعی بده.","تحلیل: انیمیشن‌های پیکسار رو از نظر Easing تحلیل کن."],
+["آموزش: یادگیری Parenting و Null Object. سازماندهی انیمیشن‌ها.","تمرین: یه گروه از لایه‌ها رو به یه Null وصل کن و با هم حرکت بده.","تحلیل: ببین پروژه‌های پیچیده چطور سازماندهی میشن."],
+["آموزش: مرور کل هفته. AE مقدماتی.","تمرین: یه انیمیشن ۱۰ ثانیه‌ای با ۵ لایه بساز.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: آشنایی با Kinetic Typography. چرا استفاده میشه؟","تمرین: ۱۰ تا نمونه کینتیک تایپوگرافی خوب ببین و تحلیل کن.","تحلیل: تیزرهای تبلیغاتی رو از نظر متن تحلیل کن."],
+["آموزش: یادگیری Text Animation Presets در AE. ابزارهای آماده.","تمرین: ۱۰ تا Text Preset مختلف رو روی متن‌ها اعمال کن.","تحلیل: ببین ادیتورها چطور از Presetها استفاده می‌کنن."],
+["آموزش: یادگیری Animating Text with Keyframes. دستی انیمیت کن.","تمرین: یه متن ساده رو با Keyframe انیمیت کن (Position, Scale, Opacity).","تحلیل: موشن گرافیک‌های ساده رو تحلیل کن."],
+["آموزش: یادگیری Per-Character Animation. حرف به حرف انیمیت.","تمرین: یه متن رو با انیمیشن حرف به حرف بساز.","تحلیل: متن‌های متحرک حرفه‌ای رو تحلیل کن."],
+["آموزش: یادگیری Typewriter Effect. متن ماشین‌نویسی.","تمرین: یه متن رو با افکت Typewriter بساز.","تحلیل: کانال‌های مستندسازی رو ببین."],
+["آموزش: یادگیری Text Masking و Text Reveal.","تمرین: یه متن رو با ماسک Reveal کن.","تحلیل: تیتراژ فیلم‌ها رو تحلیل کن."],
+["آموزش: مرور کل هفته. کینتیک تایپوگرافی.","تمرین: یه ویدیو ۱ دقیقه‌ای از سخنرانی بردار و کلمات کلیدی رو متحرک کن.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: یادگیری Dynamic Link. اتصال AE به پریمیر.","تمرین: یه پروژه AE رو به پریمیر لینک کن.","تحلیل: ببین ادیتورها چطور AE و Premiere رو ترکیب می‌کنن."],
+["آموزش: یادگیری Render و Export از AE. بهترین تنظیمات.","تمرین: یه پروژه AE رو با کیفیت بالا خروجی بگیر.","تحلیل: ویدیوهای موشن گرافیک رو از نظر کیفیت تحلیل کن."],
+["آموزش: یادگیری ترکیب نهایی پروژه. Premiere + AE + صدا + رنگ.","تمرین: یه پروژه ۵ دقیقه‌ای رو کامل از صفر تا صد انجام بده.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: یادگیری ساخت Demo Reel. چطور کارها رو نمایش بدیم؟","تمرین: ۵ تا از بهترین کارهات رو جدا کن.","تحلیل: دمو ریل‌های حرفه‌ای رو تحلیل کن."],
+["آموزش: یادگیری ساخت پورتفولیو آنلاین. وب‌سایت یا اینستاگرام.","تمرین: یه پیج اینستاگرام برای پورتفولیوت بساز.","تحلیل: پورتفولیوهای حرفه‌ای رو ببین."],
+["آموزش: یادگیری اصول ارائه کار به مشتری. چطور بفروشیم؟","تمرین: برای هر پروژه، یه توضیح کوتاه بنویس.","تحلیل: فریلنسرهای موفق چطور کار ارائه میدن؟"],
+["آموزش: مرور کل ماه. پروژه واقعی کامل.","تمرین: پروژه ۱۰ دقیقه‌ای رو نهایی کن. خروجی بگیر. پورتفولیو کن.","تحلیل: کارت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: یادگیری بازخورد حرفه‌ای. چطور از مشتری بازخورد بگیریم؟","تمرین: کارت رو به ۵ نفر نشون بده. بازخورد بگیر و بنویس.","تحلیل: بازخوردها رو تحلیل کن."],
+["آموزش: مرور نهایی ماه ۶. آماده برای ماه ۷ (موشن گرافیک پیشرفته).","تمرین: جشن بگیر! ۶ ماه تموم شد. کارت رو با روز اول مقایسه کن.","تحلیل: برنامه ماه ۷ رو مرور کن."]
+];
+
+const MONTH_7_DAYS = [
+["آموزش: مرور مفهوم Mask در AE. تفاوت Mask با Shape Layer. انواع ماسک (Rectangle, Ellipse, Pen).","تمرین: یه ویدیو import کن. با ۵ نوع ماسک مختلف یه سوژه رو جدا کن.","تحلیل: موشن گرافیک‌های حرفه‌ای رو از نظر ماسک تحلیل کن."],
+["آموزش: یادگیری Mask Modes (Add, Subtract, Intersect, Lighten, Darken).","تمرین: با ترکیب ماسک‌ها، یه شکل پیچیده بساز.","تحلیل: تیزرهای تبلیغاتی رو ببین. ماسک‌ها رو پیدا کن."],
+["آموزش: یادگیری Mask Feather و Mask Expansion. نرم کردن لبه‌ها.","تمرین: یه سوژه رو با ماسک نرم از پس‌زمینه جدا کن.","تحلیل: فیلم‌های با VFX رو ببین. لبه‌های ماسک رو تحلیل کن."],
+["آموزش: یادگیری Motion Tracking. Track Motion, Stabilize Motion, Track Camera.","تمرین: یه ویدیو بردار. یه متن رو به یه نقطه متحرک بچسبون با Track Motion.","تحلیل: تیزرهای اسپرت رو ببین. چطور اطلاعات بازیکن‌ها رو دنبالشون می‌کنه."],
+["آموزش: یادگیری 4-Point Tracking و Corner Pin. چسبوندن تصویر به سطح.","تمرین: یه ویدیو بردار. یه عکس رو به یه صفحه کامپیوتر یا دیوار بچسبون.","تحلیل: تبلیغات محصولات تکنولوژی رو ببین."],
+["آموزش: یادگیری Camera Tracking. ترکینگ سه‌بعدی دوربین.","تمرین: یه ویدیو با حرکت دوربین بردار. یه متن سه‌بعدی به فضا اضافه کن.","تحلیل: تیتراژ فیلم‌های مدرن رو ببین."],
+["آموزش: مرور کل هفته. ماسک و ترکینگ.","تمرین: یه ویدیو ۳۰ ثانیه‌ای بساز که ماسک + Tracking داشته باشه.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: آشنایی با Rotoscoping. چرا استفاده میشه؟ چطور کار می‌کنه؟","تمرین: یه ویدیو بردار. با Pen Tool یه سوژه رو تو ۵ فریم جدا کن.","تحلیل: فیلم‌های ابرقهرمانی رو از نظر Roto تحلیل کن."],
+["آموزش: یادگیری Roto Brush Tool. جدا کردن خودکار سوژه.","تمرین: با Roto Brush یه آدم رو از پس‌زمینه جدا کن.","تحلیل: ببین Roto Brush چطور تو پروژه‌های حرفه‌ای استفاده میشه."],
+["آموزش: یادگیری Refine Edge. اصلاح لبه‌های Roto.","تمرین: لبه‌های یه Roto رو با Refine Edge نرم و دقیق کن.","تحلیل: فیلم‌های با VFX سنگین رو تحلیل کن."],
+["آموزش: یادگیری Keying (Chroma Key). حذف پس‌زمینه سبز/آبی.","تمرین: یه ویدیو با پس‌زمینه سبز پیدا کن. Key کن و پس‌زمینه جدید بذار.","تحلیل: Behind the Scenes فیلم‌های علمی-تخیلی رو ببین."],
+["آموزش: یادگیری Spill Suppression و Light Wrap. طبیعی کردن Key.","تمرین: یه Key معمولی رو حرفه‌ای کن.","تحلیل: فیلم‌های با Key حرفه‌ای رو ببین."],
+["آموزش: یادگیری ترکیب Roto + Key + Mask. تکنیک‌های ترکیبی.","تمرین: یه سوژه رو با ترکیب این تکنیک‌ها جدا کن.","تحلیل: پروژه‌های VFX حرفه‌ای رو تحلیل کن."],
+["آموزش: مرور کل هفته. Rotoscoping و Keying.","تمرین: یه ویدیو ۳۰ ثانیه‌ای با یه سوژه جدا شده بساز.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: آشنایی با Transition در AE. تفاوتش با پریمیر.","تمرین: ۵ تا ترنزیشن ساده با Opacity و Position بساز.","تحلیل: تیزرهای تبلیغاتی رو از نظر ترنزیشن تحلیل کن."],
+["آموزش: یادگیری Zoom Transition. انتقال با بزرگنمایی.","تمرین: یه Zoom Transition حرفه‌ای بساز.","تحلیل: یوتیوبرهای معروف رو ببین. Zoom Transitionهاشون رو تحلیل کن."],
+["آموزش: یادگیری Slide و Push Transition. انتقال با حرکت.","تمرین: ۵ تا ترنزیشن Slide و Push مختلف بساز.","تحلیل: موشن گرافیک‌های حرفه‌ای رو تحلیل کن."],
+["آموزش: یادگیری Glitch Transition. ترنزیشن با اختلال دیجیتال.","تمرین: یه Glitch Transition بساز.","تحلیل: فیلم‌های Cyberpunk رو ببین."],
+["آموزش: یادگیری Mask Reveal Transition. انتقال با ماسک.","تمرین: ۳ تا Mask Reveal مختلف بساز.","تحلیل: تیتراژ فیلم‌ها رو تحلیل کن."],
+["آموزش: یادگیری Light Leak و Film Burn Transition. ترنزیشن‌های نورپردازی.","تمرین: یه Light Leak Transition بساز.","تحلیل: فیلم‌های نوستالژیک رو ببین."],
+["آموزش: مرور کل هفته. ترنزیشن‌های حرفه‌ای.","تمرین: یه ویدیو ۱ دقیقه‌ای بساز که ۵ نوع ترنزیشن مختلف داشته باشه.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: آشنایی با Lower Third. چرا استفاده میشه؟ انواعش.","تمرین: ۱۰ تا Lower Third حرفه‌ای ببین و تحلیل کن.","تحلیل: برنامه‌های تلویزیونی رو از نظر Lower Third تحلیل کن."],
+["آموزش: یادگیری ساخت Lower Third ساده با Shape Layer.","تمرین: یه Lower Third ساده با اسم و سمت بساز.","تحلیل: اخبار تلویزیونی رو ببین. Lower Thirdها رو تحلیل کن."],
+["آموزش: یادگیری انیمیت کردن Lower Third. ورود و خروج نرم.","تمرین: یه Lower Third با انیمیشن ورود و خروج بساز.","تحلیل: یوتیوبرهای حرفه‌ای رو ببین."],
+["آموزش: یادگیری ساخت Title Sequence. تیتراژ ابتدایی.","تمرین: یه تیتراژ ۱۰ ثانیه‌ای برای یه ویدیوی فرضی بساز.","تحلیل: تیتراژ فیلم‌های معروف رو تحلیل کن."],
+["آموزش: یادگیری End Credits. تیتراژ پایانی.","تمرین: یه End Credit با اسم‌های فرضی بساز.","تحلیل: فیلم‌های سینمایی رو از نظر End Credit تحلیل کن."],
+["آموزش: یادگیری ترکیب Title با موسیقی و SFX.","تمرین: یه تیتراژ کامل با صدا و موزیک بساز.","تحلیل: تیتراژهای معروف رو از نظر صدا تحلیل کن."],
+["آموزش: مرور کل ماه. موشن گرافیک پیشرفته.","تمرین: یه ویدیو ۱ دقیقه‌ای با Title، Lower Third و End Credit بساز.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: یادگیری Export موشن گرافیک با کیفیت بالا. Alpha Channel.","تمرین: یه موشن گرافیک رو با Alpha Channel خروجی بگیر.","تحلیل: ببین فایل‌های Alpha Channel چطور استفاده میشن."],
+["آموزش: مرور ماه ۷. آماده برای ماه ۸ (اینفوگرافیک متحرک).","تمرین: جشن بگیر! کارت رو با روز اول مقایسه کن.","تحلیل: برنامه ماه ۸ رو مرور کن."]
+];
+
+const MONTH_8_DAYS = [
+["آموزش: آشنایی با Infographic Animation. چرا مهمه؟","تمرین: ۱۰ تا اینفوگرافیک متحرک خوب ببین و تحلیل کن.","تحلیل: کانال‌های خبری رو از نظر اینفوگرافیک تحلیل کن."],
+["آموزش: یادگیری ساخت Bar Chart متحرک در AE.","تمرین: یه Bar Chart ساده از آمار فرضی بساز.","تحلیل: Vox و Kurzgesagt رو ببین."],
+["آموزش: یادگیری Pie Chart و Donut Chart متحرک.","تمرین: یه Pie Chart از آمار واقعی بساز.","تحلیل: گزارش‌های خبری رو تحلیل کن."],
+["آموزش: یادگیری Line Graph متحرک. نمایش روند.","تمرین: یه Line Graph از آمار فروش فرضی بساز.","تحلیل: گزارش‌های اقتصادی رو ببین."],
+["آموزش: یادگیری Counter Animation. شمارنده اعداد.","تمرین: یه Counter با اعداد واقعی بساز.","تحلیل: تبلیغات آمار محور رو تحلیل کن."],
+["آموزش: یادگیری Progress Bar و Loading Animation.","تمرین: ۵ تا Progress Bar مختلف بساز.","تحلیل: اپ‌های موبایل رو از نظر Progress Bar تحلیل کن."],
+["آموزش: مرور کل هفته. نمودارهای متحرک.","تمرین: یه اینفوگرافیک ۳۰ ثانیه‌ای با ۳ نوع نمودار بساز.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: آشنایی با Map Animation. کاربردها و تکنیک‌ها.","تمرین: ۱۰ تا نقشه متحرک خوب ببین و تحلیل کن.","تحلیل: مستندهای جغرافیایی رو ببین."],
+["آموزش: یادگیری نقشه ساده با Shape Layer. ترسیم دستی.","تمرین: یه نقشه ساده از ایران بساز.","تحلیل: نقشه‌های حرفه‌ای رو تحلیل کن."],
+["آموزش: یادگیری Path Animation. حرکت روی مسیر.","تمرین: یه مسیر روی نقشه بساز و روش حرکت کن.","تحلیل: مستندهای تاریخی رو ببین."],
+["آموزش: یادگیری Location Pin Animation. پین‌های مکان.","تمرین: ۵ تا Location Pin روی نقشه بذار و انیمیت کن.","تحلیل: اپ‌های نقشه‌خوان رو تحلیل کن."],
+["آموزش: یادگیری Zoom to Location. زوم کردن روی مکان.","تمرین: یه نقشه بساز که روی یه مکان خاص زوم کنه.","تحلیل: مستندهای جنگی رو ببین."],
+["آموزش: یادگیری Country Fill و Region Highlight.","تمرین: یه نقشه بساز که مناطق مختلف رو رنگ کنه.","تحلیل: مستندهای سیاسی رو ببین."],
+["آموزش: مرور کل هفته. نقشه‌های متحرک.","تمرین: یه نقشه متحرک ۱۵ ثانیه‌ای بساز.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: آشنایی با Logo Reveal. انواعش (2D, 3D, Particles).","تمرین: ۱۰ تا Logo Reveal خوب ببین و تحلیل کن.","تحلیل: لوگوهای متحرک برندهای معروف رو ببین."],
+["آموزش: یادگیری Logo Reveal ساده 2D. با Shape Layer.","تمرین: یه لوگوی فرضی رو با Shapes بساز و انیمیت کن.","تحلیل: Netflix و Marvel رو ببین."],
+["آموزش: یادگیری Logo Reveal با Mask Reveal.","تمرین: یه Logo با Mask Reveal انیمیت کن.","تحلیل: لوگوهای سینمایی رو تحلیل کن."],
+["آموزش: یادگیری Logo Reveal با Particles. ذرات.","تمرین: یه Logo با Particles بساز.","تحلیل: لوگوهای گیمینگ رو ببین."],
+["آموزش: یادگیری Intro و Outro برای یوتیوب.","تمرین: یه Intro ۵ ثانیه‌ای برای یه کانال فرضی بساز.","تحلیل: یوتیوبرهای حرفه‌ای رو از نظر Intro تحلیل کن."],
+["آموزش: یادگیری Branding Consistency. هماهنگی رنگ، فونت، انیمیشن.","تمرین: یه برند فرضی بساز و ۳ تا انیمیشن مختلف براش بساز.","تحلیل: برندهای بزرگ رو از نظر بصری تحلیل کن."],
+["آموزش: مرور کل هفته. لوگو و برندینگ.","تمرین: یه پکیج کامل برای یه برند فرضی بساز (Intro + Logo + Outro).","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: یادگیری ترکیب Infographic + Video. چطور انیمیشن رو با ویدیو واقعی ترکیب کنیم؟","تمرین: یه ویدیو کوتاه بردار و یه اینفوگرافیک روی اون بذار.","تحلیل: مستندهای تلویزیونی رو ببین."],
+["آموزش: یادگیری Transitions بین Info و Video.","تمرین: بین اینفوگرافیک و ویدیو Transition نرم بساز.","تحلیل: کانال‌های آموزشی رو از نظر Transition تحلیل کن."],
+["آموزش: یادگیری Lower Third اینفوگرافیکی. ترکیب متن و نمودار.","تمرین: یه Lower Third با نمودار متحرک بساز.","تحلیل: اخبار تلویزیونی رو ببین."],
+["آموزش: یادگیری Sync کردن اینفوگرافیک با گوینده.","تمرین: یه ویدیو آموزشی بردار و اینفوگرافیک رو با گوینده سینک کن.","تحلیل: کانال‌های آموزشی حرفه‌ای رو ببین."],
+["آموزش: یادگیری ساخت ویدیوی آموزشی کامل. صفر تا صد.","تمرین: یه ویدیو ۳ دقیقه‌ای آموزشی از صفر تا صد بساز.","تحلیل: Kurzgesagt و Vox رو ببین."],
+["آموزش: یادگیری بهینه‌سازی پروژه اینفوگرافیک. فایل‌های سنگین.","تمرین: یه پروژه اینفوگرافیک سنگین رو بهینه کن.","تحلیل: ببین پروژه‌های حرفه‌ای چطور بهینه میشن."],
+["آموزش: مرور کل ماه. اینفوگرافیک متحرک کامل.","تمرین: یه پروژه ۳ دقیقه‌ای اینفوگرافیک رو کامل کن.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: یادگیری Export اینفوگرافیک برای پلتفرم‌ها.","تمرین: یه اینفوگرافیک رو برای یوتیوب و اینستاگرام خروجی بگیر.","تحلیل: کیفیت‌ها رو مقایسه کن."],
+["آموزش: مرور ماه ۸. آماده برای ماه ۹ (طراحی گرافیک).","تمرین: جشن بگیر! کارت رو با روز اول مقایسه کن.","تحلیل: برنامه ماه ۹ رو مرور کن."]
+];
+
+const MONTH_9_DAYS = [
+["آموزش: آشنایی با Composition. اصول ترکیب‌بندی در طراحی.","تمرین: ۱۰ تا پوستر خوب ببین و ترکیب‌بندی‌شون رو تحلیل کن.","تحلیل: پوسترهای فیلم‌های معروف رو ببین."],
+["آموزش: یادگیری Rule of Thirds. قانون یک‌سوم.","تمرین: ۵ تا عکس رو با Rule of Thirds کراپ کن.","تحلیل: عکس‌های حرفه‌ای رو از نظر ترکیب‌بندی تحلیل کن."],
+["آموزش: یادگیری Golden Ratio. نسبت طلایی.","تمرین: ۵ تا طراحی با Golden Ratio بساز.","تحلیل: لوگوهای حرفه‌ای رو از نظر نسبت تحلیل کن."],
+["آموزش: یادگیری Balance و Symmetry. تعادل و تقارن.","تمرین: ۱۰ تا طراحی متقارن و نامتقارن بساز.","تحلیل: پوسترهای مینیمال رو ببین."],
+["آموزش: یادگیری Negative Space. فضای منفی.","تمرین: ۵ تا طراحی با فضای منفی خلاقانه بساز.","تحلیل: لوگوهای با Negative Space رو ببین."],
+["آموزش: یادگیری Visual Hierarchy. سلسله مراتب بصری.","تمرین: یه پوستر با ۳ سطح از اهمیت بصری بساز.","تحلیل: پوسترهای تبلیغاتی رو تحلیل کن."],
+["آموزش: مرور کل هفته. اصول طراحی.","تمرین: ۵ تا پوستر ساده با رعایت تمام اصول بساز.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: آشنایی با Typography. انواع فونت (Serif, Sans-Serif, Script).","تمرین: ۱۰ تا فونت مختلف رو بشناس و دسته‌بندی کن.","تحلیل: برندهای مختلف رو از نظر فونت تحلیل کن."],
+["آموزش: یادگیری Font Weight و Font Size. ضخامت و اندازه.","تمرین: یه متن رو با ۵ وزن مختلف نمایش بده.","تحلیل: مجلات و روزنامه‌ها رو از نظر فونت تحلیل کن."],
+["آموزش: یادگیری Letter Spacing و Line Height. فاصله حروف و خطوط.","تمرین: یه متن رو با فاصله‌های مختلف تنظیم کن.","تحلیل: طراحی‌های مینیمال رو ببین."],
+["آموزش: یادگیری Typography Hierarchy. تیتر، زیرتیتر، متن.","تمرین: یه پوستر با ۳ سطح تایپوگرافی بساز.","تحلیل: پوسترهای فیلم رو تحلیل کن."],
+["آموزش: یادگیری Font Pairing. ترکیب دو فونت.","تمرین: ۵ ترکیب فونت خوب بساز.","تحلیل: وب‌سایت‌های حرفه‌ای رو از نظر Font Pairing تحلیل کن."],
+["آموزش: یادگیری Typography Effects. سایه، Outline، Gradient.","تمرین: ۵ تا افکت تایپوگرافی مختلف بساز.","تحلیل: تیتراژ فیلم‌ها رو تحلیل کن."],
+["آموزش: مرور کل هفته. تایپوگرافی حرفه‌ای.","تمرین: یه پوستر با تایپوگرافی خلاقانه بساز.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: آشنایی با Photoshop. محیط، لایه‌ها، ابزارها.","تمرین: یه پروژه جدید بساز. ۱۰ عکس import و لایه‌بندی کن.","تحلیل: ببین طراح‌های حرفه‌ای چطور از فتوشاپ استفاده می‌کنن."],
+["آموزش: یادگیری Selection Tools. انتخاب دقیق.","تمرین: ۵ تا سوژه رو از پس‌زمینه جدا کن.","تحلیل: عکس‌های مونتاژ رو ببین."],
+["آموزش: یادگیری Masking در فتوشاپ.","تمرین: ۵ تا عکس رو با Mask ترکیب کن.","تحلیل: پوسترهای مونتاژ رو تحلیل کن."],
+["آموزش: یادگیری Adjustment Layers. تنظیمات رنگ.","تمرین: یه عکس رو با Adjustment Layers رنگ‌بندی کن.","تحلیل: عکس‌های ادیت شده رو ببین."],
+["آموزش: آشنایی با Illustrator. محیط، وکتور، Pen Tool.","تمرین: یه شکل ساده وکتور بکش.","تحلیل: لوگوهای وکتور رو ببین."],
+["آموزش: یادگیری Path و Shape در ایلاستریتور.","تمرین: یه لوگوی ساده طراحی کن.","تحلیل: لوگوهای حرفه‌ای رو تحلیل کن."],
+["آموزش: مرور کل هفته. فتوشاپ و ایلاستریتور.","تمرین: یه لوگو + یه پوستر با ترکیب این دو نرم‌افزار بساز.","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: آشنایی با Thumbnail. چرا کلیک‌خور مهمه؟","تمرین: ۲۰ تا تامنیل موفق ببین و تحلیل کن.","تحلیل: تامنیل‌های MrBeast و Dude Perfect رو ببین."],
+["آموزش: یادگیری اصول تامنیل: چهره، متن، رنگ، کنتراست.","تمرین: ۵ تا تامنیل برای ویدیوهای فرضی بساز.","تحلیل: تامنیل‌های پربازدید رو تحلیل کن."],
+["آموزش: یادگیری ساخت تامنیل در فتوشاپ. اندازه و ابعاد.","تمرین: ۵ تا تامنیل با ابعاد 1280x720 بساز.","تحلیل: ابعاد و کیفیت تامنیل‌ها رو بررسی کن."],
+["آموزش: یادگیری Text در تامنیل. فونت مناسب، سایز، جایگاه.","تمرین: ۵ تا تامنیل با متن‌های مختلف بساز.","تحلیل: تامنیل‌های با متن قوی رو ببین."],
+["آموزش: یادگیری Color Psychology در تامنیل. رنگ‌های جذاب.","تمرین: ۵ تا تامنیل با رنگ‌های مختلف بساز. مقایسه کن.","تحلیل: تامنیل‌های رنگی رو تحلیل کن."],
+["آموزش: یادگیری A/B Testing تامنیل. کدوم بهتره؟","تمرین: ۳ نسخه مختلف از یه تامنیل بساز.","تحلیل: ببین یوتیوبرهای حرفه‌ای چطور تامنیل تست می‌کنن."],
+["آموزش: مرور کل ماه. طراحی گرافیک کامل.","تمرین: یه پکیج کامل بساز (لوگو + پوستر + ۵ تامنیل).","تحلیل: کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+["آموزش: یادگیری Export گرافیک برای پلتفرم‌ها. PNG, JPG, SVG.","تمرین: یه طرح رو در ۵ فرمت مختلف خروجی بگیر.","تحلیل: فرمت‌های مختلف رو مقایسه کن."],
+["آموزش: مرور ماه ۹. آماده برای ماه ۱۰ (پروژه واقعی).","تمرین: جشن بگیر! کارت رو با روز اول مقایسه کن.","تحلیل: برنامه ماه ۱۰ رو مرور کن."]
+];
+
+for (const [name, arr] of [["MONTH_4_DAYS",MONTH_4_DAYS],["MONTH_5_DAYS",MONTH_5_DAYS],["MONTH_6_DAYS",MONTH_6_DAYS],["MONTH_7_DAYS",MONTH_7_DAYS],["MONTH_8_DAYS",MONTH_8_DAYS],["MONTH_9_DAYS",MONTH_9_DAYS]]) {
+  if(arr.length !== 30) throw new Error(name+' day count mismatch: '+arr.length);
+}
+
+const MONTH_10_DAYS = [
+  ["آشنایی با Brief. چرا مهمه؟ چطور بنویسیم؟", "۵ تا Brief نمونه بخون و تحلیل کن.", "ببین فریلنسرها چطور Brief می‌گیرن."],
+  ["یادگیری سوالات کلیدی از مشتری. چه چیزهایی باید بپرسی؟", "یه لیست ۲۰ سوالی برای مشتری بنویس.", "مصاحبه‌های مشتری-فریلنسر رو ببین."],
+  ["یادگیری تحلیل نیاز مشتری. تفاوت خواسته و نیاز.", "برای یه کسب‌وکار فرضی، نیاز واقعی رو تحلیل کن.", "کیس‌استادی‌های موفق رو بخون."],
+  ["یادگیری Mood Board. چطور ایده بصری رو منتقل کنیم؟", "برای یه پروژه فرضی، یه Mood Board بساز.", "Mood Boardهای حرفه‌ای رو ببین."],
+  ["یادگیری Storyboard. ترسیم صحنه‌ها.", "برای یه پروژه ۳۰ ثانیه‌ای، Storyboard بکش.", "Storyboardهای فیلم‌ها رو ببین."],
+  ["یادگیری Shot List. لیست نماها.", "برای یه پروژه، Shot List بنویس.", "Behind the Scenes فیلم‌ها رو ببین."],
+  ["مرور کل هفته. دریافت بریف و تحلیل.", "برای یه کسب‌وکار واقعی، یه Brief کامل بنویس.", "کار خودت رو با نمونه‌های حرفه‌ای مقایسه کن."],
+  ["آشنایی با Project Management. اصول و ابزارها.", "یه پروژه فرضی رو با Trello یا Notion سازماندهی کن.", "ببین فریلنسرها چطور پروژه‌ها رو مدیریت می‌کنن."],
+  ["یادگیری Time Estimation. تخمین زمان هر مرحله.", "برای یه پروژه ۵ دقیقه‌ای، زمان هر مرحله رو تخمین بزن.", "ببین تخمین‌های حرفه‌ای چقدر دقیقن."],
+  ["یادگیری Deadline Management. تعیین و رعایت ددلاین.", "برای یه پروژه ۱ هفته‌ای، یه برنامه دقیق بنویس.", "ببین فریلنسرها چطور ددلاین‌ها رو مدیریت می‌کنن."],
+  ["یادگیری Communication با مشتری. ایمیل، پیام، جلسه.", "یه ایمیل حرفه‌ای برای شروع پروژه بنویس.", "نمونه ایمیل‌های حرفه‌ای رو بخون."],
+  ["یادگیری Revision Management. مدیریت بازخورد و اصلاحات.", "یه سیستم برای ثبت Revisionها بساز.", "ببین فریلنسرها چطور Revisionها رو مدیریت می‌کنن."],
+  ["یادگیری Pricing. چطور قیمت تعیین کنیم؟", "برای ۵ نوع پروژه مختلف، قیمت تعیین کن.", "ببین فریلنسرهای حرفه‌ای چطور قیمت می‌ذارن."],
+  ["مرور کل هفته. مدیریت پروژه.", "یه پروژه کامل رو از دریافت Brief تا تحویل برنامه‌ریزی کن.", "کار خودت رو با نمونه‌های حرفه‌ای مقایسه کن."],
+  ["یادگیری شروع پروژه. Import و سازماندهی.", "یه پروژه ۵ دقیقه‌ای رو شروع کن. تمام فایل‌ها رو سازماندهی کن.", "ببین پروژه‌های حرفه‌ای چطور شروع میشن."],
+  ["یادگیری Rough Cut پروژه واقعی.", "پروژه رو به Rough Cut برسون.", "ببین ادیتورها چطور Rough Cut می‌زنن."],
+  ["یادگیری Fine Cut و تنظیم دقیق.", "پروژه رو به Fine Cut برسون.", "ببین Fine Cut حرفه‌ای چطوره."],
+  ["یادگیری صداگذاری پروژه کامل.", "صدا رو کامل میکس کن (EQ، Comp، SFX).", "صدای پروژه‌های حرفه‌ای رو تحلیل کن."],
+  ["یادگیری رنگ‌بندی پروژه کامل.", "پروژه رو کامل رنگ‌بندی کن.", "رنگ‌بندی پروژه‌های حرفه‌ای رو تحلیل کن."],
+  ["یادگیری اضافه کردن موشن گرافیک و Lower Third.", "۳ تا Lower Third و یه Intro به پروژه اضافه کن.", "پروژه‌های حرفه‌ای رو از نظر Motion تحلیل کن."],
+  ["مرور کل هفته. اجرای پروژه کامل.", "پروژه ۵ دقیقه‌ای رو از صفر تا صد نهایی کن.", "کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+  ["یادگیری Review پروژه. چک‌لیست نهایی.", "پروژه رو با یه چک‌لیست ۲۰ آیتمی بررسی کن.", "ببین ادیتورها چطور پروژه رو Review می‌کنن."],
+  ["یادگیری Export نهایی برای مشتری. تنظیمات.", "پروژه رو با بهترین کیفیت خروجی بگیر.", "کیفیت خروجی‌های حرفه‌ای رو بررسی کن."],
+  ["یادگیری تحویل پروژه. چطور فایل‌ها رو بفرستیم؟", "یه پکیج کامل از پروژه (ویدیو + فایل پروژه) آماده کن.", "ببین فریلنسرها چطور پروژه رو تحویل میدن."],
+  ["یادگیری دریافت بازخورد. چطور بازخورد بگیریم؟", "پروژه رو به ۵ نفر نشون بده. بازخورد بگیر.", "بازخوردها رو تحلیل کن."],
+  ["یادگیری اعمال بازخورد. چطور اصلاح کنیم؟", "بر اساس بازخوردها، پروژه رو اصلاح کن.", "ببین ادیتورها چطور بازخورد رو اعمال می‌کنن."],
+  ["یادگیری گرفتن Testimonial. نظر مشتری.", "از ۳ نفر بخواه در مورد کارت نظر بدن.", "Testimonialهای حرفه‌ای رو ببین."],
+  ["مرور کل ماه. پروژه واقعی کامل.", "یه پروژه دیگه (مثلاً ۱۰ دقیقه‌ای) رو کامل انجام بده.", "کار خودت رو با کار حرفه‌ای‌ها مقایسه کن."],
+  ["یادگیری مستندسازی پروژه. چطور از پروژه یاد بگیریم؟", "یه لیست از چیزایی که یاد گرفتی بنویس.", "ببین فریلنسرها چطور از پروژه‌ها درس می‌گیرن."],
+  ["مرور ماه ۱۰. آماده برای ماه ۱۱ (خروجی حرفه‌ای).", "جشن بگیر! کارت رو با روز اول مقایسه کن.", "برنامه ماه ۱۱ رو مرور کن."],
+];
+
+const MONTH_11_DAYS = [
+  ["فرمت‌ها H.264/H.265/ProRes/DNxHD", "خروجی ۴ فرمت", "تحلیل استفاده حرفه‌ای."],
+  ["Bitrate CBR/VBR/VBR 2-Pass", "۳ bitrate", "مقایسه کیفیت."],
+  ["Resolution & Frame Rate 1080p vs 4K, 24fps vs 60fps", "۳ رزولوشن و ۳ فریم‌ریت", "دیدن تفاوت."],
+  ["تنظیمات YouTube", "خروجی بهینه", "دیدن ویدیوهای 4K."],
+  ["Instagram Reels/Feed/Story", "خروجی برای ۳ بخش", "تحلیل اینستاگرام حرفه‌ای."],
+  ["TikTok + YouTube Shorts", "خروجی برای هر دو", "دیدن Shorts حرفه‌ای."],
+  ["مرور Export", "خروجی برای ۵ پلتفرم", "مقایسه کیفیت."],
+  ["Media Encoder Batch Export", "۵ ویدیو همزمان", "مدیریت زمان خروجی."],
+  ["Compressor + HandBrake کاهش حجم", "ویدیو ۱۰ دقیقه‌ای تا 50MB", "مقایسه کیفیت."],
+  ["Adaptive Bitrate", "خروجی با Adaptive Bitrate", "بررسی استریمینگ."],
+  ["Color Space & Gamma Rec.709/sRGB", "خروجی با Color Space مختلف", "تفاوت رنگ."],
+  ["Audio Bitrate & Sample Rate", "۳ bitrate صوتی", "مقایسه."],
+  ["Metadata Title/Description/Tags", "Metadata برای ۵ ویدیو", "بررسی ویدیوهای موفق."],
+  ["مرور بهینه‌سازی", "بهترین تنظیمات", "مقایسه با حرفه‌ای‌ها."],
+  ["YouTube Studio", "کانال فرضی و تنظیمات", "تحلیل کانال حرفه‌ای."],
+  ["Upload title/description/tag/thumbnail", "آپلود خصوصی", "تحلیل ویدیوهای پربازدید."],
+  ["End Screen & Cards", "ساخت برای یک ویدیو", "تحلیل تعامل."],
+  ["Playlist & Channel Organization", "۳ playlist", "تحلیل کانال‌های موفق."],
+  ["Scheduling", "۵ ویدیو زمان بهینه", "تحلیل زمان انتشار حرفه‌ای."],
+  ["Cross-Promotion", "انتشار در ۵ پلتفرم", "تحلیل برندها."],
+  ["مرور آپلود/انتشار", "انتشار عمومی کامل", "بازخورد اولیه."],
+  ["YouTube Analytics Retention/CTR/Watch Time", "تحلیل آمار", "نقاط ریزش."],
+  ["Audience Retention Graph", "تحلیل کامل", "بخش‌های جذاب‌تر."],
+  ["CTR", "تحلیل CTR و راه بهبود", "thumbnailهای با CTR بالا."],
+  ["Watch Time", "تحلیل", "ویدیوهای Watch Time بالا."],
+  ["Engagement likes/comments/shares", "تحلیل", "ویدیوهای engagement بالا."],
+  ["A/B Testing thumbnail/title", "۲ thumbnail و ۲ title", "تحلیل نتیجه."],
+  ["مرور ماه", "اجرای صفر تا انتشار", "مقایسه با حرفه‌ای‌ها."],
+  ["Iteration", "۳ راه بهبود بر اساس آمار", "تحلیل یادگیری حرفه‌ای‌ها."],
+  ["مرور ماه ۱۱", "جشن و مقایسه با روز اول", "مرور ماه ۱۲."],
+];
+
+const MONTH_12_DAYS = [
+  ["Portfolio importance/how", "۱۰ portfolio حرفه‌ای", "تحلیل ساخت."],
+  ["selection criteria quality/diversity/impact", "list all projects", "strongest projects."],
+  ["choose 5 best", "choose 5", "why best."],
+  ["project presentation", "3-line description each", "professional examples."],
+  ["Case Study", "write one full", "read pro case studies."],
+  ["Before/After", "prepare 3", "view pro examples."],
+  ["review", "prepare 5 projects with descriptions", "compare."],
+  ["Demo Reel importance/length", "view 10", "features."],
+  ["best moments 30 sec each", "select", "analyze selection."],
+  ["project order", "define", "analyze pro order."],
+  ["music", "find suitable", "analyze."],
+  ["sync", "sync reel", "analyze."],
+  ["intro/outro", "3 sec each", "view examples."],
+  ["final", "finalize 1-min reel", "compare."],
+  ["Behance/Vimeo/Squarespace", "view 10", "compare."],
+  ["Instagram portfolio", "create", "analyze."],
+  ["Bio", "write 100 words", "read pro bios."],
+  ["project display photo/description/link", "display 5", "view."],
+  ["CTA", "write", "view examples."],
+  ["SEO", "optimize", "how found on Google."],
+  ["review", "publish portfolio", "compare."],
+  ["review year 1", "list skills", "assess progress."],
+  ["SWOT", "write", "improvement areas."],
+  ["SMART", "write 10 goals", "view pro goals."],
+  ["year 2 roadmap", "write 12-month roadmap", "view examples."],
+  ["income planning", "monthly income plan", "analyze freelancers."],
+  ["networking", "list 20 important contacts", "analyze networking."],
+  ["review month", "finalize portfolio + year2 plan", "compare."],
+  ["self-care/burnout", "work-life balance plan", "analyze pro self-care."],
+  ["final review", "compare with day 1", "ready for year2."],
+];
+
+if (MONTH_1_DAYS.length !== 30 || MONTH_2_DAYS.length !== 30 || MONTH_3_DAYS.length !== 30 || MONTH_4_DAYS.length !== 30 || MONTH_5_DAYS.length !== 30 || MONTH_6_DAYS.length !== 30 || MONTH_7_DAYS.length !== 30 || MONTH_8_DAYS.length !== 30 || MONTH_9_DAYS.length !== 30 || MONTH_10_DAYS.length !== 30 || MONTH_11_DAYS.length !== 30 || MONTH_12_DAYS.length !== 30) {
+  throw new Error('Curriculum day count mismatch');
+}
+
+const EDITQUEST_CURRICULUM = [
+  {
+    year: 1,
+    yearLabel: "سال اول: پایه‌ریزی (Foundation)",
+    chapterTitle: "فصل اول: از کاتر تا ادیتور",
+    months: [
+      makeMonth("ماه ۱: آشنایی و نظم (Setup & Organization)", "یادگیری محیط پریمیر و ساختن عادت‌های منظم در کار", ["هفته اول: آشنایی با محیط پریمیر","هفته دوم: میان‌برهای کیبورد","هفته سوم: سازماندهی پروژه","هفته چهارم: خروجی و پروژه نهایی"], MONTH_1_DAYS),
+      makeMonth("ماه ۲: برش و ریتم (The Cut & Pacing)", "حذف کردن چیزهای اضافه، دادن ریتم به ویدیو و طبیعی کردن مکالمات", ["هفته اول: شکار سکوت‌ها","هفته دوم: J-Cut و L-Cut","هفته سوم: B-Roll و تصویرسازی","هفته چهارم: ریتم و ضرب‌آهنگ"], MONTH_2_DAYS),
+      makeMonth("ماه ۳: صدا و رنگ پایه (Basic Audio & Color)", "شفاف کردن صدا و طبیعی کردن رنگ", ["هفته اول: پاک‌سازی صدا (Noise Reduction)","هفته دوم: EQ و میکس صدا","هفته سوم: تصحیح رنگ (Color Correction)","هفته چهارم: رنگ‌بندی و افکت‌های صوتی"], MONTH_3_DAYS)
+    ]
+  },
+  {
+    year: 1,
+    yearLabel: "سال اول: پایه‌ریزی (Foundation)",
+    chapterTitle: "فصل دوم: میکس، رنگ و پروژه واقعی",
+    months: [
+      makeMonth("ماه ۴: میکس و مسترینگ صدا (Audio Mixing)", "صدای ویدیو رو شفاف و حرفه‌ای کنی، انگار که تو یه استودیو ضبط شده.", ["هفته اول: اکولایزر پیشرفته","هفته دوم: فشرده‌سازی و لیمیتر","هفته سوم: طراحی صدا","هفته چهارم: میکس نهایی"], MONTH_4_DAYS),
+      makeMonth("ماه ۵: رنگ‌بندی حرفه‌ای (Color Grading)", "دادن حس سینمایی به ویدیو با رنگ‌ها.", ["هفته اول: تئوری رنگ","هفته دوم: LUTها و پریست‌ها","هفته سوم: رنگ‌بندی پوست","هفته چهارم: ساخت Look شخصی"], MONTH_5_DAYS),
+      makeMonth("ماه ۶: پروژه واقعی و موشن گرافیک مقدماتی", "زدن اولین پروژه واقعی و ورود به دنیای After Effects.", ["هفته اول: ساختار پروژه بزرگ","هفته دوم: ورود به After Effects","هفته سوم: متن متحرک","هفته چهارم: خروجی نهایی و پورتفولیو"], MONTH_6_DAYS)
+    ]
+  },
+  {
+    year: 1,
+    yearLabel: "سال اول: پایه‌ریزی (Foundation)",
+    chapterTitle: "فصل سوم: موشن گرافیک و طراحی",
+    months: [
+      makeMonth("ماه ۷: موشن گرافیک پیشرفته (After Effects)", "تسلط بر After Effects و ساخت انیمیشن‌های حرفه‌ای.", ["هفته اول: ماسک‌ها و ترکینگ","هفته دوم: روتیشن و جدا کردن سوژه","هفته سوم: ترنزیشن‌های حرفه‌ای","هفته چهارم: تیتراژ و لوئر ثرد"], MONTH_7_DAYS),
+      makeMonth("ماه ۸: اینفوگرافیک متحرک (Motion Graphics)", "بصری کردن داده‌ها و مفاهیم پیچیده.", ["هفته اول: نمودارها و آمارهای متحرک","هفته دوم: نقشه‌های متحرک","هفته سوم: انیمیشن لوگو و برندینگ","هفته چهارم: پروژه ترکیبی"], MONTH_8_DAYS),
+      makeMonth("ماه ۹: طراحی گرافیک و پوستر", "یادگیری طراحی گرافیک برای ادیت (تامنیل، پوستر، بنر).", ["هفته اول: اصول طراحی","هفته دوم: تایپوگرافی","هفته سوم: فتوشاپ و ایلاستریتور","هفته چهارم: طراحی تامنیل"], MONTH_9_DAYS)
+    ]
+  }
+,
+  {
+    year: 1,
+    yearLabel: "سال اول: پایه‌ریزی (Foundation)",
+    chapterTitle: "فصل چهارم: پروژه واقعی و پورتفولیو (ماه ۱۰ تا ۱۲)",
+    months: [
+      makeMonth("ماه ۱۰: شبیه‌سازی پروژه واقعی (Client Work)", "تجربه کار با مشتری و مدیریت پروژه.", ["هفته اول: دریافت بریف و تحلیل نیاز","هفته دوم: مدیریت پروژه","هفته سوم: اجرای پروژه کامل","هفته چهارم: تحویل و بازخورد"], MONTH_10_DAYS),
+      makeMonth("ماه ۱۱: بهینه‌سازی و خروجی حرفه‌ای", "تسلط بر خروجی گرفتن و انتشار محتوا.", ["هفته اول: تنظیمات پیشرفته Export","هفته دوم: بهینه‌سازی","هفته سوم: آپلود و انتشار","هفته چهارم: تحلیل عملکرد"], MONTH_11_DAYS),
+      makeMonth("ماه ۱۲: پورتفولیو و برنامه‌ریزی سال دوم", "ساختن پورتفولیو حرفه‌ای و آماده شدن برای سال دوم.", ["هفته اول: جمع‌آوری پروژه‌های برتر","هفته دوم: ساخت Demo Reel","هفته سوم: ساخت وب‌سایت پورتفولیو","هفته چهارم: برنامه‌ریزی سال دوم"], MONTH_12_DAYS)
+    ]
+  }
+
+]
+
+/* ---------------- Icons ---------------- */
+const ICONS = {
+  play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
+  pause: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="#0a0e17" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+  chevron: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
+  trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/></svg>'
+};
+
+/* ---------------- Reusable Logo component ----------------
+   The uploaded logo file was not present in the mounted project assets,
+   so this component uses a self-contained ARIA fallback mark. Replace
+   LOGO_SVG with the uploaded SVG/data URI when the asset is supplied. */
+const LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="آریا ادیت"><defs><linearGradient id="ariaLogoG" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9b6bff"/><stop offset="1" stop-color="#35d6e8"/></linearGradient></defs><rect x="4" y="4" width="92" height="92" rx="25" fill="#0d111a"/><path d="M25 67 43 28h10l22 44H63l-5-11H40l-4 11zm19-20h10l-5-12z" fill="url(#ariaLogoG)"/><circle cx="77" cy="25" r="6" fill="#ffc352"/></svg>`;
+class AriaLogo extends HTMLElement{
+  connectedCallback(){
+    const size=this.getAttribute('size')||'32';
+    this.style.width=size+'px'; this.style.height=size+'px';
+    this.innerHTML=`<img class="aria-logo-img" alt="لوگوی آریا ادیت" src="data:image/svg+xml;charset=UTF-8,${encodeURIComponent(LOGO_SVG)}">`;
+  }
+}
+if(!customElements.get('aria-logo')) customElements.define('aria-logo',AriaLogo);
+
+
+/* ---------------- Sections config ---------------- */
+const SECTIONS = [
+  { key:"training", label:"آموزش", targetH:3, color:"var(--violet)" },
+  { key:"practice",  label:"تمرین", targetH:2, color:"var(--cyan)" },
+  { key:"analysis",  label:"تحلیل", targetH:1, color:"var(--gold)" }
+];
+const XP_PER_HOUR = 10;
+const XP_PER_LEVEL = 1000;
+
+/* ---------------- State ---------------- */
+const STORE_KEY = window.AriaAuth ? AriaAuth.storeKey() : "aria_scratch_nosession";
+const faNum = n => Number(n||0).toLocaleString('fa-IR');
+const todayStr = () => {
+  const d = new Date();
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+};
+
+function loadState(){
+  let s;
+  try{ s = JSON.parse(localStorage.getItem(STORE_KEY)); }catch(e){ s = null; }
+  if(!s){
+    s = {
+      xpBanked: 0,
+      history: [],
+      today: { date: todayStr(), seconds: {training:0, practice:0, analysis:0} },
+      running: { training:false, practice:false, analysis:false },
+      startedAt: { training:null, practice:null, analysis:null },
+      celebrated: { training:false, practice:false, analysis:false, allDone:false },
+      lastLevelSeen: 1,
+      progress: {},
+      projects: [],
+      profile: {name:(window.AriaAuth?AriaAuth.username():""), goal:"", avatar:"", skills:{audio:20,color:20,motion:20,story:20}},
+      achievements: {}
+    };
+  }
+  if(!s.celebrated) s.celebrated = { training:false, practice:false, analysis:false, allDone:false };
+  if(!s.lastLevelSeen) s.lastLevelSeen = 1;
+  if(!s.profile) s.profile = {name:"", goal:"", avatar:"", skills:{audio:20,color:20,motion:20,story:20}};
+  if(!s.profile.skills) s.profile.skills = {audio:20,color:20,motion:20,story:20};
+  if(!s.achievements) s.achievements = {};
+  if(!s.profile.skillMode) s.profile.skillMode = "system";
+  if(!s.profile.manualSkills) s.profile.manualSkills = {...s.profile.skills};
+  if(!s.profile.aiAnalysis) s.profile.aiAnalysis = null;
+  if(!s.profile.systemSkills) s.profile.systemSkills = {...s.profile.skills};
+  // rollover if a new day started
+  if(s.today.date !== todayStr()){
+    const totalSec = SECTIONS.reduce((a,sec)=>a+(s.today.seconds[sec.key]||0),0);
+    if(totalSec > 0){
+      const xp = Math.round((totalSec/3600)*XP_PER_HOUR);
+      s.history.push({date:s.today.date, seconds:{...s.today.seconds}, xp});
+      s.xpBanked += xp;
+    }
+    s.today = { date: todayStr(), seconds:{training:0,practice:0,analysis:0} };
+    s.running = { training:false, practice:false, analysis:false };
+    s.startedAt = { training:null, practice:null, analysis:null };
+    s.celebrated = { training:false, practice:false, analysis:false, allDone:false };
+  }
+  return s;
+}
+
+let state = loadState();
+function save(){ if(window.__ARIA_NOSAVE) return; localStorage.setItem(STORE_KEY, JSON.stringify(state)); if(window.AriaAuth&&AriaAuth.queueSync) AriaAuth.queueSync(); }
+
+/* ---------------- XP / Level ---------------- */
+function todayXp(){
+  const totalSec = SECTIONS.reduce((a,sec)=> a + liveSeconds(sec.key), 0);
+  return (totalSec/3600) * XP_PER_HOUR;
+}
+function totalXp(){ return state.xpBanked + todayXp(); }
+function levelInfo(){
+  const xp = totalXp();
+  const level = Math.floor(xp / XP_PER_LEVEL) + 1;
+  const into = xp - (level-1)*XP_PER_LEVEL;
+  return { level, into, xp };
+}
+function liveSeconds(key){
+  let sec = state.today.seconds[key] || 0;
+  if(state.running[key] && state.startedAt[key]){
+    sec += (Date.now() - state.startedAt[key]) / 1000;
+  }
+  return sec;
+}
+function fmtHMS(totalSeconds){
+  const s = Math.max(0, Math.floor(totalSeconds));
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
+  return faNum(h)+":"+String(m).padStart(2,"0").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d])+":"+String(sec).padStart(2,"0").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+function fmtHM(totalSeconds){
+  const s = Math.max(0, Math.floor(totalSeconds));
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60);
+  return faNum(h)+":"+String(m).padStart(2,"0").replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+}
+
+/* ---------------- Toast ---------------- */
+let toastTimer;
+function showToast(msg, celebrate){
+  const t = document.getElementById("toast");
+  document.getElementById("toastText").textContent = msg;
+  t.classList.toggle("celebrate-toast", !!celebrate);
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.remove("show"), celebrate ? 3200 : 2200);
+}
+
+/* ---------------- Audio (Web Audio API, no external files) ---------------- */
+let audioCtx = null;
+function unlockAudio(){
+  if(!audioCtx){
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if(Ctx) audioCtx = new Ctx();
+  }
+  if(audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+}
+document.addEventListener("pointerdown", unlockAudio, { once:false });
+
+function playVictorySound(big){
+  if(!audioCtx) return;
+  const notes = big ? [523.25, 659.25, 783.99, 1046.5, 1318.5] : [523.25, 659.25, 783.99];
+  const now = audioCtx.currentTime;
+  notes.forEach((freq, i)=>{
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = "triangle";
+    osc.frequency.value = freq;
+    const start = now + i * 0.11;
+    gain.gain.setValueAtTime(0, start);
+    gain.gain.linearRampToValueAtTime(0.18, start + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, start + 0.32);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(start);
+    osc.stop(start + 0.34);
+  });
+}
+
+/* ---------------- Confetti (vanilla canvas, no external libs) ---------------- */
+function triggerConfetti(big){
+  const canvas = document.getElementById("confettiCanvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const colors = ["#9b6bff", "#35d6e8", "#ffc352", "#3ee6a0", "#ff6b6b"];
+  const count = big ? 220 : 120;
+  const particles = Array.from({length: count}, ()=>({
+    x: Math.random() * canvas.width,
+    y: -20 - Math.random() * canvas.height * 0.4,
+    r: 4 + Math.random() * 5,
+    c: colors[Math.floor(Math.random() * colors.length)],
+    vx: -2 + Math.random() * 4,
+    vy: 2.5 + Math.random() * 3,
+    rot: Math.random() * 360,
+    vr: -8 + Math.random() * 16,
+    shape: Math.random() < 0.5 ? "rect" : "circle"
+  }));
+  let frame = 0;
+  const maxFrames = big ? 190 : 140;
+  (function loop(){
+    frame++;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p=>{
+      p.x += p.vx; p.y += p.vy; p.vy += 0.04; p.rot += p.vr;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.c;
+      if(p.shape === "rect") ctx.fillRect(-p.r, -p.r * 0.4, p.r * 2, p.r * 0.8);
+      else { ctx.beginPath(); ctx.arc(0, 0, p.r, 0, Math.PI * 2); ctx.fill(); }
+      ctx.restore();
+    });
+    if(frame < maxFrames) requestAnimationFrame(loop);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  })();
+}
+
+function celebrate(msg, big){
+  triggerConfetti(!!big);
+  playVictorySound(!!big);
+  showToast(msg, true);
+}
+
+
+/* ---------------- Micro UX helpers ---------------- */
+function haptic(kind="light"){
+  if(!navigator.vibrate) return;
+  const patterns={light:8,success:[10,18,10],strong:[14,28,14]};
+  try{ navigator.vibrate(patterns[kind]||patterns.light); }catch(e){}
+}
+function buttonFeedback(el){
+  if(!el) return;
+  el.classList.remove("ux-pop"); void el.offsetWidth; el.classList.add("ux-pop");
+  setTimeout(()=>el.classList.remove("ux-pop"),360);
+}
+function initBackgroundParticles(){
+  const canvas=document.getElementById("bgParticles");
+  if(!canvas || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const ctx=canvas.getContext("2d"); if(!ctx) return;
+  let w=0,h=0,dpr=1,particles=[],raf=0;
+  const resize=()=>{
+    dpr=Math.min(window.devicePixelRatio||1,1.5); w=window.innerWidth; h=window.innerHeight;
+    canvas.width=Math.floor(w*dpr); canvas.height=Math.floor(h*dpr);
+    canvas.style.width=w+"px"; canvas.style.height=h+"px"; ctx.setTransform(dpr,0,0,dpr,0,0);
+    const count=w<700?24:42;
+    particles=Array.from({length:count},()=>({x:Math.random()*w,y:Math.random()*h,r:.7+Math.random()*1.7,vx:(Math.random()-.5)*.10,vy:(Math.random()-.5)*.10,phase:Math.random()*Math.PI*2}));
+  };
+  resize(); window.addEventListener("resize",resize,{passive:true});
+  let last=performance.now();
+  const draw=now=>{
+    const dt=Math.min(32,now-last); last=now; ctx.clearRect(0,0,w,h);
+    particles.forEach(p=>{
+      p.phase+=dt*.00045; p.x+=p.vx*dt; p.y+=p.vy*dt;
+      if(p.x<-10)p.x=w+10; if(p.x>w+10)p.x=-10; if(p.y<-10)p.y=h+10; if(p.y>h+10)p.y=-10;
+      const a=.12+.10*(Math.sin(p.phase)+1)/2;
+      const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*7);
+      g.addColorStop(0,`rgba(155,107,255,${a})`); g.addColorStop(1,'rgba(155,107,255,0)');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*7,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle=`rgba(205,214,255,${a+.08})`; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+    });
+    raf=requestAnimationFrame(draw);
+  };
+  raf=requestAnimationFrame(draw); window.addEventListener("beforeunload",()=>cancelAnimationFrame(raf),{once:true});
+}
+
+/* ---------------- Stats / Achievements / Profile ---------------- */
+const ACHIEVEMENTS = [
+  {id:"first_day", icon:"🌱", title:"شروع قدرتمند", desc:"اولین روز تمرینت را ثبت کن.", check:()=>state.history.length>=1 || totalTodaySeconds()>0},
+  {id:"ten_hours", icon:"⚡", title:"۱۰ ساعت تمرین", desc:"در مجموع ۱۰ ساعت تمرین ثبت کن.", check:()=>totalTrackedSeconds()>=10*3600},
+  {id:"hard_worker", icon:"🏆", title:"شاگرد سخت‌کوش", desc:"به ۱۰۰ ساعت تمرین برس.", check:()=>totalTrackedSeconds()>=100*3600},
+  {id:"project_maker", icon:"🎬", title:"پروژه‌ساز", desc:"۱۰ پروژه در ژورنال ثبت کن.", check:()=>state.projects.length>=10},
+  {id:"week_streak", icon:"🔥", title:"هفته آتشین", desc:"۷ روز پشت‌سرهم تمرین کن.", check:()=>getCurrentStreak()>=7},
+  {id:"level_five", icon:"👑", title:"لول ۵", desc:"به سطح ۵ برس.", check:()=>levelInfo().level>=5}
+];
+const SKILLS = [
+  {key:"audio",label:"صدا"},{key:"color",label:"رنگ"},{key:"motion",label:"موشن گرافیک"},{key:"story",label:"روایت"}
+];
+function totalTodaySeconds(){ return SECTIONS.reduce((a,sec)=>a+liveSeconds(sec.key),0); }
+function totalTrackedSeconds(){ return state.history.reduce((a,h)=>a+SECTIONS.reduce((x,sec)=>x+(h.seconds?.[sec.key]||0),0),0)+totalTodaySeconds(); }
+function getCurrentStreak(){
+  const totalToday=totalTodaySeconds();
+  const hasToday=totalToday>0;
+  const histByDate={}; state.history.forEach(h=>histByDate[h.date]=h);
+  let streak=0, cursor=new Date();
+  if(!hasToday) cursor.setDate(cursor.getDate()-1);
+  while(true){
+    const ds=cursor.getFullYear()+"-"+String(cursor.getMonth()+1).padStart(2,"0")+"-"+String(cursor.getDate()).padStart(2,"0");
+    if(ds===todayStr() && hasToday) streak++;
+    else if(histByDate[ds]) streak++;
+    else break;
+    cursor.setDate(cursor.getDate()-1);
+  }
+  return streak;
+}
+function getLast7Days(){
+  const out=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()-i);
+    const ds=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+    let sec=0;
+    if(ds===todayStr()) sec=totalTodaySeconds();
+    state.history.forEach(h=>{if(h.date===ds) sec+=SECTIONS.reduce((a,secObj)=>a+(h.seconds?.[secObj.key]||0),0);});
+    out.push({date:d,seconds:sec});
+  }
+  return out;
+}
+function renderStats(){
+  const days=getLast7Days(), max=Math.max(1,...days.map(d=>d.seconds));
+  const bar=document.getElementById("weeklyBarChart");
+  if(bar){
+    bar.innerHTML=days.map(d=>{
+      const pct=Math.max(2,(d.seconds/(max))*100);
+      const label=d.date.toLocaleDateString('fa-IR',{weekday:'long'});
+      return `<div class="bar-col"><div class="bar-value num">${d.seconds?faNum((d.seconds/3600).toFixed(1)):"۰"}</div><div class="bar" style="height:${pct}%"></div><div class="bar-label">${label}</div></div>`;
+    }).join("");
+  }
+  document.getElementById("statTotalHours").textContent=faNum((totalTrackedSeconds()/3600).toFixed(1));
+  document.getElementById("statProjects").textContent=faNum(state.projects.length);
+  renderRadar(); renderAchievements();
+}
+function renderRadar(){
+  const wrap=document.getElementById("radarChart"); if(!wrap) return;
+  const vals=SKILLS.map(s=>Math.max(0,Math.min(100,Number(state.profile.skills[s.key]??20))));
+  const cx=140,cy=124,r=82, n=4;
+  const pt=(radius,i,val=100)=>{const a=(-Math.PI/2)+(Math.PI*2*i/n); const rr=radius*(val/100); return [cx+Math.cos(a)*rr,cy+Math.sin(a)*rr];};
+  const poly=(radius,val)=>SKILLS.map((_,i)=>pt(radius,i,val)).map(p=>p.join(",")).join(" ");
+  const area=vals.map((v,i)=>pt(r,i,v)).map(p=>p.join(",")).join(" ");
+  let svg=`<svg class="radar-svg" viewBox="0 0 280 250" role="img" aria-label="نمودار مهارت‌ها">`;
+  [25,50,75,100].forEach(v=>svg+=`<polygon class="radar-grid" points="${poly(r,v)}"></polygon>`);
+  SKILLS.forEach((s,i)=>{const [x,y]=pt(r,i);const [lx,ly]=pt(r+20,i);svg+=`<line class="radar-axis" x1="${cx}" y1="${cy}" x2="${x}" y2="${y}"></line><text class="radar-label" x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle">${s.label}</text>`;});
+  svg+=`<polygon class="radar-area" points="${area}"></polygon>`;
+  vals.forEach((v,i)=>{const [x,y]=pt(r,i,v);svg+=`<circle class="radar-point" cx="${x}" cy="${y}" r="4"></circle>`;});
+  svg+=`</svg>`; wrap.innerHTML=svg;
+}
+function renderAchievements(){
+  const grid=document.getElementById("achievementGrid"); if(!grid) return;
+  grid.innerHTML=ACHIEVEMENTS.map(a=>{
+    const unlocked=!!state.achievements[a.id];
+    return `<div class="achievement ${unlocked?'unlocked':'locked'}"><div class="ach-icon">${unlocked?a.icon:"🔒"}</div><div class="ach-title">${a.title}</div><div class="ach-desc">${a.desc}</div><div class="ach-state">${unlocked?'✓ باز شده':'قفل'}</div></div>`;
+  }).join("");
+}
+function checkAchievements(announce=true){
+  let newly=[];
+  ACHIEVEMENTS.forEach(a=>{
+    if(!state.achievements[a.id] && a.check()){
+      state.achievements[a.id]=true; newly.push(a);
+    }
+  });
+  if(newly.length){
+    save(); renderStats();
+    if(announce){ haptic("success"); celebrate(`🏅 مدال «${newly[0].title}» باز شد!`, true); }
+  }
+}
+
+const SKILL_LABELS = {audio:"صدا", color:"رنگ", motion:"موشن گرافیک", story:"روایت"};
+const SKILL_KEYS = Object.keys(SKILL_LABELS);
+function clamp100(v){ return Math.max(0,Math.min(100,Math.round(Number(v)||0))); }
+function getCurriculumStats(){
+  const out={tasks:0,done:0,hours:0,doneHours:0,bySkill:{audio:{t:0,d:0},color:{t:0,d:0},motion:{t:0,d:0},story:{t:0,d:0}}};
+  EDITQUEST_CURRICULUM.forEach((y,yi)=>y.months.forEach((m,mi)=>m.weeks.forEach((w,wi)=>w.tasks.forEach((t,ti)=>{
+    const id=weekId(yi,0,mi,wi), done=!!(state.progress[id]&&state.progress[id][ti]);
+    const text=(t.text+' '+t.type).toLowerCase();
+    const hits=[];
+    if(/صدا|audio|میکس|اکولایزر|eq|نویز|پژواک|sfx|موزیک|ضرب.?آهنگ/.test(text)) hits.push('audio');
+    if(/رنگ|color|lumetri|exposure|کنتراست|وایت|گری?دینگ/.test(text)) hits.push('color');
+    if(/موشن|motion|انیمیشن|افکت|متن|title|transition|ترنزیشن/.test(text)) hits.push('motion');
+    if(/روایت|داستان|b-roll|کات|ریتم|مصاحبه|گوینده|سینمایی/.test(text)) hits.push('story');
+    if(!hits.length) hits.push(t.type==='تحلیل'?'story':'motion');
+    const unique=[...new Set(hits)]; out.tasks++; out.hours+=Number(t.hours)||0; if(done){out.done++;out.doneHours+=Number(t.hours)||0;}
+    unique.forEach(k=>{out.bySkill[k].t++;if(done)out.bySkill[k].d++;});
+  }))));
+  return out;
+}
+function getSystemSkills(){
+  const stats=getCurriculumStats(); const totalTracked=totalTrackedSeconds()/3600;
+  const timeFactor=Math.min(100,totalTracked/60*100);
+  const result={};
+  SKILL_KEYS.forEach(k=>{const a=stats.bySkill[k];const completion=a.t? a.d/a.t*100:0; result[k]=clamp100(completion*.78+timeFactor*.22);});
+  return result;
+}
+function skillLevel(v){v=clamp100(v);return v>=85?'استاد':v>=70?'پیشرفته':v>=45?'متوسط':v>=20?'مبتدی':'شروع';}
+function renderSkillBars(values){return `<div class="skill-bars">${SKILL_KEYS.map(k=>{const v=clamp100(values[k]);return `<div class="skill-bar-row"><span>${SKILL_LABELS[k]}</span><div class="skill-bar-track"><i style="width:${v}%"></i></div><b class="num">${faNum(v)}٪</b></div>`}).join('')}</div>`;}
+function renderProfile(){
+  const p=state.profile||{}; document.getElementById("profileName").value=p.name||""; document.getElementById("profileGoal").value=p.goal||"";
+  const avatar=document.getElementById("avatarPreview"); avatar.innerHTML=p.avatar?`<img src="${p.avatar}" alt="آواتار">`:(p.name?escapeHtml(p.name.trim().charAt(0)):"آ");
+  if(!p.manualSkills) p.manualSkills={...(p.skills||{})};
+  if(!p.skillMode) p.skillMode="system";
+  if(!p.systemSkills) p.systemSkills=getSystemSkills();
+  const tabs=document.querySelectorAll('[data-skill-mode]'); tabs.forEach(t=>t.classList.toggle('active',t.dataset.skillMode===p.skillMode));
+  const panel=document.getElementById('skillModePanel'); if(!panel)return;
+  const sys=getSystemSkills(); p.systemSkills=sys;
+  if(p.skillMode==='manual'){
+    panel.innerHTML=`<div class="manual-note">در حالت دستی، امتیاز هر مهارت را خودت انتخاب می‌کنی. این مقادیر جایگزین تحلیل سیستمی نمی‌شوند.</div><div class="skill-settings" id="skillSettings"></div>`;
+    const wrap=document.getElementById('skillSettings'); wrap.innerHTML=SKILL_KEYS.map(k=>{const v=clamp100(p.manualSkills[k]??20);return `<div class="skill-setting"><div class="skill-setting-head"><span>${SKILL_LABELS[k]}</span><span class="num" id="skillVal-${k}">${faNum(v)}٪</span></div><input type="range" min="0" max="100" value="${v}" data-skill="${k}"></div>`}).join('');
+    wrap.querySelectorAll('input[type="range"]').forEach(input=>input.addEventListener('input',()=>{p.manualSkills[input.dataset.skill]=Number(input.value);document.getElementById('skillVal-'+input.dataset.skill).textContent=faNum(input.value)+'٪';}));
+  } else if(p.skillMode==='ai'){
+    const a=p.aiAnalysis; panel.innerHTML=`<div class="ai-note">تحلیل هوش مصنوعی فعلاً از مسیر، زمان ثبت‌شده، پروژه‌ها و وضعیت تسک‌ها استفاده می‌کند. اگر <code>/api/skill-analysis</code> در دسترس نباشد، تحلیل محلی اجرا می‌شود.</div><div class="mode-summary"><div class="mode-stat"><b class="num">${faNum(a?.recommendedOverall??Math.round(Object.values(sys).reduce((x,v)=>x+v,0)/4))}٪</b><span>سطح پیشنهادی کلی</span></div><div class="mode-stat"><b>${a?.recommendedLevel||skillLevel(Math.round(Object.values(sys).reduce((x,v)=>x+v,0)/4))}</b><span>رده پیشنهادی</span></div></div><div class="ai-actions"><button class="ghost-btn primary" id="btnRunAi" type="button">تحلیل پیشرفت</button><button class="ghost-btn" id="btnApplyAi" type="button" ${a?'':'disabled'}>اعمال پیشنهاد به سیستم</button></div><div class="ai-result ${a?'show':''}" id="aiResult">${a?renderAiResult(a):''}</div>`;
+    const run=document.getElementById('btnRunAi'); if(run)run.addEventListener('click',runAiAnalysis); const apply=document.getElementById('btnApplyAi'); if(apply)apply.addEventListener('click',()=>{if(!p.aiAnalysis)return;p.systemSkills={...p.aiAnalysis.scores};p.skills={...p.aiAnalysis.scores};save();renderProfile();renderStats();showToast('پیشنهاد تحلیل روی سیستم اعمال شد ✨',true);});
+  } else {
+    panel.innerHTML=`<div class="mode-summary"><div class="mode-stat"><b class="num">${faNum(Math.round(Object.values(sys).reduce((x,v)=>x+v,0)/4))}٪</b><span>پیشرفت خودکار کلی</span></div><div class="mode-stat"><b>خودکار</b><span>منبع: مسیر + تسک‌ها + زمان</span></div></div>${renderSkillBars(sys)}<div style="margin-top:11px"><span class="skill-badge">سطح هر مهارت بر اساس پیشرفت مسیر محاسبه می‌شود</span></div>`;
+    p.skills={...sys};
+  }
+}
+function buildAiLocalAnalysis(){
+  const scores=getSystemSkills(); const avg=Math.round(Object.values(scores).reduce((a,b)=>a+b,0)/SKILL_KEYS.length); const sorted=[...SKILL_KEYS].sort((a,b)=>scores[a]-scores[b]);
+  const strengths=[...SKILL_KEYS].sort((a,b)=>scores[b]-scores[a]).slice(0,2).map(k=>`${SKILL_LABELS[k]} — ${faNum(scores[k])}٪`);
+  const weaknesses=sorted.slice(0,2).map(k=>`${SKILL_LABELS[k]} — ${faNum(scores[k])}٪`);
+  const tasks=sorted.map((k,i)=>({title:`تقویت ${SKILL_LABELS[k]}`,priority:i===0?'بالا':i===1?'متوسط':'عادی',reason:`تمرین‌ها و تسک‌های مرتبط با ${SKILL_LABELS[k]} را بیشتر کامل کن.`}));
+  return {recommendedOverall:avg,recommendedLevel:skillLevel(avg),scores, strengths, weaknesses, tasks, generatedAt:new Date().toISOString(), source:'local-fallback'};
+}
+function renderAiResult(a){return `<div class="ai-result-grid"><div class="ai-box"><h4>💪 نقاط قوت</h4><ul>${(a.strengths||[]).map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul></div><div class="ai-box"><h4>🎯 نقاط ضعف</h4><ul>${(a.weaknesses||[]).map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul></div><div class="ai-box"><h4>📌 کارهای پیشنهادی</h4><ul>${(a.tasks||[]).map(x=>`<li><span class="ai-priority">${escapeHtml(x.priority)}</span>${escapeHtml(x.title)}</li>`).join('')}</ul></div><div class="ai-box"><h4>🧭 امتیاز مهارت‌ها</h4>${renderSkillBars(a.scores||{})}</div></div>`;}
+async function runAiAnalysis(){
+  const btn=document.getElementById('btnRunAi'); if(btn){btn.disabled=true;btn.textContent='در حال تحلیل...';}
+  const stats=getCurriculumStats(); const payload={profile:{goal:state.profile.goal||'',manualSkills:state.profile.manualSkills||{}},progress:state.progress,projects:state.projects,today:state.today,history:state.history,stats}; let result=null;
+  try{const r=await fetch('/api/skill-analysis',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(r.ok)result=await r.json();}catch(e){}
+  if(!result)result=buildAiLocalAnalysis(); state.profile.aiAnalysis=result; save(); renderProfile(); showToast(result.source==='local-fallback'?'تحلیل محلی آماده شد':'تحلیل AI آماده شد ✨',true); if(btn){btn.disabled=false;}
+}
+function saveProfile(){
+  state.profile.name=document.getElementById("profileName").value.trim(); state.profile.goal=document.getElementById("profileGoal").value.trim();
+  if(!state.profile.skillMode)state.profile.skillMode='system'; if(!state.profile.manualSkills)state.profile.manualSkills={...(state.profile.skills||{})};
+  if(state.profile.skillMode==='manual'){document.querySelectorAll('#skillSettings input[data-skill]').forEach(input=>state.profile.manualSkills[input.dataset.skill]=Number(input.value));state.profile.skills={...state.profile.manualSkills};}
+  else if(state.profile.skillMode==='system'){state.profile.skills=getSystemSkills();state.profile.systemSkills={...state.profile.skills};}
+  save(); renderProfile(); renderStats(); haptic("success"); showToast("پروفایل ذخیره شد ✨",true);
+}
+document.querySelectorAll('[data-skill-mode]').forEach(btn=>btn.addEventListener('click',()=>{state.profile.skillMode=btn.dataset.skillMode;save();renderProfile();}));
+
+/* ---------------- Timer cards render ---------------- */
+const timerGrid = document.getElementById("timerGrid");
+function buildTimerCards(){
+  timerGrid.innerHTML = "";
+  SECTIONS.forEach(sec=>{
+    const card = document.createElement("div");
+    card.className = "timer-card";
+    card.style.setProperty("--accent-color", sec.color);
+    card.dataset.key = sec.key;
+    card.innerHTML = `
+      <div class="t-head">
+        <div>
+          <div class="t-name">${sec.label}</div>
+          <div class="t-target">هدف روزانه: ${faNum(sec.targetH)} ساعت</div>
+        </div>
+      </div>
+      <div class="ring-wrap">
+        <svg viewBox="0 0 100 100">
+          <circle class="ring-bg" cx="50" cy="50" r="42"></circle>
+          <circle class="ring-fg" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+        </svg>
+        <div class="ring-center">
+          <div class="rt-time num">۰:۰۰:۰۰</div>
+          <div class="rt-pct num">۰٪</div>
+        </div>
+      </div>
+      <button class="t-btn" data-action="toggle">
+        <span class="btn-icon">${ICONS.play}</span>
+        <span class="btn-label">شروع</span>
+      </button>
+    `;
+    timerGrid.appendChild(card);
+    card.querySelector('[data-action="toggle"]').addEventListener("click", ()=> toggleTimer(sec.key));
+  });
+}
+
+function toggleTimer(key){
+  haptic("light");
+  if(state.running[key]){
+    // stop -> commit elapsed
+    const elapsed = (Date.now() - state.startedAt[key]) / 1000;
+    state.today.seconds[key] = (state.today.seconds[key]||0) + elapsed;
+    state.running[key] = false;
+    state.startedAt[key] = null;
+  } else {
+    state.running[key] = true;
+    state.startedAt[key] = Date.now();
+  }
+  save();
+  renderDashboard();
+}
+
+function renderDashboard(){
+  let justCompleted = [];
+  SECTIONS.forEach(sec=>{
+    const card = timerGrid.querySelector(`[data-key="${sec.key}"]`);
+    if(!card) return;
+    const sec_s = liveSeconds(sec.key);
+    const target_s = sec.targetH*3600;
+    const pct = Math.min(100, (sec_s/target_s)*100);
+    const circumference = 264;
+    const offset = circumference - (circumference*pct/100);
+    card.querySelector(".ring-fg").setAttribute("stroke-dashoffset", offset);
+    card.querySelector(".rt-time").textContent = fmtHMS(sec_s);
+    card.querySelector(".rt-pct").textContent = faNum(Math.round(pct)) + "٪";
+    card.dataset.running = state.running[sec.key] ? "true" : "false";
+    const btn = card.querySelector('[data-action="toggle"]');
+    btn.classList.toggle("running", !!state.running[sec.key]);
+    btn.querySelector(".btn-icon").innerHTML = state.running[sec.key] ? ICONS.pause : ICONS.play;
+    btn.querySelector(".btn-label").textContent = state.running[sec.key] ? "توقف" : "شروع";
+
+    if(pct >= 100 && !state.celebrated[sec.key]){
+      state.celebrated[sec.key] = true;
+      justCompleted.push(sec.label);
+    }
+  });
+
+  if(justCompleted.length){
+    save();
+    haptic("success");
+    celebrate(`🎉 هدف «${justCompleted[0]}» امروز کامل شد!`, false);
+  }
+
+  const totalTodaySec = SECTIONS.reduce((a,sec)=>a+liveSeconds(sec.key),0);
+  document.getElementById("sumToday").textContent = fmtHM(totalTodaySec);
+  document.getElementById("sumXpToday").textContent = faNum(Math.round(todayXp()));
+
+  const allTargetsHit = SECTIONS.every(sec=> liveSeconds(sec.key) >= sec.targetH*3600);
+  if(allTargetsHit && !state.celebrated.allDone){
+    state.celebrated.allDone = true;
+    save();
+    haptic("strong");
+    celebrate("🏆 روز کامل شد! هر سه هدف امروز رو زدی", true);
+  }
+
+  // streak: consecutive days (including today if it has any time) counting back from today
+  let streak = 0;
+  const hasToday = totalTodaySec > 0;
+  const histByDate = {};
+  state.history.forEach(h=> histByDate[h.date] = h);
+  let cursor = new Date();
+  if(!hasToday) cursor.setDate(cursor.getDate()-1);
+  while(true){
+    const ds = cursor.getFullYear()+"-"+String(cursor.getMonth()+1).padStart(2,"0")+"-"+String(cursor.getDate()).padStart(2,"0");
+    if(ds === todayStr() && hasToday){ streak++; }
+    else if(histByDate[ds]){ streak++; }
+    else break;
+    cursor.setDate(cursor.getDate()-1);
+  }
+  document.getElementById("sumStreak").textContent = faNum(streak) + " روز";
+  const headerStreak=document.getElementById("headerStreak"); if(headerStreak) headerStreak.textContent=faNum(streak);
+
+  renderLevel();
+  renderHistoryStrip();
+}
+
+function renderLevel(){
+  const { level, into } = levelInfo(); const pct=Math.min(100,(into/XP_PER_LEVEL)*100);
+  document.getElementById("lvBadge").textContent=faNum(level); document.getElementById("lvXpText").textContent=faNum(Math.round(into))+" / "+faNum(XP_PER_LEVEL)+" XP";
+  const fill=document.getElementById("xpFill"); if(fill)fill.style.width=pct+"%";
+  const mini=document.getElementById('levelMiniFill'); if(mini)mini.style.width=pct+'%';
+  const ring=document.getElementById('levelRingFg'); if(ring)ring.style.strokeDashoffset=(257.61*(1-pct/100)).toFixed(2);
+  if(level>state.lastLevelSeen){state.lastLevelSeen=level;save();celebrate(`✨ سطح جدید! رسیدی به سطح ${faNum(level)}`,true);}
+}
+
+function renderHistoryStrip(){
+  const wrap = document.getElementById("historyStrip");
+  const recent = state.history.slice(-10).reverse();
+  if(recent.length === 0){
+    wrap.innerHTML = `<div class="history-empty">هنوز روزی ثبت نشده. اولین روزت رو با «ثبت و پایان روز» تموم کن.</div>`;
+    return;
+  }
+  wrap.innerHTML = recent.map(h=>{
+    const d = new Date(h.date);
+    const label = d.toLocaleDateString('fa-IR', {month:'short', day:'numeric'});
+    return `<div class="history-day"><div class="h-date">${label}</div><div class="h-xp num">${faNum(Math.round(h.xp))} XP</div></div>`;
+  }).join("");
+}
+
+document.getElementById("btnFinishDay").addEventListener("click", ()=>{
+  // stop any running timers first
+  SECTIONS.forEach(sec=>{ if(state.running[sec.key]) toggleTimer(sec.key); });
+  const totalSec = SECTIONS.reduce((a,sec)=>a+(state.today.seconds[sec.key]||0),0);
+  if(totalSec === 0){ showToast("هنوز چیزی برای ثبت نیست"); return; }
+  const xp = Math.round((totalSec/3600)*XP_PER_HOUR);
+  state.history.push({date: state.today.date, seconds:{...state.today.seconds}, xp});
+  state.xpBanked += xp;
+  state.today = { date: todayStr(), seconds:{training:0,practice:0,analysis:0} };
+  state.celebrated = { training:false, practice:false, analysis:false, allDone:false };
+  save();
+  renderDashboard();
+  showToast(`روز ثبت شد — ${faNum(xp)} XP اضافه شد`);
+  checkAchievements(); renderStats();
+});
+
+document.getElementById("btnResetToday").addEventListener("click", ()=>{
+  if(!confirm("مطمئنی می‌خوای زمان‌های امروز رو ریست کنی؟")) return;
+  state.today.seconds = {training:0,practice:0,analysis:0};
+  state.running = { training:false, practice:false, analysis:false };
+  state.startedAt = { training:null, practice:null, analysis:null };
+  state.celebrated = { training:false, practice:false, analysis:false, allDone:false };
+  save();
+  renderDashboard();
+});
+
+/* ---------------- Skill tree render ---------------- */
+function weekId(yearIdx, chapIdx, monthIdx, weekIdx){
+  return `y${yearIdx}c${chapIdx}m${monthIdx}w${weekIdx}`;
+}
+function getWeekProgress(id, taskCount){
+  const p = state.progress[id] || {};
+  let done = 0;
+  for(let i=0;i<taskCount;i++) if(p[i]) done++;
+  return { done, total: taskCount, p };
+}
+
+
+let selectedSeason=0;
+function getSeasonList(){return EDITQUEST_CURRICULUM.map((y,idx)=>({idx,title:y.chapterTitle||`فصل ${idx+1}`,year:y.yearLabel||`سال ${y.year||idx+1}`,months:y.months||[]}));}
+function getSeasonStats(y,yi){let done=0,total=0; y.months.forEach((m,mi)=>m.weeks.forEach((w,wi)=>w.tasks.forEach((t,ti)=>{total++;const id=weekId(yi,0,mi,wi);if(state.progress[id]&&state.progress[id][ti])done++;})));return {done,total,pct:total?Math.round(done/total*100):0};}
+function renderSeasonUI(){
+  const seasons=getSeasonList(); if(!seasons.length)return;
+  if(selectedSeason>=seasons.length)selectedSeason=0;
+  const activeIndex=selectedSeason===-1?0:selectedSeason; const active=seasons[activeIndex]; const st=getSeasonStats(active,active.idx);
+  const shownLabel=selectedSeason===-1?'همه فصل‌ها':`فصل ${faNum(selectedSeason+1)} فعال`;
+  const shownStats=selectedSeason===-1?seasons.reduce((a,x)=>{const q=getSeasonStats(EDITQUEST_CURRICULUM[x.idx],x.idx);a.done+=q.done;a.total+=q.total;return a;},{done:0,total:0}):st;
+  const shownPct=shownStats.total?Math.round(shownStats.done/shownStats.total*100):0;
+  document.getElementById('seasonHeroName').textContent=selectedSeason===-1?'همه فصل‌ها':active.title; document.getElementById('seasonHeroSub').textContent=selectedSeason===-1?`${faNum(seasons.length)} فصل در نقشه راه`:(active.year+' • '+faNum(active.months.length)+' ماه آموزشی'); document.getElementById('seasonHeroBadge').textContent=shownLabel; document.getElementById('seasonHeroPct').textContent=faNum(shownPct)+'٪';document.getElementById('seasonHeroFill').style.width=shownPct+'%';
+  const timeline=document.getElementById('seasonTimeline');timeline.innerHTML=seasons.map((x,i)=>`<div class="season-step ${i===selectedSeason?'active':''}"><span class="s-node num">${faNum(i+1)}</span><span>فصل ${faNum(i+1)}</span></div>`).join('');
+  const filter=document.getElementById('seasonFilter');filter.innerHTML=`<button type="button" class="${selectedSeason===-1?'active':''}" data-season="all">همه فصل‌ها</button>`+seasons.map((x,i)=>`<button type="button" class="${i===selectedSeason?'active':''}" data-season="${i}">فصل ${faNum(i+1)}</button>`).join('');
+  filter.querySelectorAll('[data-season]').forEach(b=>b.addEventListener('click',()=>{selectedSeason=b.dataset.season==='all'?-1:Number(b.dataset.season);renderSkillTree();}));
+}
+function renderSkillTree(){
+  const root=document.getElementById('skillTreeRoot'); root.innerHTML=''; renderSeasonUI(); const seasons=getSeasonList(); const list=selectedSeason===-1?seasons:seasons.filter(x=>x.idx===selectedSeason);
+  list.forEach((season)=>{
+    const yi=season.idx, y=EDITQUEST_CURRICULUM[yi], st=getSeasonStats(y,yi); const chapterBlock=document.createElement('div');chapterBlock.className='chapter-block';
+    chapterBlock.innerHTML=`<div class="chapter-banner"><div class="chapter-left"><div class="chapter-number num">${faNum(yi+1)}</div><div><div class="chapter-title">${escapeHtml(y.chapterTitle||`فصل ${yi+1}`)}</div><div class="chapter-year">${escapeHtml(y.yearLabel||'')} • ${faNum(y.months.length)} ماه • ${faNum(st.done)}/${faNum(st.total)} تسک</div></div></div><div class="chapter-percent num">${faNum(st.pct)}٪</div></div>`;
+    y.months.forEach((monthObj,mi)=>{
+      let monthDone=0,monthTotal=0;monthObj.weeks.forEach((w,wi)=>{const id=weekId(yi,0,mi,wi),pr=getWeekProgress(id,w.tasks.length);monthDone+=pr.done;monthTotal+=pr.total;});const monthPct=monthTotal?Math.round(monthDone/monthTotal*100):0;
+      const monthCard=document.createElement('div');monthCard.className='month-card';monthCard.innerHTML=`<div class="month-head" data-toggle><div class="month-head-left"><div class="month-dot ${monthPct===100?'done':(monthPct>0?'progress':'')} num">${mi+1}</div><div class="month-titles"><div class="m-title">${escapeHtml(monthObj.title)}</div><div class="m-goal">${escapeHtml(monthObj.goal)}</div></div></div><div style="display:flex;align-items:center;gap:10px;"><div class="month-pct">${faNum(monthPct)}٪</div><button class="month-toggle" type="button">${ICONS.chevron}</button></div></div><div class="month-body"><div class="month-body-inner"><div class="week-line"></div></div></div>`;
+      const weekLine=monthCard.querySelector('.week-line');monthObj.weeks.forEach((w,wi)=>{const id=weekId(yi,0,mi,wi),pr=getWeekProgress(id,w.tasks.length),state_cls=pr.done===pr.total?'wn-done':(pr.done>0?'wn-progress':'');const weekEl=document.createElement('div');weekEl.className=`week-node ${state_cls}`;weekEl.innerHTML=`<div class="week-title">${escapeHtml(w.title)}</div>`;let currentDay=null;w.tasks.forEach((t,ti)=>{if(t.day!==currentDay){currentDay=t.day;const dayHead=document.createElement('div');dayHead.className='day-divider';dayHead.innerHTML=`<span class="day-number">روز ${faNum(t.day)}</span>`;weekEl.appendChild(dayHead);}const checked=!!pr.p[ti],row=document.createElement('div');row.className='task-row';row.innerHTML=`<button class="task-check ${checked?'checked':''}" data-id="${id}" data-ti="${ti}" type="button">${ICONS.check}</button><div class="task-text"><span class="t-type">${escapeHtml(t.type)}</span> <span class="t-hours">(${faNum(t.hours)} ساعت)</span><br><b></b>${escapeHtml(t.text)}</div>`;weekEl.appendChild(row);});weekLine.appendChild(weekEl);});chapterBlock.appendChild(monthCard);
+    }); root.appendChild(chapterBlock);
+  });
+  root.querySelectorAll('.month-head').forEach(head=>head.addEventListener('click',()=>{const card=head.closest('.month-card'),body=card.querySelector('.month-body'),open=card.classList.contains('open');if(open){body.style.maxHeight=null;card.classList.remove('open');}else{card.classList.add('open');body.style.maxHeight=body.scrollHeight+'px';}}));
+  root.querySelectorAll('.task-check').forEach(btn=>btn.addEventListener('click',()=>{const id=btn.dataset.id,ti=btn.dataset.ti;if(!state.progress[id])state.progress[id]={};state.progress[id][ti]=!state.progress[id][ti];if(state.profile.skillMode==='system'){state.profile.skills=getSystemSkills();state.profile.systemSkills={...state.profile.skills};}haptic(state.progress[id][ti]?'success':'light');save();renderSkillTree();renderDashboard();renderProfile();checkAchievements();renderStats();}));
+}
+
+/* ---------------- Journal render ---------------- */
+function renderJournal(){
+  const list = document.getElementById("projectList");
+  if(state.projects.length === 0){
+    list.innerHTML = `<div class="empty-state">هنوز پروژه‌ای ثبت نکردی. اولین پروژه‌ت رو بالا اضافه کن.</div>`;
+    return;
+  }
+  const sorted = [...state.projects].sort((a,b)=> (b.date||"").localeCompare(a.date||""));
+  list.innerHTML = sorted.map(p=>{
+    const dateLabel = p.date ? new Date(p.date).toLocaleDateString('fa-IR', {year:'numeric', month:'long', day:'numeric'}) : "";
+    return `
+      <div class="project-card">
+        <div class="p-head">
+          <div>
+            <div class="p-title">${escapeHtml(p.title)}</div>
+            ${p.link ? `<a class="p-link" href="${escapeAttr(p.link)}" target="_blank" rel="noopener noreferrer">${escapeHtml(p.link)}</a>` : ""}
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="p-date">${dateLabel}</div>
+            <button class="p-del" data-id="${p.id}">${ICONS.trash}</button>
+          </div>
+        </div>
+        ${p.feedback ? `<div class="p-feedback">${escapeHtml(p.feedback)}</div>` : ""}
+      </div>
+    `;
+  }).join("");
+
+  list.querySelectorAll(".p-del").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      state.projects = state.projects.filter(p=> String(p.id) !== String(btn.dataset.id));
+      save();
+      renderJournal();
+      showToast("پروژه حذف شد");
+    });
+  });
+}
+function escapeHtml(s){ return String(s||"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function escapeAttr(s){ return escapeHtml(s); }
+
+document.getElementById("btnAddProject").addEventListener("click", ()=>{
+  const title = document.getElementById("pjTitle").value.trim();
+  const date = document.getElementById("pjDate").value || todayStr();
+  const link = document.getElementById("pjLink").value.trim();
+  const feedback = document.getElementById("pjFeedback").value.trim();
+  if(!title){ showToast("عنوان پروژه رو وارد کن"); return; }
+  state.projects.push({ id: Date.now(), title, date, link, feedback });
+  save();
+  document.getElementById("pjTitle").value = "";
+  document.getElementById("pjLink").value = "";
+  document.getElementById("pjFeedback").value = "";
+  document.getElementById("pjDate").value = "";
+  renderJournal();
+  showToast("پروژه به ژورنال اضافه شد");
+  checkAchievements(); renderStats();
+});
+
+document.getElementById("btnSaveProfile").addEventListener("click", saveProfile);
+document.getElementById("avatarInput").addEventListener("change", e=>{
+  const file=e.target.files?.[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const img=new Image(); img.onload=()=>{
+      const c=document.createElement("canvas"), max=256, scale=Math.min(1,max/Math.max(img.width,img.height));
+      c.width=Math.max(1,Math.round(img.width*scale)); c.height=Math.max(1,Math.round(img.height*scale));
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+      state.profile.avatar=c.toDataURL("image/jpeg",.82); save(); renderProfile(); haptic("success"); showToast("آواتار تغییر کرد");
+    }; img.src=reader.result;
+  }; reader.readAsDataURL(file);
+});
+renderProfile();
+renderStats();
+checkAchievements(false);
+setTimeout(()=>document.getElementById('loadingScreen')?.classList.add('hide'),450);
+
+/* ---------------- Tabs ---------------- */
+document.querySelectorAll(".tab-btn").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    if(btn.classList.contains("active")) return;
+    haptic("light"); buttonFeedback(btn);
+    document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("view-"+btn.dataset.view).classList.add("active");
+  });
+});
+
+/* ---------------- Init & ticking ---------------- */
+initBackgroundParticles();
+buildTimerCards();
+renderDashboard();
+renderSkillTree();
+renderJournal();
+
+document.querySelectorAll(".ghost-btn, .t-btn, .p-del, .month-toggle").forEach(el=>el.addEventListener("click",()=>buttonFeedback(el)));
+
+let statsTick=0;
+setInterval(()=>{
+  // day rollover check while app stays open
+  if(state.today.date !== todayStr()){
+    state = loadState();
+    buildTimerCards();
+    renderSkillTree();
+  }
+  renderDashboard();
+  statsTick++; if(statsTick>=5){ statsTick=0; renderStats(); checkAchievements(); }
+}, 1000);
+
+window.addEventListener("beforeunload", save);
+</script>
+
+<script src="resources.js"></script>
+<script>
+if("serviceWorker" in navigator && location.protocol==="https:" && location.hostname!=="appassets.androidplatform.net"){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}
+</script>
+<script>
+/* =========================================================
+   ARIA EDIT — STAGE 3 IMMERSIVE 3D ENGINE
+   Three.js experience layer. Existing timer/XP/state/tab logic is preserved.
+   ========================================================= */
+(function(){
+  'use strict';
+  if(!window.THREE) return;
+
+  const THREE=window.THREE;
+  const canvas=document.getElementById('threeScene');
+  const holo=document.getElementById('holoPanel');
+  const holoTitle=document.getElementById('holoTitle');
+  const holoGoal=document.getElementById('holoGoal');
+  const holoClose=document.getElementById('holoClose');
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mobile=window.matchMedia('(max-width:720px)').matches || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const cores=navigator.hardwareConcurrency||4;
+  const memory=navigator.deviceMemory||4;
+  const lowEnd=cores<=4 || memory<=2 || (mobile && (window.devicePixelRatio||1)>2);
+  const quality=lowEnd?'low':(mobile?'medium':'high');
+  const particleCount=500; // Stage 2 contract: exactly 500 particles.
+
+  let renderer,scene,camera,composer,bloomPass,clock;
+  let particles,room,skillWorld,monthWorld,crystal,crystalGlow;
+  let pointerX=0,pointerY=0,targetX=0,targetY=0;
+  let dragX=0,dragY=0,targetDragX=0,targetDragY=0;
+  let scrollTarget=0,scrollValue=0;
+  let currentView='dashboard', skillLoaded=false, audioStarted=false;
+  const raycaster=new THREE.Raycaster();
+  const pointer=new THREE.Vector2();
+  const interactive=[];
+  const cameraHome=new THREE.Vector3(0,3.4,24);
+  const cameraTargets={
+    dashboard:new THREE.Vector3(0,3.2,18),
+    stats:new THREE.Vector3(-7,5,15),
+    skilltree:new THREE.Vector3(0,2.4,14),
+    journal:new THREE.Vector3(7,4,16),
+    profile:new THREE.Vector3(0,7,17)
+  };
+  let cameraFlight={from:cameraHome.clone(),to:cameraHome.clone(),start:0,duration:1100};
+
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+  function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;}
+
+  try{
+    renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:quality==='high',powerPreference:'high-performance'});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,quality==='high'?1.5:1));
+    renderer.setSize(innerWidth,innerHeight,false);
+    renderer.outputColorSpace=THREE.SRGBColorSpace;
+    renderer.toneMapping=THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure=1.15;
+    scene=new THREE.Scene();
+    scene.background=new THREE.Color(0x03040b);
+    scene.fog=new THREE.FogExp2(0x050713,0.015);
+    camera=new THREE.PerspectiveCamera(58,innerWidth/innerHeight,.1,180);
+    camera.position.copy(cameraHome);
+    clock=new THREE.Clock();
+
+    scene.add(new THREE.AmbientLight(0x30205e,quality==='high'?.5:.32));
+    [[0x9b6bff,-13,9,8,28],[0x35d6e8,14,5,0,24],[0xff5fd2,0,-1,-14,22]].forEach(d=>{
+      const l=new THREE.PointLight(d[0],d[4],70,2); l.position.set(d[1],d[2],d[3]); scene.add(l);
+    });
+
+    // Room: floor, ceiling rails and distant walls create a navigable 3D space.
+    room=new THREE.Group(); scene.add(room);
+    const floorMat=new THREE.MeshStandardMaterial({color:0x070a16,metalness:.65,roughness:.34,transparent:true,opacity:.92});
+    const floor=new THREE.Mesh(new THREE.PlaneGeometry(100,120),floorMat);
+    floor.rotation.x=-Math.PI/2; floor.position.y=-5; floor.position.z=-25; room.add(floor);
+    const floorGrid=new THREE.GridHelper(100,34,0x6945c9,0x202b62);
+    floorGrid.position.set(0,-4.95,-25); floorGrid.material.transparent=true; floorGrid.material.opacity=quality==='high'?.22:.11; room.add(floorGrid);
+    const wallMat=new THREE.MeshStandardMaterial({color:0x090b18,metalness:.4,roughness:.8,transparent:true,opacity:.55,side:THREE.BackSide});
+    const roomBox=new THREE.Mesh(new THREE.BoxGeometry(90,30,110),wallMat); roomBox.position.set(0,8,-25); room.add(roomBox);
+    for(let x of [-28,28]){
+      const rail=new THREE.Mesh(new THREE.BoxGeometry(.08,18,80),new THREE.MeshBasicMaterial({color:x<0?0x9b6bff:0x35d6e8,transparent:true,opacity:.28}));
+      rail.position.set(x,5,-20); room.add(rail);
+    }
+
+    // Exactly 500 floating particles, one draw call.
+    const pos=new Float32Array(particleCount*3), col=new Float32Array(particleCount*3);
+    const palette=[new THREE.Color(0x9b6bff),new THREE.Color(0x35d6e8),new THREE.Color(0xff5fd2),new THREE.Color(0xffffff)];
+    for(let i=0;i<particleCount;i++){
+      const j=i*3; pos[j]=(Math.random()-.5)*78; pos[j+1]=(Math.random()-.5)*40; pos[j+2]=(Math.random()-.5)*100-10;
+      const c=palette[i%palette.length]; col[j]=c.r;col[j+1]=c.g;col[j+2]=c.b;
+    }
+    const pg=new THREE.BufferGeometry(); pg.setAttribute('position',new THREE.BufferAttribute(pos,3)); pg.setAttribute('color',new THREE.BufferAttribute(col,3));
+    const pm=new THREE.PointsMaterial({size:quality==='high'?.105:.075,vertexColors:true,transparent:true,opacity:quality==='high'?.68:.42,depthWrite:false,blending:THREE.AdditiveBlending,sizeAttenuation:true});
+    particles=new THREE.Points(pg,pm); scene.add(particles);
+
+    // Dashboard crystal timer.
+    const crystalGroup=new THREE.Group(); crystalGroup.position.set(0,1,-6); scene.add(crystalGroup); crystal=crystalGroup;
+    const cg=new THREE.IcosahedronGeometry(2.5,2);
+    const cm=new THREE.MeshPhysicalMaterial({color:0x9b6bff,emissive:0x5b28bb,emissiveIntensity:1.8,metalness:.2,roughness:.14,transmission:.08,transparent:true,opacity:.94});
+    const core=new THREE.Mesh(cg,cm); crystalGroup.add(core);
+    const wire=new THREE.Mesh(new THREE.IcosahedronGeometry(2.8,2),new THREE.MeshBasicMaterial({color:0x35d6e8,wireframe:true,transparent:true,opacity:.55})); crystalGroup.add(wire);
+    crystalGlow=new THREE.PointLight(0x9b6bff,18,22,2); crystalGroup.add(crystalGlow);
+    crystalGroup.userData={core,wire,baseScale:1};
+
+    // Skill tree is lazy-loaded only when the tab is opened.
+    skillWorld=new THREE.Group(); skillWorld.visible=false; scene.add(skillWorld);
+
+    // Subtle post-processing. Disabled on low-end/mobile to protect frame rate.
+    if(quality==='high' && THREE.EffectComposer && THREE.UnrealBloomPass){
+      composer=new THREE.EffectComposer(renderer);
+      composer.addPass(new THREE.RenderPass(scene,camera));
+      bloomPass=new THREE.UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),.72,.65,.78);
+      composer.addPass(bloomPass);
+      const chroma=new THREE.ShaderPass({uniforms:{tDiffuse:{value:null},amount:{value:.0016},vignette:{value:.52}},vertexShader:`varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}`,fragmentShader:`uniform sampler2D tDiffuse;uniform float amount;uniform float vignette;varying vec2 vUv;void main(){vec2 c=vUv-.5;float d=dot(c,c);vec2 off=c*amount;vec4 r=texture2D(tDiffuse,vUv+off);vec4 g=texture2D(tDiffuse,vUv);vec4 b=texture2D(tDiffuse,vUv-off);float vig=smoothstep(.82,.2,d*vignette*2.0);gl_FragColor=vec4(r.r,g.g,b.b,1.0)*vig;}`});
+      composer.addPass(chroma);
+    }
+
+    function resize(){
+      camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+      renderer.setPixelRatio(Math.min(devicePixelRatio||1,quality==='high'?1.5:1)); renderer.setSize(innerWidth,innerHeight,false);
+      if(composer) composer.setSize(innerWidth,innerHeight);
+    }
+    addEventListener('resize',resize,{passive:true});
+
+    function pointerSet(x,y){targetX=(x/innerWidth-.5)*2;targetY=(y/innerHeight-.5)*2;}
+    addEventListener('pointermove',e=>pointerSet(e.clientX,e.clientY),{passive:true});
+    addEventListener('touchmove',e=>{const t=e.touches[0];if(t)pointerSet(t.clientX,t.clientY)},{passive:true});
+
+    let dragging=false,dragMoved=false,lastPX=0,lastPY=0;
+    addEventListener('pointerdown',e=>{dragging=true;dragMoved=false;lastPX=e.clientX;lastPY=e.clientY;unlockSpatialAudio();},{passive:true});
+    addEventListener('pointerup',()=>dragging=false,{passive:true});
+    addEventListener('pointercancel',()=>dragging=false,{passive:true});
+    addEventListener('pointermove',e=>{
+      if(!dragging)return;
+      const dx=e.clientX-lastPX,dy=e.clientY-lastPY;lastPX=e.clientX;lastPY=e.clientY;if(Math.abs(dx)+Math.abs(dy)>2)dragMoved=true;
+      targetDragY+=dx*.0035;targetDragX+=dy*.0025;targetDragX=clamp(targetDragX,-.65,.65);
+    },{passive:true});
+    addEventListener('wheel',e=>{scrollTarget=clamp(scrollTarget+e.deltaY*.0009,-.9,1.2);},{passive:true});
+
+    function buildSkillWorld(){
+      if(skillLoaded)return; skillLoaded=true; skillWorld.clear(); interactive.length=0;
+      const months=[];
+      try{ EDITQUEST_CURRICULUM.forEach(y=>y.months.forEach(m=>months.push(m))); }catch(e){}
+      months.forEach((m,i)=>{
+        const angle=(i-months.length/2)*.9; const x=(i-1)*8; const y=i===1?2.5:4.5; const z=-7-Math.abs(i-1)*2;
+        const group=new THREE.Group();group.position.set(x,y,z);group.userData={month:m,index:i};
+        let obj;
+        if(i===0){ // Setup: glowing core
+          obj=new THREE.Mesh(new THREE.SphereGeometry(1.45,quality==='high'?24:14,quality==='high'?24:14),new THREE.MeshPhysicalMaterial({color:0x9b6bff,emissive:0x401a8a,emissiveIntensity:1.5,metalness:.35,roughness:.18}));
+        }else if(i===1){ // Pacing: prism
+          obj=new THREE.Mesh(new THREE.ConeGeometry(1.65,3.1,6),new THREE.MeshPhysicalMaterial({color:0x35d6e8,emissive:0x0a5870,emissiveIntensity:1.7,metalness:.5,roughness:.18}));
+        }else{ // Audio/Color: 3D wave
+          const pts=[];for(let k=0;k<=40;k++){const xx=-2.3+k*.115;pts.push(new THREE.Vector3(xx,Math.sin(k*.72)*.62,Math.cos(k*.35)*.35));}
+          const curve=new THREE.CatmullRomCurve3(pts);obj=new THREE.Mesh(new THREE.TubeGeometry(curve,80,.12,8,false),new THREE.MeshStandardMaterial({color:0xff5fd2,emissive:0x8a164f,emissiveIntensity:2,metalness:.2,roughness:.2}));
+        }
+        obj.userData={month:m,index:i,parentGroup:group};group.add(obj);
+        const halo=new THREE.Mesh(new THREE.SphereGeometry(2.05,16,16),new THREE.MeshBasicMaterial({color:i===1?0x35d6e8:i===2?0xff5fd2:0x9b6bff,transparent:true,opacity:.055,side:THREE.BackSide,blending:THREE.AdditiveBlending}));group.add(halo);
+        interactive.push(obj);skillWorld.add(group);
+        if(i>0){
+          const prev=months[i-1];
+          const start=new THREE.Vector3((i-2)*8,i-1===0?4.5:2.5,-7-Math.abs(i-1-1)*2);
+          const end=new THREE.Vector3(x,y,z);
+          const lineGeo=new THREE.BufferGeometry().setFromPoints([start,end]);
+          const line=new THREE.Line(lineGeo,new THREE.LineBasicMaterial({color:i===1?0x9b6bff:0x35d6e8,transparent:true,opacity:.65}));skillWorld.add(line);
+        }
+      });
+      // Moving energy particles along the skill connections.
+      const energy=new THREE.Group();skillWorld.add(energy);
+      for(let i=0;i<16;i++){
+        const s=new THREE.Mesh(new THREE.SphereGeometry(.055,8,8),new THREE.MeshBasicMaterial({color:i%2?0x35d6e8:0xff5fd2,transparent:true,opacity:.9}));s.userData={i};energy.add(s);
+      }
+      skillWorld.userData.energy=energy;
+    }
+
+    function showHolo(m){
+      if(!m||!holo)return;holoTitle.textContent=m.title||'گره مهارتی';holoGoal.textContent=m.goal||'اطلاعات این گره در نقشه راه قرار دارد.';holo.classList.add('show');
+    }
+    holoClose&&holoClose.addEventListener('click',()=>holo.classList.remove('show'));
+
+    addEventListener('pointerup',e=>{
+      if(dragMoved)return;
+      if(!skillWorld.visible)return;
+      pointer.x=(e.clientX/innerWidth)*2-1;pointer.y=-(e.clientY/innerHeight)*2+1;raycaster.setFromCamera(pointer,camera);
+      const hit=raycaster.intersectObjects(interactive,false)[0];
+      if(hit){const g=hit.object.userData.parentGroup;g.userData.clicked=performance.now();showHolo(hit.object.userData.month);}
+    },{passive:true});
+
+    // Cinematic camera travel for tabs. Existing tab handlers remain untouched.
+    document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+      currentView=btn.dataset.view||'dashboard';
+      if(currentView==='skilltree')buildSkillWorld();
+      skillWorld.visible=currentView==='skilltree';
+      const target=cameraTargets[currentView]||cameraTargets.dashboard;
+      cameraFlight={from:camera.position.clone(),to:target.clone(),start:performance.now(),duration:reduced?150:1150};
+      if(currentView!=='skilltree')holo.classList.remove('show');
+    }));
+
+    // Intro: start far away and fly toward dashboard.
+    camera.position.set(0,12,65);cameraFlight={from:camera.position.clone(),to:cameraTargets.dashboard.clone(),start:performance.now(),duration:reduced?100:2600};
+
+    function unlockSpatialAudio(){
+      if(audioStarted)return; audioStarted=true;
+      try{
+        const Ctx=window.AudioContext||window.webkitAudioContext;if(!Ctx)return;
+        const ctx=window.audioCtx||new Ctx();window.audioCtx=ctx; if(ctx.state==='suspended')ctx.resume();
+        const master=ctx.createGain();master.gain.value=.018;master.connect(ctx.destination);
+        [-.72,.72].forEach((pan,i)=>{
+          const osc=ctx.createOscillator(),gain=ctx.createGain(),p=ctx.createStereoPanner();
+          osc.type='sine';osc.frequency.value=i?88:61;gain.gain.value=.22;p.pan.value=pan;osc.connect(gain).connect(p).connect(master);osc.start();
+          osc._ariaPan=p;osc._ariaGain=gain;osc._ariaBase=pan;
+          if(!window.__ariaDrones)window.__ariaDrones=[];window.__ariaDrones.push(osc);
+        });
+      }catch(e){}
+    }
+
+    function updateSpatialAudio(){
+      if(!window.__ariaDrones)return;window.__ariaDrones.forEach((o,i)=>{if(o._ariaPan)o._ariaPan.pan.value=clamp(o._ariaBase-pointerX*.22,-1,1);});
+    }
+
+    function updateCrystal(t){
+      if(!crystal)return;
+      let pct=0;
+      try{const total=SECTIONS.reduce((a,s)=>a+liveSeconds(s.key),0);const target=SECTIONS.reduce((a,s)=>a+s.targetH*3600,0);pct=clamp(total/target,0,1);}catch(e){}
+      const scale=1+pct*1.25;
+      crystal.scale.lerp(new THREE.Vector3(scale,scale,scale),.05);
+      crystal.rotation.y+=.006*(reduced?.25:1);crystal.rotation.x=Math.sin(t*.55)*.012;
+      crystalGlow.intensity=10+pct*30+Math.sin(t*2.2)*2;
+      crystal.userData.core.material.emissiveIntensity=1.2+pct*2.8;
+      crystal.visible=currentView==='dashboard';
+    }
+
+    function animate(){
+      requestAnimationFrame(animate);
+      const t=clock.getElapsedTime();
+      pointerX+=(targetX-pointerX)*.035;pointerY+=(targetY-pointerY)*.035;
+      targetDragY*=.998;targetDragX*=.998;dragY+=(targetDragY-dragY)*.04;dragX+=(targetDragX-dragX)*.04;
+      scrollValue+=(scrollTarget-scrollValue)*.035;
+
+      const now=performance.now(),ft=clamp((now-cameraFlight.start)/cameraFlight.duration,0,1);
+      const fe=ease(ft);camera.position.lerpVectors(cameraFlight.from,cameraFlight.to,fe);
+      camera.position.x+=pointerX*1.6;camera.position.y+=-pointerY*1.0+scrollValue*2.5;camera.position.z+=scrollValue*7;
+      camera.lookAt(pointerX*.6+dragY*2,1.8+dragX*2,-5-scrollValue*8);
+
+      particles.rotation.y=t*.008*(reduced?.2:1);particles.rotation.x=Math.sin(t*.04)*.01;
+      floorGrid.position.z=-25+Math.sin(t*.09)*.4;
+      room.rotation.y=dragY*.12;room.rotation.x=dragX*.04;
+      skillWorld.rotation.y=dragY*.35;skillWorld.rotation.x=dragX*.2;
+      skillWorld.position.z=-scrollValue*8;
+      if(skillWorld.userData.energy){skillWorld.userData.energy.children.forEach((s,i)=>{const q=((t*.12+i/16)%1);s.position.set(-8+q*16,2.5+Math.sin(q*Math.PI*2)*1.4,-9);});}
+      skillWorld.children.forEach(ch=>{if(ch.userData&&ch.userData.clicked){const p=clamp((now-ch.userData.clicked)/600,0,1);ch.rotation.y=p*Math.PI*2;ch.scale.setScalar(1+Math.sin(p*Math.PI)*.22);if(p>=1)delete ch.userData.clicked;}});
+      updateCrystal(t);updateSpatialAudio();
+
+      if(composer){bloomPass.strength=quality==='high'?.72:.45;composer.render();}else renderer.render(scene,camera);
+    }
+    animate();
+    document.addEventListener('visibilitychange',()=>{if(document.hidden){clock.stop();}else{clock.start();}});
+  }catch(err){console.warn('Immersive 3D layer disabled:',err);}
+})();
+</script>
+
+</body>
+</html>

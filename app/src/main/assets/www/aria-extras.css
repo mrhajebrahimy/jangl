@@ -1,0 +1,19 @@
+.au-overlay{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:16px;background:rgba(7,11,18,.96);overflow:auto}
+.au-card{width:min(420px,100%);display:flex;flex-direction:column;gap:12px;padding:22px;border-radius:20px;border:1px solid rgba(255,255,255,.12);background:#0d111a;color:#e8ecf5}
+.au-card h2{margin:0;font-size:24px}.au-sub{margin:0;font-size:12px;opacity:.7;line-height:1.7}
+.au-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.au-tab{padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:transparent;color:inherit;font:inherit;cursor:pointer}
+.au-tab.on{background:linear-gradient(145deg,rgba(155,107,255,.25),rgba(53,214,232,.12));border-color:rgba(155,107,255,.5)}
+.au-field{display:flex;flex-direction:column;gap:5px;font-size:12px}
+.au-field input,.au-del input{padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:#070b12;color:inherit;font:inherit;font-size:16px}
+.au-show{font-size:12px}.au-msg{min-height:18px;font-size:12px;color:#ffc352}
+.au-go{padding:13px;border:0;border-radius:14px;background:linear-gradient(135deg,#9b6bff,#35d6e8);color:#070b12;font:inherit;font-weight:800;cursor:pointer}
+.au-go:disabled{opacity:.6}.au-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.au-danger{color:#ff7a8a}.au-del{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.rs-card{margin-bottom:12px}.rs-sum{cursor:pointer;display:flex;flex-direction:column;gap:4px;font-weight:800}
+.rs-teacher{font-size:12px;font-weight:500;opacity:.75}.rs-label{margin-top:12px;font-size:11px;font-weight:800;color:var(--cyan)}
+.rs-body p{margin:4px 0;font-size:13px;line-height:1.8}.rs-list{margin:4px 0;padding-inline-start:18px;font-size:13px;line-height:1.9}
+.rs-note{opacity:.65}.rs-link{display:block;text-align:center;margin-top:6px;text-decoration:none}
+.bottom-nav{grid-template-columns:repeat(6,1fr)!important}
+.bottom-nav .tab-btn{flex-direction:column;gap:2px;padding:6px 2px}
+.bottom-nav .tab-icon{width:24px;height:24px;flex-basis:24px;font-size:13px}
+.bottom-nav .tab-label{font-size:9px;max-width:100%}

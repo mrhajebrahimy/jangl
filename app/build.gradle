@@ -1,0 +1,38 @@
+plugins { id 'com.android.application' }
+
+def keystorePath = System.getenv('ARIA_KEYSTORE_PATH')
+
+android {
+    namespace 'com.ariaedit.app'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'com.ariaedit.app'
+        minSdk 23
+        targetSdk 35
+        versionCode 4
+        versionName '1.2.1'
+    }
+    signingConfigs {
+        release {
+            // Secrets come only from environment variables, never from the repo.
+            if (keystorePath) {
+                storeFile file(keystorePath)
+                storePassword System.getenv('ARIA_KEYSTORE_PASSWORD')
+                keyAlias System.getenv('ARIA_KEY_ALIAS')
+                keyPassword System.getenv('ARIA_KEY_PASSWORD')
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (keystorePath) signingConfig signingConfigs.release
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.12.1'
+}
